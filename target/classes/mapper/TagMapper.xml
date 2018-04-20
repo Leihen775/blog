@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="blog.home.dao.TagMapper">
+  
+  <insert id="addTag" parameterMap="blog.home.po.Tag">
+    insert into blog_tag 
+    <if test="tag!=null and user_id!=null">
+      (tag,user_id) value(#{tag},#{tag})
+    </if>
+  </insert>
+  
+  <delete id="deleteTag" parameterType="int">
+    delete from blog_tag where id=#{id}
+  </delete>
+  
+  <delete id="deleteTagBatch" parameterType="java.util.List">
+    delete from blog_tag where
+    <foreach collection="list" item="id" separator="or">
+      id=#{id}
+    </foreach>
+  </delete>
+  
+  <update id="updateTag" parameterType="blog.home.po.Tag">
+    update blog_tag set tag=#{tag} where id=#{tag}
+  </update>
+  
+  <select id="findAllTag" parameterType="String">
+    select * from blog_tag where user_id=#{user_id}
+  </select>
+  
+  <select id="findTagById" parameterType="java.util.List">
+    select * from blog_tag where
+    <foreach collection="list" item="id" separator="or">
+      id=#{id}
+    </foreach>
+  </select>
+  
+</mapper>

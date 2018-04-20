@@ -2,10 +2,12 @@ package blog.home.po;
 
 import lombok.Data;
 
-/**
- * @author Leihen
- * @date 2018年4月7日
- */
+/**  
+ * @ClassName: UserCore  
+ * @Description: 用户核心信息实体类
+ * @author Leihen  
+ * @date 2018年4月20日      
+ */  
 @Data
 public class UserCore {
   private int id;
@@ -14,4 +16,5 @@ public class UserCore {
   private String password;
   private String rank_id;
   private String infodetail_id;
+  
 }
