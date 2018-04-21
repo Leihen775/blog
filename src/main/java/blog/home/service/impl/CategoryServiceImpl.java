@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import blog.home.dao.CategoryMapper;
-import blog.home.po.Category;
+import blog.home.model.Category;
 import blog.home.service.CategoryService;
 
 /**  

@@ -2,7 +2,7 @@ package blog.home.dao;
 
 import java.util.List;
 
-import blog.home.po.Tag;
+import blog.home.model.Tag;
 
 /**  
  * @ClassName: TagMapper  
@@ -50,13 +50,13 @@ public interface TagMapper {
    * @return List<Tag>
    * @throws
    */
-  public List<Tag> findAllTag(String user_id);
+  public List<Tag> findAllTag(int user_id);
   
   /**  
    * @Title: findTagByid
    * @Description: 根据ID查找个人标签
-   * @return List<Tag>
+   * @return Tag
    * @throws
    */
-  public List<Tag> findTagById(List<Integer> idList);
+  public Tag findTagById(int id);
 }

@@ -2,7 +2,7 @@ package blog.home.dao;
 
 import java.util.List;
 
-import blog.home.po.Category;
+import blog.home.model.Category;
 
 
 /**  

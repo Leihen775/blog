@@ -4,4 +4,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="blog.home.dao.ArticleMapper">
   
+  <!-- 添加博客文章 -->
+  <insert id="addArticle" parameterType="blog.home.model.Article" 
+          useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    INSERT INTO blog_article 
+    (publishSort,title,content,category_id,publish_time,state,is_private,user_id)
+    VALUE(#{publishSort},#{title},#{content},#{category_id},#{publish_time},
+          #{state},#{is_private},#{user_id})
+  </insert>
+  
+  <!-- 添加文章个人标签信息 -->
+  <insert id="addArticleTag" parameterType="java.util.List">
+    INSERT INTO blog_article_tag (article_id,tag_id) VALUE
+    <foreach collection="list" item="at" separator=",">
+       (#{at.article_id},#{at.tag_id})
+    </foreach>
+  </insert>
+  
+  <!-- 根据 文章ID 删除文章信息 -->
+  <delete id="deleteArticle" parameterType="int">
+    DELETE FROM blog_article WHERE id=#{aid}
+  </delete>
+  
+  <!-- 根据 文章ID 删除博客文章个人标签 -->
+  <delete id="deleteArticleTag" parameterType="int">
+    DELETE FROM blog_article_tag WHERE article_id=#{aid}
+  </delete>
+  
+  <!-- 根据标签ID 删除文章标签信息 -->
+  <delete id="deleteArticleTagByTid" parameterType="java.util.List">
+    DELETE FROM blog_article_tag WHERE
+    <foreach collection="list" item="tid" separator="or">
+      tag_id=#{tid}
+    </foreach>
+  </delete>
+  
 </mapper>

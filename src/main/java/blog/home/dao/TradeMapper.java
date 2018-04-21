@@ -2,7 +2,7 @@ package blog.home.dao;
 
 import java.util.List;
 
-import blog.home.po.Trade;
+import blog.home.model.Trade;
 
 /**  
  * @ClassName: TradeMapper  

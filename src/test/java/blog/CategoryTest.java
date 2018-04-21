@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import blog.home.po.Category;
+import blog.home.model.Category;
 import blog.home.service.CategoryService;
 
 @RunWith(SpringJUnit4ClassRunner.class) //使用junit4进行测试  

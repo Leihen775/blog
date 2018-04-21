@@ -2,7 +2,9 @@ package blog.home.dao;
 
 import java.util.List;
 
-import blog.home.po.Collect;
+import blog.home.model.Collect;
+import blog.home.model.po.ArticleCollectPo;
+import blog.home.model.po.CollectPo;
 
 /**  
  * @ClassName: CollectMapper  
@@ -14,7 +16,7 @@ public interface CollectMapper {
   
   /**  
    * @Title: addCollect
-   * @Description: 添加用户收藏博客文章信息
+   * @Description: 添加用户文章收藏信息
    * @return void
    * @throws
    */
@@ -22,15 +24,15 @@ public interface CollectMapper {
   
   /**  
    * @Title: deleteCollect
-   * @Description: 删除用户收藏博客文章信息
+   * @Description: 删除用户文章收藏信息
    * @return void
    * @throws
    */
-  public void deleteCollect(int id);
+  public void deleteCollect(int cid);
   
   /**  
    * @Title: deleteCollectBatch
-   * @Description: 批量删除用户收藏博客文章信息
+   * @Description: 批量删除用户文章收藏信息
    * @return void
    * @throws
    */
@@ -38,10 +40,27 @@ public interface CollectMapper {
   
   /**  
    * @Title: findCollectByUser
-   * @Description: TODO(这里用一句话描述这个方法的作用)
-   * @return TODO
+   * @Description: 根据 用户ID 查询用户文章收藏信息
+   * @return CollectPo
    * @throws
    */
-  public void findCollectByUser(int user_id);
+  public CollectPo findCollectByUser(int uid);
+  
+  /**  
+   * @Title: findCountByUser
+   * @Description: 根据 用户ID 查询用户文章收藏数量
+   * @return int
+   * @throws
+   */
+  public int findCountByUser(int uid);
+  
+  /**  
+   * @Title: findCollectById
+   * @Description: 根据 文章收藏ID 查找用户文章收藏信息
+   * @return ArticleCollectPo
+   * @throws
+   */
+  public ArticleCollectPo findCollectById(int cid);
+  
 
 }
