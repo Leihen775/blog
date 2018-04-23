@@ -13,5 +13,5 @@ public class Attention {
   private int id;
   private int user_id;
   private int attention_uid;
-
+  private UserInfo attention_Info; //被关注人信息
 }

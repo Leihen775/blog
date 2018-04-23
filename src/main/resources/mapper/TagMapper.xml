@@ -32,7 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   
   <!-- 根据用户ID查找所有个人标签 -->
   <select id="findAllTag" parameterType="int" resultType="blog.home.model.Tag">
-    SELECT * FROM blog_tag WHERE user_id=#{user_id}
+    SELECT * FROM blog_tag WHERE user_id=#{id}
   </select>
   
   <!-- 根据ID查找个人标签 -->

@@ -47,18 +47,18 @@ public interface TradeMapper {
   /**  
    * @Title: findAllTrade
    * @Description: 查找所有行业信息
-   * @return void
+   * @return List<Trade>
    * @throws
    */
-  public void findAllTrade();
+  public List<Trade> findAllTrade();
   
   /**  
    * @Title: findTradeById
    * @Description: 根据ID查找行业信息
-   * @return void
+   * @return Trade
    * @throws
    */
-  public void findTradeById(int id);
+  public Trade findTradeById(int id);
   
   
 }

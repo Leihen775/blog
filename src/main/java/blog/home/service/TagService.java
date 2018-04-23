@@ -44,7 +44,7 @@ public interface TagService {
    * @return List<Tag>
    * @throws
    */
-  public List<Tag> findTagByUser(int user_id);
+  public List<Tag> findTagByUser(int uid);
   
   /**  
    * @Title: findTagById

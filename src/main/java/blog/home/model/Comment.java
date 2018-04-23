@@ -22,5 +22,6 @@ public class Comment {
   private int user_id;
   private int recipient_uid;
   private int pid;
-  
+  private UserInfo user_Info; //评论人信息
+  private UserInfo recipient_Info;//被评论人信息
 }

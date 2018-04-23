@@ -3,8 +3,6 @@ package blog.home.dao;
 import java.util.List;
 
 import blog.home.model.Collect;
-import blog.home.model.po.ArticleCollectPo;
-import blog.home.model.po.CollectPo;
 
 /**  
  * @ClassName: CollectMapper  
@@ -41,10 +39,10 @@ public interface CollectMapper {
   /**  
    * @Title: findCollectByUser
    * @Description: 根据 用户ID 查询用户文章收藏信息
-   * @return CollectPo
+   * @return Collect
    * @throws
    */
-  public CollectPo findCollectByUser(int uid);
+  public Collect findCollectByUser(int uid);
   
   /**  
    * @Title: findCountByUser
@@ -57,10 +55,10 @@ public interface CollectMapper {
   /**  
    * @Title: findCollectById
    * @Description: 根据 文章收藏ID 查找用户文章收藏信息
-   * @return ArticleCollectPo
+   * @return Collect
    * @throws
    */
-  public ArticleCollectPo findCollectById(int cid);
+  public Collect findCollectById(int cid);
   
 
 }

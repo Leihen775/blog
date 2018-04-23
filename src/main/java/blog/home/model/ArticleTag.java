@@ -13,5 +13,5 @@ public class ArticleTag {
   private int id;
   private int article_id;
   private int tag_id;
-  
+  private Tag tag;
 }

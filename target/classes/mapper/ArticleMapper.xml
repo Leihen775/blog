@@ -8,35 +8,146 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <insert id="addArticle" parameterType="blog.home.model.Article" 
           useGeneratedKeys="true" keyProperty="id" keyColumn="id">
     INSERT INTO blog_article 
-    (publishSort,title,content,category_id,publish_time,state,is_private,user_id)
-    VALUE(#{publishSort},#{title},#{content},#{category_id},#{publish_time},
-          #{state},#{is_private},#{user_id})
+    (publishsort,title,content,category_id,publish_time,clickcount,enjoycount,commentcount,state,
+    is_private,user_id)
+    VALUE(#{publishSort},#{title},#{content},#{category_id},#{publish_time},#{clickCount},#{enjoyCount},
+    #{commentCount},#{state},#{is_private},#{user_id})
   </insert>
   
-  <!-- 添加文章个人标签信息 -->
-  <insert id="addArticleTag" parameterType="java.util.List">
-    INSERT INTO blog_article_tag (article_id,tag_id) VALUE
-    <foreach collection="list" item="at" separator=",">
-       (#{at.article_id},#{at.tag_id})
-    </foreach>
-  </insert>
-  
-  <!-- 根据 文章ID 删除文章信息 -->
+  <!-- 根据 文章ID 单个删除文章信息 -->
   <delete id="deleteArticle" parameterType="int">
     DELETE FROM blog_article WHERE id=#{aid}
   </delete>
   
-  <!-- 根据 文章ID 删除博客文章个人标签 -->
-  <delete id="deleteArticleTag" parameterType="int">
-    DELETE FROM blog_article_tag WHERE article_id=#{aid}
-  </delete>
-  
-  <!-- 根据标签ID 删除文章标签信息 -->
-  <delete id="deleteArticleTagByTid" parameterType="java.util.List">
-    DELETE FROM blog_article_tag WHERE
-    <foreach collection="list" item="tid" separator="or">
-      tag_id=#{tid}
+  <!-- 根据 文章ID 批量删除文章信息 -->
+  <delete id="deleteArticleBatch" parameterType="java.util.List">
+    DELETE FROM blog_article WHERE
+    <foreach collection="list" item="id" separator="OR">
+      id=#{id}
     </foreach>
   </delete>
+  
+  <!-- 根据 文章ID 修改文章信息 -->
+  <update id="updateArticle" parameterType="blog.home.model.Article">
+    UPDATE blog_article
+    <set>
+      <include refid="UPDATE_ARTICLE_SET"></include>
+    </set> 
+    WHERE id=#{id} 
+  </update>
+  
+  <!-- 根据 文章ID 查询文章信息 -->
+  <select id="findArticle" parameterType="int" resultMap="articleResult">
+    SELECT b.*,d.id category_id,d.name,c.id tag_id,c.tag 
+		FROM (blog_article_tag a)
+		RIGHT JOIN blog_article b ON a.article_id=b.id
+		LEFT JOIN blog_tag c ON a.tag_id=c.id
+		LEFT JOIN blog_category d ON b.category_id=d.id
+		WHERE b.id=#{id}
+  </select>
+  
+  <!-- 查询所有文章简略信息(按时间排序) -->
+  <select id="findAllArticle" resultMap="articleResult">
+    SELECT a.id,a.title,a.publish_time,a.clickcount,a.commentcount,b.id user_id
+    FROM blog_article a,user_info b
+    WHERE a.user_id=b.id
+    ORDER BY publish_time DESC
+  </select>
+  
+  <!-- 根据类别ID查询文章简略信息(按时间排序) -->
+  <select id="findArticleByCategory" parameterType="int" resultMap="articleResult">
+    SELECT a.id,a.title,a.publish_time,a.clickcount,a.commentcount,b.id user_id
+    FROM blog_article a,user_info b
+    WHERE a.category_id=#{id} and a.user_id=b.id
+    ORDER BY a.publish_time DESC
+  </select>
+  
+  <!-- 根据 文章标题进行模糊查询 文章简略信息(按时间排序) -->
+  <select id="findArticleByTitle" parameterType="String" resultMap="articleResult">
+    SELECT a.id,a.title,a.publish_time,a.clickcount,a.commentcount,b.id user_id
+    FROM blog_article a,user_info b
+    WHERE a.user_id=b.id AND a.title LIKE "%" #{title} "%"
+    ORDER BY a.publish_time DESC
+  </select>
+  
+  <!-- 根据用户ID查询所有文章简略信息(按时间排序) -->
+  <select id="findArticleByUser" parameterType="int" resultType="blog.home.model.Article">
+    SELECT id,title,publish_time,clickcount,commentcount
+    FROM blog_article 
+    WHERE user_id=#{uid}
+    ORDER BY publish_time DESC
+  </select>
+  
+  <!-- 根据 “用户”标签ID查询该类文章数量 -->
+  <select id="findArticleCountByTag" parameterType="int" resultType="int">
+    SELECT COUNT(*) FROM blog_article_tag WHERE tag_id=#{tid}
+  </select>
+  
+  <!-- 根据 “用户”标签ID文章简略信息 (按时间排序)-->
+  <select id="findArticleByTag" parameterType="int" resultType="blog.home.model.Article">
+    SELECT a.id,a.title,a.publish_time,a.clickcount,a.commentcount
+    FROM blog_article a,blog_article_tag b
+    WHERE b.tag_id=#{tid} and b.article_id = a.id
+    ORDER BY a.publish_time DESC
+  </select>
+  
+  <!-- 根据 "用户"标题模糊查询文章简略信息(按时间排序) -->
+  <select id="findArticleByUserTitle" parameterType="blog.home.model.Article" resultType="blog.home.model.Article">
+    SELECT id,title,publish_time,clickcount,commentcount
+    FROM blog_article 
+    WHERE user_id=#{user_id} AND title LIKE "%" #{title} "%"
+    ORDER BY publish_time DESC
+  </select>
+  
+  <!-- 根据“用户”文章阅读量 查询最多的十篇 -->
+  <select id="findArticleByClick" parameterType="int" resultType="blog.home.model.Article">
+    SELECT id,title,clickcount
+    FROM blog_article 
+    WHERE user_id=#{uid}
+    ORDER BY clickcount DESC
+    LIMIT 0,10
+  </select>
+  
+  <sql id="UPDATE_ARTICLE_SET">
+    <if test="publishSort!=null and publishSort!=''">publishsort=#{publishSort}</if>
+    <if test="title!=null and title!=''">title=#{title}</if>
+    <if test="content!=null and content!=''">content=#{content}</if>
+    <if test="category_id!=null and category_id!=''">category_id=#{category_id}</if>
+    <if test="publish_time!=null and publish_time!=''">publish_time=#{publish_time}</if>
+    <if test="clickCount!=null and clickCount!=''">clickcount=#{clickCount}</if>
+    <if test="enjoyCount!=null and enjoyCount!=''">enjoycount=#{enjoyCount}</if>
+    <if test="commentCount!=null and commentCount!=''">commentcount=#{commentCount}</if>
+    <if test="state!=null and state!=''">state=#{state}</if>
+    <if test="is_private!=null and is_private!=''">is_private=#{is_private}</if>
+    <if test="user_id!=null and user_id!=''">user_id=#{user_id}</if>
+  </sql>
+  
+  <resultMap type="blog.home.model.Article" id="articleResult">
+      <result column="id" property="id"/>
+      <result column="publishsort" property="publishSort"/>
+      <result column="title" property="title"/>
+      <result column="content" property="content"/>
+      <result column="publish_time" property="publish_time"/>
+      <result column="clickcount" property="clickCount"/>
+      <result column="enjoycount" property="enjoyCount"/>
+      <result column="commentcount" property="commentCount"/>
+      <result column="state" property="state"/>
+      <result column="is_private" property="is_private"/>
+      <result column="user_id" property="user_id"/>
+      <association property="category" javaType="blog.home.model.Category">
+	      <result column="category_id" property="id"/>
+	      <result column="name" property="name"/>
+	    </association>
+	    <association property="userInfo" javaType="blog.home.model.UserInfo">
+        <result column="user_id" property="id"/>
+        <result column="image_path" property="image_path"/>
+      </association>
+      <collection property="articleTagList" ofType="blog.home.model.ArticleTag">
+	      <association property="tag" javaType="blog.home.model.Tag">
+	        <result column="tag_id" property="id"/>
+	        <result column="tag" property="tag"/>
+	      </association>
+	    </collection>
+  </resultMap>
   
 </mapper>

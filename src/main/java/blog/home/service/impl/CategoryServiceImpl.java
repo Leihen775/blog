@@ -25,30 +25,22 @@ public class CategoryServiceImpl implements CategoryService {
 
   @Override
   public void addCategory(Category category) {
-    
     categoryMapper.addCategory(category);
-
   }
 
   @Override
   public void deleteCategory(int id) {
-    
     categoryMapper.deleteCategory(id);
-    
   }
 
   @Override
   public void deleteCategoryBatch(List<Integer> idList) {
-
     categoryMapper.deleteCategoryBatch(idList);
-    
   }
 
   @Override
   public void updateCategory(Category category) {
-
     categoryMapper.updateCategory(category);
-    
   }
 
   @Override
@@ -67,16 +59,12 @@ public class CategoryServiceImpl implements CategoryService {
 
   @Override
   public Category findCategoryById(int id) {
-
     return categoryMapper.findCategoryById(id);
-    
   }
 
   @Override
   public List<Category> findCategoryByName(String name) {
-
     return categoryMapper.findCategoryByName(name);
-    
   }
 
 }

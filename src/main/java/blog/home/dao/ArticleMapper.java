@@ -3,8 +3,6 @@ package blog.home.dao;
 import java.util.List;
 
 import blog.home.model.Article;
-import blog.home.model.ArticleTag;
-import blog.home.model.po.ArticlePo;
 
 /**  
  * @ClassName: ArticleMapper  
@@ -23,44 +21,21 @@ public interface ArticleMapper {
   public void addArticle(Article article);
   
   /**  
-   * @Title: addArticleTag
-   * @Description: 添加文章个人标签信息
+   * @Title: deleteArticle
+   * @Description: 根据文章ID单个删除
    * @return void
    * @throws
    */
-  public void addArticleTag(List<ArticleTag> articleTagList);
+  public void deleteArticle(int id);
   
   /**  
-   * @Title: deleteArticle
+   * @Title: deleteArticleBatch
    * @Description: 根据 文章ID 删除文章信息
    * @return void
    * @throws
    */
-  public void deleteArticle(int aid);
+  public void deleteArticleBatch(List<Integer> aidList);
   
-  /**  
-   * @Title: deleteArticleTag
-   * @Description: 根据 文章ID 删除博客文章个人标签
-   * @return void
-   * @throws
-   */
-  public void deleteArticleTag(int aid);
-  
-  /**  
-   * @Title: deleteArticleTagByTid
-   * @Description: 根据标签ID 删除文章标签信息
-   * @return void
-   * @throws
-   */
-  public void deleteArticleTagByTid(List<Integer> tidList);
-  
-  /**  
-   * @Title: deleteArticleBatch
-   * @Description: 根据 文章ID 批量删除文章信息
-   * @return void
-   * @throws
-   */
-  public void deleteArticleBatch(List<Integer> idList);
   
   /**  
    * @Title: updateArticle
@@ -68,22 +43,78 @@ public interface ArticleMapper {
    * @return void
    * @throws
    */
-  public void updateArticle(Article Article);
+  public void updateArticle(Article article);
   
   /**  
    * @Title: findArticle
-   * @Description: 根据 文章ID 查询文章信息
+   * @Description: 根据 文章ID 查询文章详细信息
    * @return ArticlePo
    * @throws
    */
-  public ArticlePo findArticle(int id);
+  public Article findArticle(int id);
+  
+  /**  
+   * @Title: findAllArticle
+   * @Description: 查询所有文章简略信息(按时间排序)
+   * @return List<Article>
+   * @throws
+   */
+  public List<Article> findAllArticle();
   
   /**  
    * @Title: findArticleByCategory
-   * @Description: 根据 文章类别 查询博客文章信息
+   * @Description: 根据类别ID查询文章简略信息(按时间排序)
+   * @return List<Article>
+   * @throws
+   */
+  public List<Article> findArticleByCategory(int cid);
+  
+  /**  
+   * @Title: findArticleByTitle
+   * @Description: 根据 文章标题进行模糊查询 文章简略信息(按时间排序)
+   * @return List<Article>
+   * @throws
+   */
+  public List<Article> findArticleByTitle(String title);
+  
+  /**  
+   * @Title: findArticleByUser
+   * @Description: 根据用户ID查询所有文章简略信息(按时间排序)
+   * @return List<Article>
+   * @throws
+   */
+  public List<Article> findArticleByUser(int uid);
+  
+  /**  
+   * @Title: findArticleCountByTag
+   * @Description: 根据 "用户"标签ID查询该类文章数量
+   * @return int
+   * @throws
+   */
+  public int findArticleCountByTag(int tid);
+  
+  /**  
+   * @Title: findArticleByTag
+   * @Description: 根据 "用户"标签ID查询文章简略信息(按时间排序)
    * @return List<ArticlePo>
    * @throws
    */
-  public List<ArticlePo> findArticleByCategory(int cid);
+  public List<Article> findArticleByTag(int Tag);
+  
+  /**  
+   * @Title: findArticleByUserTitle
+   * @Description: 根据 "用户"标题模糊查询文章简略信息(按时间排序)
+   * @return List<Article>
+   * @throws
+   */
+  public List<Article> findArticleByUserTitle(Article Article);
+  
+  /**  
+   * @Title: findArticleByClick
+   * @Description: 根据"用户"阅读量 查询最多的十篇 (按点击量排序)
+   * @return List<Article>
+   * @throws
+   */
+  public List<Article> findArticleByClick(int uid);
   
 }

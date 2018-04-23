@@ -1,6 +1,7 @@
 package blog.home.model;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -15,17 +16,28 @@ import lombok.Data;
 @Data
 public class UserInfo {
   private int id;
-  private int user_id;
+  private String accountNum;
+  private String username;
+  private String password;
   private String realname;
   private String job;
   private int sex;
-  @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+  @DateTimeFormat(pattern="yyyy-MM-dd")
   private Date birth;
   private int trade_id;
-  private String adress;
+  private String address;
   private String email;
   private String summary;
   private String image_path;
-  private int is_private;
-  
+  private int birth_private;
+  private int realname_private;
+  private int address_private;
+  private int attentionCount;
+  private int fansCount;
+  private int articleCount;
+  private int commentCount;
+  private int praiseCount;
+  private Trade trade; //用户行业信息
+  private List<Attention> attentionList; //用户关注信息
+  private List<Collect> collectList; //用户收藏信息
 }

@@ -50,7 +50,7 @@ public interface TagMapper {
    * @return List<Tag>
    * @throws
    */
-  public List<Tag> findAllTag(int user_id);
+  public List<Tag> findAllTag(int uid);
   
   /**  
    * @Title: findTagByid

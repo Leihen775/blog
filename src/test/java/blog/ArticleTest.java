@@ -3,6 +3,7 @@ package blog;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,8 +36,52 @@ public class ArticleTest {
   
   @Test
   public void deleteTest() {
-    int id = 2;
-    articleService.deleteArticle(id);
+    List<Integer> id = new ArrayList<Integer>();
+    id.add(2);
+    articleService.deleteArticleBatch(id);
   }
   
+  @Test
+  public void updateTest() {
+    Article article = articleService.findArticle(23);
+    int clickCount = article.getClickCount();
+    clickCount++;
+    Article updatearticle = new Article();
+    updatearticle.setId(23);
+    updatearticle.setClickCount(clickCount);
+    List<Integer> tagList = new ArrayList<Integer>();
+    tagList.add(2);
+    tagList.add(3);
+    articleService.updateArticle(updatearticle, tagList);
+  }
+  
+  @Test
+  public void findTest() {
+    Article article = articleService.findArticle(18);
+    System.out.println(article);
+  }
+  
+  @Test
+  public void findTest2() {
+    Map<String,Integer> map = articleService.findArticleCountByTag(1);
+    for(String s:map.keySet()){
+      System.out.println("key : "+s+" value : "+map.get(s));
+    }
+  }
+  
+  @Test
+  public void findTest3() {
+    List<Article> list = articleService.findArticleByClick(0);
+    for (Article a:list) {
+      System.out.println(a);
+    }
+  }
+  
+  @Test
+  public void findTest4() {
+    List<Article> list = articleService.findArticleByTag(3);
+    for (Article a:list) {
+      System.out.println(a);
+    }
+  }
 }
