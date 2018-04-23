@@ -4,4 +4,54 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="blog.home.dao.CollectMapper">
   
+  <!-- 添加用户的文章收藏信息 -->
+  <insert id="addCollect" parameterType="blog.home.model.Collect">
+    INSERT INTO blog_collect(title,url,user_id,article_id)
+    VALUE(#{title},#{url},#{user_id},#{article_id})
+  </insert>
+  
+  <!-- 删除用户的文章收藏信息 -->
+  <delete id="deleteCollect" parameterType="int">
+    DELETE FROM blog_collect WHERE id=#{cid}
+  </delete>
+  
+  <!-- 批量删除用户的文章收藏信息 -->
+  <delete id="deleteCollectBatch" parameterType="java.util.List">
+    DELETE FROM blog_collect WHERE
+    <foreach collection="list" item="cid" separator="or">
+      id=#{cid}
+    </foreach>
+  </delete>
+  
+  <!-- 修改用户的文章收藏信息 -->
+  <update id="updateCollect" parameterType="blog.home.model.Collect">
+    UPDATE blog_collect
+    <set>
+      <if test="title!=null and title!=''">title=#{title}</if>
+      <if test="url!=null and url!=''">url=#{url}</if>
+    </set>
+    WHERE id=#{id}
+  </update>
+  
+  <!-- 根据 用户ID 查询用户的文章收藏简略信息 -->
+  <select id="findCollectByUser" parameterType="int" resultMap="blog.home.model.Collect">
+    SELECT id,title
+    FROM blog_collect
+    WHERE user_id=#{uid}
+  </select>
+  
+  <!-- 根据 用户ID 查询用户的文章收藏数量 -->
+  <select id="findCountByUser" parameterType="int" resultType="int">
+    SELECT COUNT(*)
+    FROM blog_collect
+    WHERE user_id=#{uid}
+  </select>
+  
+  <!-- 根据 文章收藏ID 查找用户的文章收藏信息 -->
+  <select id="findCollectById" parameterType="int" resultMap="blog.home.model.Collect">
+    SELECT id,title,url
+    FROM blog_collect
+    WHERE id=#{cid}
+  </select>
+  
 </mapper>

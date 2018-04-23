@@ -3,5 +3,63 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="blog.home.dao.AttentionMapper">
+
+	<!-- 添加用户关注信息 -->
+  <insert id="addAttention" parameterType="blog.home.model.Attention">
+    INSERT INTO user_attention (user_id,attention_uid)
+    VALUE(#{user_id},#{attention_uid})
+  </insert>
+  
+  <!-- 删除用户关注信息 -->
+  <delete id="deleteAttention" parameterType="blog.home.model.Attention">
+    DELETE FROM user_attention
+    WHERE user_id=#{user_id} AND attention_uid=#{attention_uid}
+  </delete>
+  
+  <!-- 根据 关注人ID 查询用户关注信息  -->
+  <select id="findAttentionByUser" parameterType="int" resultMap="attentionResult">
+    SELECT b.id attention_id,b.username,b.image_path
+    FROM user_attention a,user_info b
+    WHERE a.user_id=#{uid} AND a.attention_uid=b.id
+  </select>
+  
+  <!-- 根据 关注人ID 查询用户关注数量 -->
+  <select id="findAttentionCount" parameterType="int" resultType="int">
+    SELECT COUNT(*)
+    FROM user_attention a
+    WHERE a.user_id=#{uid}
+  </select>
+  
+  <!-- 根据被关注人ID 查询用户粉丝信息 -->
+  <select id="findFansByAttention" parameterType="int" resultMap="fansResult">
+    SELECT b.id user_id,b.username,b.image_path
+    FROM user_attention a,user_info b
+    WHERE a.attention_uid=#{bid} AND a.user_id=b.id
+  </select>
+  
+  <!-- 根据 被关注人ID 查询用户粉丝数量 -->
+  <select id="findFansCount" parameterType="int" resultType="int">
+    SELECT COUNT(*)
+    FROM user_attention a
+    WHERE a.attention=#{aid}
+  </select>
+  
+  <!-- 被关注人信息结果映射 -->
+  <resultMap type="blog.home.model.Attention" id="attentionResult">
+    <association property="userInfo" javaType="blog.home.model.UserInfo">
+      <result column="attention_id" property="id"/>
+      <result column="username" property="username"/>
+      <result column="image_path" property="image_path"/>
+    </association>
+  </resultMap>
+  <!-- 粉丝信息结果映射 -->
+  <resultMap type="blog.home.model.Attention" id="fansResult">
+    <result column="id" property="id"/>
+    <association property="userInfo" javaType="blog.home.model.UserInfo">
+      <result column="user_id" property="id"/>
+      <result column="username" property="username"/>
+      <result column="image_path" property="image_path"/>
+    </association>
+  </resultMap>
   
 </mapper>

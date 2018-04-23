@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="blog.home.dao.MessageMapper">
+
+  <!-- 添加信息 -->
+  <insert id="addMessage" parameterType="blog.home.model.Message"
+          useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    INSERT INTO sys_message (content,publish_time,sender_id)
+    VALUE(#{content},#{publish_time},#{sender_id})
+  </insert>
+  
+  <!-- 发送者删除信息 -->
+  <update id="deleteMessage" parameterType="int">
+    UPDATE sys_message SET sender_id=null WHERE id=#{id}
+  </update>
+  
+  <!-- 根据 信息ID 查询信息内容  -->
+  <select id="findMessage" parameterType="int" resultType="blog.home.model.Message">
+    SELECT a.id,a.content,a.publish_time,b.id user_id,b.username,b.image_path
+    FROM sys_message a,user_info b
+    WHERE a.id=#{id} AND a.sender_id=b.id
+  </select>
+  
+  <resultMap type="blog.home.model.Message" id="messageResult">
+    <result column="id" property="id"/>
+    <result column="content" property="content"/>
+    <result column="publish_time" property="publish_time"/>
+    <association property="userInfo" javaType="blog.home.model.UserInfo">
+      <result column="user_id" property="id"/>
+      <result column="username" property="username"/>
+      <result column="image_path" property="image_path"/>
+    </association>
+  </resultMap>
+  
+</mapper>

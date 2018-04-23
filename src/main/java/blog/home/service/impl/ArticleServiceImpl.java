@@ -15,7 +15,7 @@ import blog.home.dao.TagMapper;
 import blog.home.model.Article;
 import blog.home.model.ArticleTag;
 import blog.home.model.Tag;
-import blog.home.service.ArticleService;
+import blog.home.service.IArticleService;
 
 /**  
  * @ClassName: ArticleServiceImpl  
@@ -25,7 +25,7 @@ import blog.home.service.ArticleService;
  */  
 @Service
 @Transactional
-public class ArticleServiceImpl implements ArticleService {
+public class ArticleServiceImpl implements IArticleService {
   
   @Autowired
   ArticleMapper articleMapper;

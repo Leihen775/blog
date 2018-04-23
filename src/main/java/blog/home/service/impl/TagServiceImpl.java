@@ -9,11 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import blog.home.dao.ArticleTagMapper;
 import blog.home.dao.TagMapper;
 import blog.home.model.Tag;
-import blog.home.service.TagService;
+import blog.home.service.ITagService;
 
 @Service
 @Transactional
-public class TagServiceImpl implements TagService {
+public class TagServiceImpl implements ITagService {
   
   @Autowired
   TagMapper tagMapper;

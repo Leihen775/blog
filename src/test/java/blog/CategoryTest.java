@@ -10,14 +10,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import blog.home.model.Category;
-import blog.home.service.CategoryService;
+import blog.home.service.ICategoryService;
 
 @RunWith(SpringJUnit4ClassRunner.class) //使用junit4进行测试  
 @ContextConfiguration(locations = {"classpath:spring/spring-dao.xml","classpath:spring/spring-service.xml"})     
 public class CategoryTest{
   
   @Autowired
-  private CategoryService categoryService;
+  private ICategoryService categoryService;
   
   @Test
   public void addTest() {

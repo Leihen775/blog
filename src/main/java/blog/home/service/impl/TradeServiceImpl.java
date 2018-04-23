@@ -9,11 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import blog.home.dao.TradeMapper;
 import blog.home.dao.UserInfoMapper;
 import blog.home.model.Trade;
-import blog.home.service.TradeService;
+import blog.home.service.ITradeService;
 
 @Service
 @Transactional
-public class TradeServiceImpl implements TradeService {
+public class TradeServiceImpl implements ITradeService {
   
   @Autowired
   TradeMapper tradeMapper;

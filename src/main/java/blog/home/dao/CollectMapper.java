@@ -14,7 +14,7 @@ public interface CollectMapper {
   
   /**  
    * @Title: addCollect
-   * @Description: 添加用户文章收藏信息
+   * @Description: 添加用户的文章收藏信息
    * @return void
    * @throws
    */
@@ -22,7 +22,7 @@ public interface CollectMapper {
   
   /**  
    * @Title: deleteCollect
-   * @Description: 删除用户文章收藏信息
+   * @Description: 删除用户的文章收藏信息
    * @return void
    * @throws
    */
@@ -30,23 +30,31 @@ public interface CollectMapper {
   
   /**  
    * @Title: deleteCollectBatch
-   * @Description: 批量删除用户文章收藏信息
+   * @Description: 批量删除用户的文章收藏信息
    * @return void
    * @throws
    */
-  public void deleteCollectBatch(List<Integer> idList);
+  public void deleteCollectBatch(List<Integer> cidList);
+  
+  /**  
+   * @Title: updateCollect
+   * @Description: 修改用户的文章收藏信息
+   * @return void
+   * @throws
+   */
+  public void updateCollect(Collect collect);
   
   /**  
    * @Title: findCollectByUser
-   * @Description: 根据 用户ID 查询用户文章收藏信息
-   * @return Collect
+   * @Description: 根据 用户ID 查询用户的文章收藏简略信息
+   * @return List<Collect>
    * @throws
    */
-  public Collect findCollectByUser(int uid);
+  public List<Collect> findCollectByUser(int uid);
   
   /**  
    * @Title: findCountByUser
-   * @Description: 根据 用户ID 查询用户文章收藏数量
+   * @Description: 根据 用户ID 查询用户的文章收藏数量
    * @return int
    * @throws
    */
@@ -54,7 +62,7 @@ public interface CollectMapper {
   
   /**  
    * @Title: findCollectById
-   * @Description: 根据 文章收藏ID 查找用户文章收藏信息
+   * @Description: 根据 文章收藏ID 查找用户的文章收藏信息
    * @return Collect
    * @throws
    */

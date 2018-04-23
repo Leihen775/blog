@@ -12,14 +12,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import blog.home.model.Article;
-import blog.home.service.ArticleService;
+import blog.home.service.IArticleService;
 
 @RunWith(SpringJUnit4ClassRunner.class) //使用junit4进行测试  
 @ContextConfiguration(locations = {"classpath:spring/spring-dao.xml","classpath:spring/spring-service.xml"})     
 public class ArticleTest {
   
   @Autowired
-  private ArticleService articleService;
+  private IArticleService articleService;
   
   @Test
   public void addTest() {
@@ -80,6 +80,22 @@ public class ArticleTest {
   @Test
   public void findTest4() {
     List<Article> list = articleService.findArticleByTag(3);
+    for (Article a:list) {
+      System.out.println(a);
+    }
+  }
+  
+  @Test
+  public void findTest5() {
+    List<Article> list = articleService.findAllArticle();
+    for (Article a:list) {
+      System.out.println(a);
+    }
+  }
+  
+  @Test
+  public void findTest6() {
+    List<Article> list = articleService.findArticleByCategory(2);
     for (Article a:list) {
       System.out.println(a);
     }

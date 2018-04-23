@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import blog.home.dao.CategoryMapper;
 import blog.home.model.Category;
-import blog.home.service.CategoryService;
+import blog.home.service.ICategoryService;
 
 /**  
  * @ClassName: CategoryServiceImpl
@@ -18,7 +18,7 @@ import blog.home.service.CategoryService;
  */
 @Service
 @Transactional
-public class CategoryServiceImpl implements CategoryService {
+public class CategoryServiceImpl implements ICategoryService {
   
   @Autowired
   CategoryMapper categoryMapper;

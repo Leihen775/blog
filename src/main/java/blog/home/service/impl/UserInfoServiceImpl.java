@@ -6,11 +6,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import blog.home.dao.UserInfoMapper;
 import blog.home.model.UserInfo;
-import blog.home.service.UserInfoService;
+import blog.home.service.IUserInfoService;
 
 @Service
 @Transactional
-public class UserInfoServiceImpl implements UserInfoService {
+public class UserInfoServiceImpl implements IUserInfoService {
   
   @Autowired
   UserInfoMapper userInfoMapper;
@@ -31,7 +31,7 @@ public class UserInfoServiceImpl implements UserInfoService {
   }
 
   @Override
-  public UserInfo findUserByAccount(String inputInfo) {
+  public UserInfo findUserByInputInfo(String inputInfo) {
     return userInfoMapper.findUserByInputInfo(inputInfo);
   }
   

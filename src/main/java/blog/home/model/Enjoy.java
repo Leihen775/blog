@@ -13,5 +13,4 @@ public class Enjoy {
   private int id;
   private int user_id;
   private int article_id;
-  private UserInfo userInfo;//文章喜欢人的信息
 }

@@ -51,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     SELECT a.id,a.title,a.publish_time,a.clickcount,a.commentcount,b.id user_id
     FROM blog_article a,user_info b
     WHERE a.user_id=b.id
-    ORDER BY publish_time DESC
+    ORDER BY a.publish_time DESC
   </select>
   
   <!-- 根据类别ID查询文章简略信息(按时间排序) -->

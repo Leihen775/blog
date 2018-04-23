@@ -1,5 +1,7 @@
 package blog.home.dao;
 
+import java.util.List;
+
 import blog.home.model.Attention;
 
 /**  
@@ -29,25 +31,33 @@ public interface AttentionMapper {
   /**  
    * @Title: findAttentionByUser
    * @Description: 根据 关注人ID 查询用户关注信息 
-   * @return TODO
+   * @return List<Attention>
    * @throws
    */
-  public void findAttentionByUser(int uid);
+  public List<Attention> findAttentionByUser(int uid);
   
   /**  
-   * @Title: findCountByUser
+   * @Title: findAttentionCount
    * @Description: 根据 关注人ID 查询用户关注数量
-   * @return void
-   * @throws
-   */
-  public int findCountByUser(int uid);
-  
-  /**  
-   * @Title: findCountByUid
-   * @Description: 根据 被关注人ID 查询用户被关注数量
    * @return int
    * @throws
    */
-  public int findCountByUid(int uid);
+  public int findAttentionCount(int uid);
+  
+  /**  
+   * @Title: findFansByAttention
+   * @Description: 根据被关注人ID 查询用户粉丝信息
+   * @return List<Attention>
+   * @throws
+   */
+  public List<Attention> findFansByAttention(int aid);
+  
+  /**  
+   * @Title: findFansCount
+   * @Description: 根据 被关注人ID 查询用户粉丝数量
+   * @return int
+   * @throws
+   */
+  public int findFansCount(int aid);
   
 }

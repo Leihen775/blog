@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="blog.home.dao.MessageUserMapper">
+
+  <!-- 发送私信 -->
+  <insert id="addSecretMessager" parameterType="blog.home.model.MessageUser">
+    INSERT INTO sys_message_user (recipient_uid,message_id,is_sysmessage,state)
+    VALUE(#{recipient_uid},#{message_id},0,0)
+  </insert>
+  
+  <!-- 发送私信 -->
+  <insert id="addSysMessager" parameterType="blog.home.model.MessageUser">
+    INSERT INTO sys_message_user (recipient_uid,message_id,is_sysmessage,state)
+    VALUE(#{recipient_uid},#{message_id},1,0)
+  </insert>
+  
+  <!-- 批量发送系统通知 -->
+  <insert id="addSysMessageBatch" parameterType="java.util.List">
+    INSERT INTO sys_message_user (recipient_uid,message_id,is_sysmessage,state)
+    VALUE
+    <foreach collection="list" item="m" separator=",">
+    (#{m.recipient_uid},#{m.message_id},1,0)
+    </foreach>
+  </insert>
+  
+  <!-- 用户删除信息 -->
+  <update id="deleteMessage" parameterType="int">
+    UPDATE sys_message_user SET state=2 WHERE id=#{id}
+  </update>
+  
+  <!-- 修改信息为已读 -->
+  <update id="updateMessage" parameterType="int">
+    UPDATE sys_message_user SET state=1 WHERE id=#{id}
+  </update>
+  
+  <!-- 根据 收信人ID 查询未读私信 -->
+  <select id="findSecretMessage" parameterType="int" resultMap="messageUserResult">
+    SELECT a.id,a.recipient_uid,a.is_sysmessage,a.state,b.id message_id,
+           b.content,b.publish_time,c.id user_id,c.username,c.image_path
+    FROM sys_message_user a,sys_message b,user_info c
+    WHERE a.recipient_uid=#{uid} AND a.is_sysmessage=0 AND a.state=0
+          b.id=a.message_id AND c.id=b.sender_id
+  </select>
+  
+  <!-- 根据 收信人ID 查询已读私信 -->
+  <select id="findSecretMessageRead" parameterType="int" resultMap="messageUserResult">
+    SELECT a.id,a.recipient_uid,a.is_sysmessage,a.state,b.id message_id,
+           b.content,b.publish_time,c.id user_id,c.username,c.image_path
+    FROM sys_message_user a,sys_message b,user_info c
+    WHERE a.recipient_uid=#{uid} AND a.is_sysmessage=0 AND a.state=1
+          b.id=a.message_id AND c.id=b.sender_id
+  </select>
+  
+  <!-- 根据 收信人ID 查询未读系统通知 -->
+  <select id="findSysMessage" parameterType="int" resultMap="messageUserResult">
+    SELECT a.id,a.recipient_uid,a.is_sysmessage,a.state,b.id message_id,
+           b.content,b.publish_time,c.id user_id,c.username,c.image_path
+    FROM sys_message_user a,sys_message b,user_info c
+    WHERE a.recipient_uid=#{uid} AND a.is_sysmessage=1 AND a.state=0
+          b.id=a.message_id AND c.id=b.sender_id
+  </select>
+  
+  <!-- 根据 收信人ID 查询已读系统通知 -->
+  <select id="findSysMessageRead" parameterType="int" resultMap="messageUserResult">
+    SELECT a.id,a.recipient_uid,a.is_sysmessage,a.state,b.id message_id,
+           b.content,b.publish_time,c.id user_id,c.username,c.image_path
+    FROM sys_message_user a,sys_message b,user_info c
+    WHERE a.recipient_uid=#{uid} AND a.is_sysmessage=1 AND a.state=1
+          b.id=a.message_id AND c.id=b.sender_id
+  </select>
+  
+  <!-- 根据 收信人ID 查询未读消息数量 -->
+  <select id="findCount" parameterType="int" resultType="int">
+    SELECT COUNT(*)
+    FROM sys_message_user
+    WHERE recipient_uid=#{uid} AND state=0
+  </select>
+  
+  <!-- 根据 收信人ID 查询未读私信数量 -->
+  <select id="findSecretCount" parameterType="int" resultType="int">
+    SELECT COUNT(*)
+    FROM sys_message_user
+    WHERE recipient_uid=#{uid} AND is_sysmessage=0 AND state=0
+  </select>
+  
+  <!-- 根据 收信人ID 查询未读通知数量 -->
+  <select id="findSysCount" parameterType="int" resultType="int">
+    SELECT COUNT(*)
+    FROM sys_message_user
+    WHERE recipient_uid=#{uid} AND is_sysmessage=1 AND state=0
+  </select>
+  
+  <resultMap type="blog.home.model.MessageUser" id="messageUserResult">
+    <result column="id" property="id"/>
+    <result column="recipient_uid" property="recipient_uid"/>
+    <result column="is_sysmessage" property="is_sysMessage"/>
+    <result column="state" property="state"/>
+    <association property="message" javaType="blog.home.model.Message">
+      <result column="message_id" property="id"/>
+	    <result column="content" property="content"/>
+	    <result column="publish_time" property="publish_time"/>
+	    <association property="userInfo" javaType="blog.home.model.UserInfo">
+	      <result column="user_id" property="id"/>
+	      <result column="username" property="username"/>
+	      <result column="image_path" property="image_path"/>
+	    </association>
+    </association>
+  </resultMap>
+  
+</mapper>
