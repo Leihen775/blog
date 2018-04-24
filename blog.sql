@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50716
 File Encoding         : 65001
 
-Date: 2018-04-24 18:12:24
+Date: 2018-04-24 23:02:25
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -40,17 +40,17 @@ CREATE TABLE `blog_article` (
 -- ----------------------------
 -- Records of blog_article
 -- ----------------------------
-INSERT INTO `blog_article` VALUES ('15', '0', '第一条数据', '这是添加的第一条测试数据', '2', '2018-04-21 14:35:31', '89', '0', '0', '0', '0', '0');
-INSERT INTO `blog_article` VALUES ('16', '0', '第二条数据', '这是添加的第二条测试数据', '5', '2018-04-21 14:36:45', '115', '2', '0', '0', '0', '0');
-INSERT INTO `blog_article` VALUES ('17', '0', '第三条数据', '这是添加的第三条测试数据', '3', '2018-04-21 14:37:34', '22', '0', '0', '0', '0', '0');
-INSERT INTO `blog_article` VALUES ('18', '0', '第四条数据', '这是添加的第四条数据', '2', '2018-04-22 14:05:33', '234', '0', '0', '0', '0', '0');
-INSERT INTO `blog_article` VALUES ('19', '1', '第五条数据', '这是添加的第五条测试数据', '1', '2018-04-22 08:32:08', '324', '1', '0', '0', '0', '0');
-INSERT INTO `blog_article` VALUES ('20', '0', '第六条数据', '这是添加的第六条数据', '4', '2018-04-22 18:33:43', '556', '1', '0', '0', '0', '0');
-INSERT INTO `blog_article` VALUES ('21', '0', '第七条数据', '这是添加的第七条数据', '9', '2018-04-23 08:34:42', '225', '0', '0', '0', '0', '0');
-INSERT INTO `blog_article` VALUES ('22', '0', '第八条数据', '这是添加的第八条数据', '7', '2018-04-23 09:35:35', '174', '0', '0', '0', '0', '0');
-INSERT INTO `blog_article` VALUES ('23', '0', '第九条数据', '这是添加的第九条数据', '6', '2018-04-23 10:37:16', '113', '0', '0', '0', '0', '0');
-INSERT INTO `blog_article` VALUES ('24', '0', '第十条数据', '这是添加的第十条数据', '8', '2018-04-23 11:37:22', '119', '0', '0', '0', '0', '0');
-INSERT INTO `blog_article` VALUES ('25', '0', '第十一条数据', '这是添加的第十一条数据', '5', '2018-04-23 12:37:27', '52', '0', '0', '0', '0', '0');
+INSERT INTO `blog_article` VALUES ('15', '0', '第一条数据', '这是添加的第一条测试数据', '2', '2018-04-21 14:35:31', '89', '0', '0', '0', '0', '3');
+INSERT INTO `blog_article` VALUES ('16', '0', '第二条数据', '这是添加的第二条测试数据', '5', '2018-04-21 14:36:45', '115', '2', '0', '0', '0', '5');
+INSERT INTO `blog_article` VALUES ('17', '0', '第三条数据', '这是添加的第三条测试数据', '3', '2018-04-21 14:37:34', '22', '0', '5', '0', '0', '5');
+INSERT INTO `blog_article` VALUES ('18', '0', '第四条数据', '这是添加的第四条数据', '2', '2018-04-22 14:05:33', '234', '0', '0', '0', '0', '7');
+INSERT INTO `blog_article` VALUES ('19', '1', '第五条数据', '这是添加的第五条测试数据', '1', '2018-04-22 08:32:08', '324', '1', '0', '0', '0', '9');
+INSERT INTO `blog_article` VALUES ('20', '0', '第六条数据', '这是添加的第六条数据', '4', '2018-04-22 18:33:43', '556', '1', '0', '0', '0', '6');
+INSERT INTO `blog_article` VALUES ('21', '0', '第七条数据', '这是添加的第七条数据', '9', '2018-04-23 08:34:42', '225', '0', '0', '0', '0', '2');
+INSERT INTO `blog_article` VALUES ('22', '0', '第八条数据', '这是添加的第八条数据', '7', '2018-04-23 09:35:35', '174', '0', '0', '0', '0', '7');
+INSERT INTO `blog_article` VALUES ('23', '0', '第九条数据', '这是添加的第九条数据', '6', '2018-04-23 10:37:16', '113', '0', '0', '0', '0', '1');
+INSERT INTO `blog_article` VALUES ('24', '0', '第十条数据', '这是添加的第十条数据', '8', '2018-04-23 11:37:22', '119', '0', '0', '0', '0', '11');
+INSERT INTO `blog_article` VALUES ('25', '0', '第十一条数据', '这是添加的第十一条数据', '5', '2018-04-23 12:37:27', '52', '0', '0', '0', '0', '4');
 
 -- ----------------------------
 -- Table structure for blog_article_tag
@@ -147,11 +147,16 @@ CREATE TABLE `blog_comment` (
   KEY `bc_getuserid` (`recipient_uid`),
   KEY `bc_pid` (`pid`),
   KEY `bc_userid` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blog_comment
 -- ----------------------------
+INSERT INTO `blog_comment` VALUES ('1', '第一级评论', '2018-04-24 19:13:15', '17', '2', '5', '0');
+INSERT INTO `blog_comment` VALUES ('2', '马斐的一次评论', '2018-04-24 19:14:53', '17', '6', '5', '0');
+INSERT INTO `blog_comment` VALUES ('3', '二级评论', '2018-04-24 19:19:38', '17', '9', '2', '1');
+INSERT INTO `blog_comment` VALUES ('4', '三级级评论', '2018-04-24 19:20:20', '17', '3', '9', '1');
+INSERT INTO `blog_comment` VALUES ('5', '回复马斐', '2018-04-24 19:57:27', '17', '7', '6', '2');
 
 -- ----------------------------
 -- Table structure for blog_enjoy
@@ -191,6 +196,25 @@ INSERT INTO `blog_tag` VALUES ('1', 'java', '1');
 INSERT INTO `blog_tag` VALUES ('2', 'spring', '1');
 INSERT INTO `blog_tag` VALUES ('3', 'mybatis', '1');
 INSERT INTO `blog_tag` VALUES ('4', 'springMVC', '1');
+
+-- ----------------------------
+-- Table structure for sys_answer
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_answer`;
+CREATE TABLE `sys_answer` (
+  `id` int(11) NOT NULL COMMENT '回答表ID',
+  `content` text COMMENT '内容',
+  `publish_time` datetime DEFAULT NULL COMMENT '发布时间',
+  `question_id` int(11) DEFAULT NULL COMMENT '问题ID',
+  `questioner_id` int(11) DEFAULT NULL COMMENT '提问者ID',
+  `responder_id` int(11) DEFAULT NULL COMMENT '回答者ID',
+  `pid` int(11) DEFAULT NULL COMMENT '父级回答',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sys_answer
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_message
@@ -262,6 +286,27 @@ CREATE TABLE `sys_permission` (
 
 -- ----------------------------
 -- Records of sys_permission
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for sys_question
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_question`;
+CREATE TABLE `sys_question` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '问题表ID',
+  `title` varchar(64) DEFAULT NULL COMMENT '问题标题',
+  `content` text COMMENT '问题内容',
+  `publish_time` datetime DEFAULT NULL COMMENT '发布时间',
+  `clickcount` int(11) DEFAULT '0' COMMENT '浏览次数',
+  `answercount` int(11) DEFAULT '0' COMMENT '回答次数',
+  `samecount` int(11) DEFAULT '0' COMMENT '同问次数',
+  `state` int(1) DEFAULT NULL COMMENT '状态(0:未解决,1:已解决,2:已删除,)',
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sys_question
 -- ----------------------------
 
 -- ----------------------------
@@ -351,18 +396,18 @@ CREATE TABLE `user_info` (
 -- Records of user_info
 -- ----------------------------
 INSERT INTO `user_info` VALUES ('1', '541413201', '王小明', '01', null, null, '0', null, '1', null, null, null, null, '0', '0', '0', '1', '0', '0', '0', '0');
-INSERT INTO `user_info` VALUES ('2', '541413202', '李华', '02', null, null, '0', null, '23', null, null, null, null, '0', '0', '0', '2', '0', '0', '0', '0');
-INSERT INTO `user_info` VALUES ('3', '541413203', '张晓菲', '03', null, null, '1', null, '15', null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '3');
+INSERT INTO `user_info` VALUES ('2', '541413202', '李华', '02', null, null, '0', null, '23', null, null, null, null, '0', '0', '0', '2', '0', '0', '1', '0');
+INSERT INTO `user_info` VALUES ('3', '541413203', '张晓菲', '03', null, null, '1', null, '15', null, null, null, null, '0', '0', '0', '0', '0', '0', '1', '3');
 INSERT INTO `user_info` VALUES ('4', '541413204', '孙严', '04', null, null, '0', null, '22', null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '1');
 INSERT INTO `user_info` VALUES ('5', '541413205', '赵飞燕', '05', null, null, '1', null, '39', null, null, null, null, '0', '0', '0', '0', '1', '0', '0', '0');
-INSERT INTO `user_info` VALUES ('6', '541413206', '马斐', '06', null, null, '0', null, '12', null, null, null, null, '0', '0', '0', '0', '1', '0', '0', '0');
-INSERT INTO `user_info` VALUES ('7', '541413207', '赵宇', '07', null, null, '0', null, '7', null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `user_info` VALUES ('6', '541413206', '马斐', '06', null, null, '0', null, '12', null, null, null, null, '0', '0', '0', '0', '1', '0', '1', '0');
+INSERT INTO `user_info` VALUES ('7', '541413207', '赵宇', '07', null, null, '0', null, '7', null, null, null, null, '0', '0', '0', '0', '0', '0', '1', '0');
 INSERT INTO `user_info` VALUES ('8', '541413208', '周德', '08', null, null, '0', null, '28', null, null, null, null, '0', '0', '0', '0', '1', '0', '0', '0');
-INSERT INTO `user_info` VALUES ('9', '541413209', '钱进', '09', null, null, '0', null, '25', null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `user_info` VALUES ('9', '541413209', '钱进', '09', null, null, '0', null, '25', null, null, null, null, '0', '0', '0', '0', '0', '0', '1', '0');
 INSERT INTO `user_info` VALUES ('10', '541413210', '吴刚', '10', null, null, '0', null, '33', null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '0');
 INSERT INTO `user_info` VALUES ('11', '541413211', '郑娇', '11', '郑娇', '学生', '1', '2018-04-24', '5', '郑州', '541413211@qq.com', null, null, '0', '0', '0', '0', '0', '0', '0', '0');
 INSERT INTO `user_info` VALUES ('12', '541413212', '晓君', '12', null, null, '1', null, '9', null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `user_info` VALUES ('13', '111111', '管理员', '11', '管理员', null, '0', null, null, null, null, null, null, '0', null, null, '0', '0', '0', '0', '0');
+INSERT INTO `user_info` VALUES ('13', '111111', '管理员', '11', '管理员', null, '0', null, null, null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '0');
 
 -- ----------------------------
 -- Table structure for user_trade

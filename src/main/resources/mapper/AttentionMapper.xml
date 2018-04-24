@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 添加用户关注信息 -->
   <insert id="addAttention" parameterType="blog.home.model.Attention">
     INSERT INTO user_attention (user_id,attention_uid)
-    VALUE(#{user_id},#{attention_uid})
+    VALUE(#{userId},#{attentionUid})
   </insert>
   
   <!-- 删除用户关注信息 -->
@@ -34,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <select id="findFans" parameterType="blog.home.model.Attention" resultType="blog.home.model.Attention">
     SELECT a.*
     FROM user_attention a,user_info b
-    WHERE a.attention_uid=#{attention_uid} AND a.user_id=#{user_id} AND a.user_id=b.id
+    WHERE a.attention_uid=#{attentionUid} AND a.user_id=#{userId} AND a.user_id=b.id
   </select>
   
   <!-- 根据 被关注人ID 查询用户粉丝数量 -->
@@ -47,12 +47,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <!-- 关注信息结果映射 -->
   <resultMap type="blog.home.model.Attention" id="attentionResult">
     <result column="id" property="id"/>
-    <result column="user_id" property="user_id"/>
-    <result column="attention_uid" property="attention_uid"/>
+    <result column="user_id" property="userId"/>
+    <result column="attention_uid" property="attentionUid"/>
     <association property="userInfo" javaType="blog.home.model.UserInfo">
       <result column="uid" property="id"/>
       <result column="username" property="username"/>
-      <result column="image_path" property="image_path"/>
+      <result column="image_path" property="imagePath"/>
     </association>
   </resultMap>
   

@@ -21,16 +21,16 @@ public class AttentionTest {
   @Test
   public void add() {
     Attention a = new Attention();
-    a.setUser_id(2);
-    a.setAttention_uid(8);
+    a.setUserId(2);
+    a.setAttentionUid(8);
     attentionService.addAttention(a);
   }
   
   @Test
   public void delete() {
     Attention a = new Attention();
-    a.setUser_id(2);
-    a.setAttention_uid(3);
+    a.setUserId(2);
+    a.setAttentionUid(3);
     a=attentionService.findFans(a);
     attentionService.deleteAttention(a);
   }

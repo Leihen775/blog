@@ -25,7 +25,7 @@ public class UserTest {
     userInfo.setUsername("晓君");
     userInfo.setPassword("12");
     userInfo.setSex(1);
-    userInfo.setTrade_id(9);
+    userInfo.setTradeId(9);
     userInfoService.addUserInfo(userInfo);
   }
   
@@ -35,7 +35,7 @@ public class UserTest {
     userInfo.setId(11);
     userInfo.setRealname("郑娇");
     userInfo.setJob("学生");
-    userInfo.setTrade_id(5);
+    userInfo.setTradeId(5);
     userInfo.setAddress("郑州");
     userInfo.setBirth(new Date());
     userInfo.setEmail("541413211@qq.com");

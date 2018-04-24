@@ -32,8 +32,8 @@ public class MessageServiceImpl implements IMessageService {
   public void sendSecretMessage(Message message, int uid) {
     messageMapper.addMessage(message);
     MessageUser messageUser = new MessageUser();
-    messageUser.setMessage_id(message.getId());
-    messageUser.setRecipient_uid(uid);
+    messageUser.setMessageId(message.getId());
+    messageUser.setRecipientUid(uid);
     messageUserMapper.addSecretMessage(messageUser);
     messageMapper.sendMessage(message.getId());
   }
@@ -42,8 +42,8 @@ public class MessageServiceImpl implements IMessageService {
   public void sendSysMessage(Message message, int uid) {
     messageMapper.addMessage(message);
     MessageUser messageUser = new MessageUser();
-    messageUser.setMessage_id(message.getId());
-    messageUser.setRecipient_uid(uid);
+    messageUser.setMessageId(message.getId());
+    messageUser.setRecipientUid(uid);
     messageUserMapper.addSysMessage(messageUser);
     messageMapper.sendMessage(message.getId());
   }
@@ -54,8 +54,8 @@ public class MessageServiceImpl implements IMessageService {
     List<MessageUser> messageUserList = new ArrayList<MessageUser>();
     for(Integer uid:uidList) {
       MessageUser messageUser = new MessageUser();
-      messageUser.setMessage_id(message.getId());
-      messageUser.setRecipient_uid(uid);
+      messageUser.setMessageId(message.getId());
+      messageUser.setRecipientUid(uid);
       messageUserList.add(messageUser);
     }
     messageUserMapper.addSysMessageBatch(messageUserList);

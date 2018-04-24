@@ -7,13 +7,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <!-- 发送私信 -->
   <insert id="addSecretMessage" parameterType="blog.home.model.MessageUser">
     INSERT INTO sys_message_user (recipient_uid,message_id,is_sysmessage,state)
-    VALUE(#{recipient_uid},#{message_id},0,0)
+    VALUE(#{recipientUid},#{messageId},0,0)
   </insert>
   
   <!-- 发送私信 -->
   <insert id="addSysMessage" parameterType="blog.home.model.MessageUser">
     INSERT INTO sys_message_user (recipient_uid,message_id,is_sysmessage,state)
-    VALUE(#{recipient_uid},#{message_id},1,0)
+    VALUE(#{recipientUid},#{messageId},1,0)
   </insert>
   
   <!-- 批量发送系统通知 -->
@@ -21,7 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     INSERT INTO sys_message_user (recipient_uid,message_id,is_sysmessage,state)
     VALUE
     <foreach collection="list" item="m" separator=",">
-    (#{m.recipient_uid},#{m.message_id},1,0)
+    (#{m.recipientUid},#{m.messageId},1,0)
     </foreach>
   </insert>
   
@@ -109,17 +109,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   
   <resultMap type="blog.home.model.MessageUser" id="messageUserResult">
     <result column="id" property="id"/>
-    <result column="recipient_uid" property="recipient_uid"/>
+    <result column="recipient_uid" property="recipientUid"/>
     <result column="is_sysmessage" property="is_sysMessage"/>
     <result column="state" property="state"/>
     <association property="message" javaType="blog.home.model.Message">
       <result column="message_id" property="id"/>
 	    <result column="content" property="content"/>
-	    <result column="publish_time" property="publish_time"/>
+	    <result column="publish_time" property="publishTime"/>
 	    <association property="userInfo" javaType="blog.home.model.UserInfo">
 	      <result column="user_id" property="id"/>
 	      <result column="username" property="username"/>
-	      <result column="image_path" property="image_path"/>
+	      <result column="image_path" property="imagePath"/>
 	    </association>
     </association>
   </resultMap>

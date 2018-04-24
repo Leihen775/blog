@@ -20,18 +20,16 @@ public class Article {
   private int publishSort;
   private String title;
   private String content;
-  private int category_id;
+  private int categoryId;
   @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-  private Date publish_time;
+  private Date publishTime;
   private int clickCount;
   private int enjoyCount;
   private int commentCount;
   private int state;
   private int is_private;
-  private int user_id;
+  private int userId;
   private Category category; //文章类别信息
   private UserInfo userInfo; //发布人信息
   private List<ArticleTag> articleTagList; //文章标签信息
-  private List<Comment> commentList; //评论信息
-  private List<Enjoy> enjoyList; //被喜欢信息
 }

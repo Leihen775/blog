@@ -19,16 +19,16 @@ public class EnjoyTest {
   @Test
   public void add() {
     Enjoy enjoy = new Enjoy();
-    enjoy.setUser_id(4);
-    enjoy.setArticle_id(16);
+    enjoy.setUserId(4);
+    enjoy.setArticleId(16);
     enjoyServiceImpl.addEnjoy(enjoy);
    }
   
   @Test 
   public void delete() {
     Enjoy enjoy = new Enjoy();
-    enjoy.setUser_id(1);
-    enjoy.setArticle_id(15);
+    enjoy.setUserId(1);
+    enjoy.setArticleId(15);
     enjoy=enjoyServiceImpl.findEnjoy(enjoy);
     enjoyServiceImpl.deleteEnjoy(enjoy);
   }

@@ -11,8 +11,8 @@ import lombok.Data;
 @Data
 public class MessageUser {
   private int id;
-  private int recipient_uid;
-  private int message_id;
+  private int recipientUid;
+  private int messageId;
   private int is_sysMessage;
   private int state;
   private Message message;

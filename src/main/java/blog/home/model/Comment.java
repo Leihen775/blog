@@ -17,11 +17,10 @@ public class Comment {
   private int id;
   private String content;
   @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-  private Date publish_time;
-  private int article_id;
-  private int user_id;
-  private int recipient_uid;
+  private Date publishTime;
+  private int articleId;
+  private int recipientUid;
+  private int userId;
   private int pid;
   private UserInfo userInfo; //评论人信息
-  private Comment comment;
 }

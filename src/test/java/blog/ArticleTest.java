@@ -27,7 +27,7 @@ public class ArticleTest {
     List<Integer> list = new ArrayList<Integer>();
     article.setTitle("第三条数据");
     article.setContent("这是添加的第三条测试数据");
-    article.setPublish_time(new Date());
+    article.setPublishTime(new Date());
     list.add(3);
     list.add(4);
     

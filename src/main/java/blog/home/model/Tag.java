@@ -12,6 +12,6 @@ import lombok.Data;
 public class Tag {
   private int id;
   private String tag;
-  private int user_id;
+  private int userId;
   
 }

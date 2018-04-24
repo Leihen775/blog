@@ -29,11 +29,35 @@ public interface CommentMapper {
   public void deleteComment(int id);
   
   /**  
-   * @Title: findCommentByArticle
-   * @Description: 根据文章ID查询评论信息
+   * @Title: deleteCommentByArticle
+   * @Description: 根据文章ID删除评论信息
+   * @return void
+   * @throws
+   */
+  public void deleteCommentByArticle(int aid);
+  
+  /**  
+   * @Title: deleteCommentByAidBatch
+   * @Description: 根据多个文章ID删除评论信息
+   * @return void
+   * @throws
+   */
+  public void deleteCommentByAidBatch(List<Integer> aidList);
+  
+  /**  
+   * @Title: findCommentByAid
+   * @Description: 根据文章ID查询一级评论信息
    * @return List<Comment>
    * @throws
    */
-  public List<Comment> findCommentByArticle(int aid);
+  public List<Comment> findCommentByAid(int aid);
+  
+  /**  
+   * @Title: findReplyCommentByAid
+   * @Description: 根据文章ID查询次级评论信息
+   * @return List<Comment>
+   * @throws
+   */
+  public List<Comment> findReplyCommentByAid(int aid);
   
 }

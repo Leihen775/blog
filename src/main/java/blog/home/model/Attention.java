@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class Attention {
   private int id;
-  private int user_id;
-  private int attention_uid;
+  private int userId;
+  private int attentionUid;
   private UserInfo userInfo; //用户信息
 }

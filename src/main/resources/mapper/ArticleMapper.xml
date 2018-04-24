@@ -10,8 +10,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     INSERT INTO blog_article 
     (publishsort,title,content,category_id,publish_time,clickcount,enjoycount,commentcount,state,
     is_private,user_id)
-    VALUE(#{publishSort},#{title},#{content},#{category_id},#{publish_time},#{clickCount},#{enjoyCount},
-    #{commentCount},#{state},#{is_private},#{user_id})
+    VALUE(#{publishSort},#{title},#{content},#{categoryId},#{publishTime},#{clickCount},#{enjoyCount},
+    #{commentCount},#{state},#{is_private},#{userId})
   </insert>
   
   <!-- 点击数+1 -->
@@ -72,23 +72,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   </select>
   
   <!-- 查询所有文章简略信息(按时间排序) -->
-  <select id="findAllArticle" resultMap="articleResult">
-    SELECT a.id,a.title,a.publish_time,a.clickcount,a.commentcount,b.id user_id
+  <select id="findAllArticle" resultMap="briefArticleResult">
+    SELECT a.id,a.title,a.publish_time,a.clickcount,a.commentcount,b.id user_id,b.username,b.image_path
     FROM blog_article a,user_info b
     WHERE a.user_id=b.id
     ORDER BY a.publish_time DESC
   </select>
   
   <!-- 根据类别ID查询文章简略信息(按时间排序) -->
-  <select id="findArticleByCategory" parameterType="int" resultMap="articleResult">
-    SELECT a.id,a.title,a.publish_time,a.clickcount,a.commentcount,b.id user_id
+  <select id="findArticleByCategory" parameterType="int" resultMap="briefArticleResult">
+    SELECT a.id,a.title,a.publish_time,a.clickcount,a.commentcount,b.id user_id,b.username,b.image_path
     FROM blog_article a,user_info b
     WHERE a.category_id=#{id} and a.user_id=b.id
     ORDER BY a.publish_time DESC
   </select>
   
   <!-- 根据 文章标题进行模糊查询 文章简略信息(按时间排序) -->
-  <select id="findArticleByTitle" parameterType="String" resultMap="articleResult">
+  <select id="findArticleByTitle" parameterType="String" resultMap="briefArticleResult">
     SELECT a.id,a.title,a.publish_time,a.clickcount,a.commentcount,b.id user_id
     FROM blog_article a,user_info b
     WHERE a.user_id=b.id AND a.title LIKE "%" #{title} "%"
@@ -120,7 +120,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <select id="findArticleByUserTitle" parameterType="blog.home.model.Article" resultType="blog.home.model.Article">
     SELECT id,title,publish_time,clickcount,commentcount
     FROM blog_article 
-    WHERE user_id=#{user_id} AND title LIKE "%" #{title} "%"
+    WHERE user_id=#{userId} AND title LIKE "%" #{title} "%"
     ORDER BY publish_time DESC
   </select>
   
@@ -152,14 +152,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <if test="publishSort!=null and publishSort!=''">publishsort=#{publishSort},</if>
     <if test="title!=null and title!=''">title=#{title},</if>
     <if test="content!=null and content!=''">content=#{content},</if>
-    <if test="category_id!=null and category_id!=''">category_id=#{category_id},</if>
-    <if test="publish_time!=null and publish_time!=''">publish_time=#{publish_time},</if>
+    <if test="categoryId!=null and categoryId!=''">category_id=#{categoryId},</if>
+    <if test="publishTime!=null">publish_time=#{publishTime},</if>
     <if test="clickCount!=null and clickCount!=''">clickcount=#{clickCount},</if>
     <if test="enjoyCount!=null and enjoyCount!=''">enjoycount=#{enjoyCount},</if>
     <if test="commentCount!=null and commentCount!=''">commentcount=#{commentCount},</if>
     <if test="state!=null and state!=''">state=#{state},</if>
     <if test="is_private!=null and is_private!=''">is_private=#{is_private},</if>
-    <if test="user_id!=null and user_id!=''">user_id=#{user_id},</if>
+    <if test="userId!=null and userId!=''">user_id=#{userId},</if>
   </sql>
   
   <resultMap type="blog.home.model.Article" id="articleResult">
@@ -167,27 +167,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <result column="publishsort" property="publishSort"/>
       <result column="title" property="title"/>
       <result column="content" property="content"/>
-      <result column="publish_time" property="publish_time"/>
+      <result column="publish_time" property="publishTime"/>
       <result column="clickcount" property="clickCount"/>
       <result column="enjoycount" property="enjoyCount"/>
       <result column="commentcount" property="commentCount"/>
       <result column="state" property="state"/>
       <result column="is_private" property="is_private"/>
-      <result column="user_id" property="user_id"/>
+      <result column="user_id" property="userId"/>
       <association property="category" javaType="blog.home.model.Category">
 	      <result column="category_id" property="id"/>
 	      <result column="name" property="name"/>
 	    </association>
-	    <association property="userInfo" javaType="blog.home.model.UserInfo">
-        <result column="user_id" property="id"/>
-        <result column="image_path" property="image_path"/>
-      </association>
       <collection property="articleTagList" ofType="blog.home.model.ArticleTag">
 	      <association property="tag" javaType="blog.home.model.Tag">
 	        <result column="tag_id" property="id"/>
 	        <result column="tag" property="tag"/>
 	      </association>
 	    </collection>
+  </resultMap>
+  
+  <!-- 简略的文章结果映射 -->
+  <resultMap type="blog.home.model.Article" id="briefArticleResult">
+      <result column="id" property="id"/>
+      <result column="title" property="title"/>
+      <result column="publish_time" property="publish_time"/>
+      <result column="clickcount" property="clickCount"/>
+      <result column="commentcount" property="commentCount"/>
+      <association property="userInfo" javaType="blog.home.model.UserInfo">
+        <result column="user_id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="image_path" property="image_path"/>
+      </association>
   </resultMap>
   
 </mapper>

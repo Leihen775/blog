@@ -24,15 +24,15 @@ public class EnjoyServiceImpl implements IEnjoyService {
   @Override
   public void addEnjoy(Enjoy enjoy) {
     enjoyMapper.addEnjoy(enjoy);
-    articleMapper.addEnjoyCount(enjoy.getArticle_id());
-    userInfoMapper.addEnjoyCount(enjoy.getUser_id());
+    articleMapper.addEnjoyCount(enjoy.getArticleId());
+    userInfoMapper.addEnjoyCount(enjoy.getUserId());
   }
 
   @Override
   public void deleteEnjoy(Enjoy enjoy) {
     enjoyMapper.deleteEnjoy(enjoy.getId());
-    articleMapper.minusEnjoyCount(enjoy.getArticle_id());
-    userInfoMapper.minusEnjoyCount(enjoy.getUser_id());
+    articleMapper.minusEnjoyCount(enjoy.getArticleId());
+    userInfoMapper.minusEnjoyCount(enjoy.getUserId());
   }
 
   @Override

@@ -25,8 +25,8 @@ public class MessageTest {
   public void send1() {
     Message message = new Message();
     message.setContent("吴刚发给张晓菲的一条私信");
-    message.setPublish_time(new Date());
-    message.setSender_id(10);
+    message.setPublishTime(new Date());
+    message.setSenderId(10);
     messageService.sendSecretMessage(message, 3);
   }
   
@@ -34,7 +34,7 @@ public class MessageTest {
   public void send2() {
     Message message = new Message();
     message.setContent("系统发给赵飞燕的一条私信");
-    message.setPublish_time(new Date());
+    message.setPublishTime(new Date());
     messageService.sendSysMessage(message, 5);
   }
   
@@ -42,7 +42,7 @@ public class MessageTest {
   public void send3() {
     Message message = new Message();
     message.setContent("系统发给所有人的一条私信");
-    message.setPublish_time(new Date());
+    message.setPublishTime(new Date());
     List<Integer> idList = new ArrayList<Integer>();
     for(int i=1;i<=12;i++) {
       idList.add(i);
@@ -54,7 +54,7 @@ public class MessageTest {
   public void keep() {
     Message message = new Message();
     message.setContent("系统发给赵飞燕的一条私信");
-    message.setPublish_time(new Date());
+    message.setPublishTime(new Date());
     messageService.keepMessage(message);
   }
   

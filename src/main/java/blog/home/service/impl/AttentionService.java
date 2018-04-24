@@ -22,15 +22,15 @@ public class AttentionService implements blog.home.service.IAttentionService {
   @Override
   public void addAttention(Attention attention) {
     attentionMapper.addAttention(attention);
-    userInfoMapper.addAttentionCount(attention.getUser_id());
-    userInfoMapper.addFansCount(attention.getAttention_uid());
+    userInfoMapper.addAttentionCount(attention.getUserId());
+    userInfoMapper.addFansCount(attention.getAttentionUid());
   }
 
   @Override
   public void deleteAttention(Attention attention) {
     attentionMapper.deleteAttention(attention.getId());
-    userInfoMapper.minusAttentionCount(attention.getUser_id());
-    userInfoMapper.minusFansCount(attention.getAttention_uid());
+    userInfoMapper.minusAttentionCount(attention.getUserId());
+    userInfoMapper.minusFansCount(attention.getAttentionUid());
   }
 
   @Override

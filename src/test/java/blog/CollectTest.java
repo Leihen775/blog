@@ -24,8 +24,8 @@ public class CollectTest {
     Collect collect = new Collect();
     collect.setTitle("张晓菲收藏的第二条文章");
     collect.setUrl("http://www.");
-    collect.setArticle_id(18);
-    collect.setUser_id(3);
+    collect.setArticleId(18);
+    collect.setUserId(3);
     collectServiceImpl.addCollect(collect);
   }
   

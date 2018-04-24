@@ -26,20 +26,23 @@ public class CommentServiceImpl implements ICommentService {
   @Override
   public void addComment(Comment comment) {
     commentMapper.addComment(comment);
-    articleMapper.addCommentCount(comment.getArticle_id());
-    userInfoMapper.addCommentCount(comment.getUser_id());
+    articleMapper.addCommentCount(comment.getArticleId());
+    userInfoMapper.addCommentCount(comment.getUserId());
   }
 
   @Override
   public void deleteComment(Comment comment) {
     commentMapper.deleteComment(comment.getId());
-    articleMapper.minusCommentCount(comment.getArticle_id());
-    userInfoMapper.minusCommentCount(comment.getUser_id());
+    articleMapper.minusCommentCount(comment.getArticleId());
+    userInfoMapper.minusCommentCount(comment.getUserId());
   }
 
   @Override
   public List<Comment> findCommentByArticle(int aid) {
-    return commentMapper.findCommentByArticle(aid);
+    List<Comment> list=commentMapper.findCommentByAid(aid);
+    List<Comment> replyList=commentMapper.findReplyCommentByAid(aid);
+    list.addAll(replyList);
+    return list;
   }
 
 }

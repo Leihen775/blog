@@ -24,11 +24,11 @@ public class UserInfo {
   private int sex;
   @DateTimeFormat(pattern="yyyy-MM-dd")
   private Date birth;
-  private int trade_id;
+  private int tradeId;
   private String address;
   private String email;
   private String summary;
-  private String image_path;
+  private String imagePath;
   private int birth_private;
   private int realname_private;
   private int address_private;

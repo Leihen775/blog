@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="blog.home.dao.QusetionMapper">
+
+  <!-- 提出问题 -->
+  <insert id="addQuestion" parameterType="blog.home.model.Question">
+    INSERT INTO sys_question (title,content,publish_time,state,user_id)
+    VALUE(#{title},#{content},#{publishTime},#{state},#{userId})
+  </insert>
+  
+  <!-- 浏览一次问题 -->
+  <update id="addClickCount" parameterType="int">
+    UPDATE sys_question SET clickcount=clickcount+1 WHERE id=#{id}
+  </update>
+  
+  <!-- 回答一次问题 -->
+  <update id="addAnswerCount" parameterType="int">
+    UPDATE sys_question SET answercount=answercount+1 WHERE id=#{id}
+  </update>
+  
+  <!-- 同问数+1 -->
+  <update id="addSameCount" parameterType="int">
+    UPDATE sys_question SET samecount=samecount+1 WHERE id=#{id}
+  </update>
+  
+  <!-- 删除问题 -->
+  <update id="deleteQuestion" parameterType="int">
+    UPDATE sys_question SET state=2 WHERE id=#{id}
+  </update>
+  
+  <!-- 批量删除问题 -->
+  <update id="deleteQuestionBatch" parameterType="java.util.List">
+    UPDATE sys_question SET state=2 WHERE
+    <foreach collection="list" item="id" separator="OR">
+      id=#{id}
+    </foreach>
+  </update>
+  
+  <!-- 回答数-1 -->
+  <update id="minusAnswerCount" parameterType="int">
+    UPDATE sys_question SET answercount=answercount-1 WHERE id=#{id}
+  </update>
+  
+  <!-- 同问数-1 -->
+  <update id="minusSameCount" parameterType="int">
+    UPDATE sys_question SET samecount=samecount-1 WHERE id=#{id}
+  </update>
+  
+  <!-- 修改问题 -->
+  <update id="updateQuestion" parameterType="blog.home.model.Question">
+  
+  </update>
+  
+  <!-- 查询问题详细信息 -->
+  <select id="findQuestion" parameterType="int" resultMap="questionResult">
+    
+  </select>
+  
+  <!-- 查询问题简略信息 -->
+  <select id="findAllQuestion" resultMap="briefQuestionResult">
+  
+  </select>
+  
+  <!-- 根据 问题标题 模糊查询问题简略信息 -->
+  <select id="findQuestionByTitle" parameterType="String" resultMap="questionResult">
+  
+  </select>
+  
+  <!-- 根据用户Id查询问题 -->
+  <select id="findQuestionByUser" parameterType="int" resultMap="questionResult">
+  
+  </select>
+  
+  <!-- 查询浏览数 -->
+  <select id="findClickCount" parameterType="int">
+  
+  </select>
+  
+  <!-- 查询回答数 -->
+  <select id="findAnswerCount" parameterType="int">
+  
+  </select>
+  
+  <!-- 查询同问数 -->
+  <select id="findSameCount" parameterType="int">
+  
+  </select>
+  
+  <sql id="UPDATE_QUESTION_SET">
+  
+  </sql>
+  
+  <resultMap type="blog.home.model.Question" id="questionResult">
+    <result column="id" property="id"/>
+    <result column="title" property="title"/>
+    <result column="content" property="content"/>
+    <result column="publish_time" property="publishTime"/>
+    <result column="clickcount" property="clickCount"/>
+    <result column="answercount" property="answerCount"/>
+    <result column="samecount" property="sameCount"/>
+    <result column="state" property="state"/>
+    <association property="userInfo" javaType="blog.home.model.UserInfo">
+      <result column="user_id" property="id"/>
+	    <result column="username" property="username"/>
+	    <result column="image_path" property="imagePath"/>
+    </association>
+  </resultMap>
+  
+</mapper>

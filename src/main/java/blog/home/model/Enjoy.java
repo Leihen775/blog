@@ -11,6 +11,6 @@ import lombok.Data;
 @Data
 public class Enjoy {
   private int id;
-  private int user_id;
-  private int article_id;
+  private int userId;
+  private int articleId;
 }

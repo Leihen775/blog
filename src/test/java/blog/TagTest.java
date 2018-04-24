@@ -23,7 +23,7 @@ public class TagTest {
   public void addTest() {
     Tag tag = new Tag();
     tag.setTag("spring");
-    tag.setUser_id(1);
+    tag.setUserId(1);
     tagService.addTag(tag);
   }
   

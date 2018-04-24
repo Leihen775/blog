@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <!-- 添加用户的文章收藏信息 -->
   <insert id="addCollect" parameterType="blog.home.model.Collect">
     INSERT INTO blog_collect(title,url,user_id,article_id)
-    VALUE(#{title},#{url},#{user_id},#{article_id})
+    VALUE(#{title},#{url},#{userId},#{articleId})
   </insert>
   
   <!-- 删除用户的文章收藏信息 -->

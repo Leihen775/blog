@@ -6,19 +6,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
-/**  
- * @ClassName: SysMessage  
- * @Description: 系统消息实体类
- * @author Leihen  
- * @date 2018年4月20日      
- */  
 @Data
-public class Message {
+public class Answer {
   private int id;
   private String content;
   @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
   private Date publishTime;
-  private int senderId;
-  private int state;
-  private UserInfo userInfo;
+  private int questionId;
+  private int questionerUid;
+  private int responderId;
+  private int pid;
+  private UserInfo userInfo; //回答人信息
 }

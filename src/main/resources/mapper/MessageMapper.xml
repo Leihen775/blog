@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <insert id="addMessage" parameterType="blog.home.model.Message"
           useGeneratedKeys="true" keyProperty="id" keyColumn="id">
     INSERT INTO sys_message (id,content,publish_time,sender_id)
-    VALUE(#{id},#{content},#{publish_time},#{sender_id})
+    VALUE(#{id},#{content},#{publishTime},#{senderId})
   </insert>
   
   <!-- 发送者删除信息 -->

@@ -13,6 +13,6 @@ public class Collect {
   private int id;
   private String title;
   private String url;
-  private int user_id;
-  private int article_id;
+  private int userId;
+  private int articleId;
 }

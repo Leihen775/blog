@@ -7,8 +7,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <!-- 添加个人标签 -->
   <insert id="addTag" parameterType="blog.home.model.Tag">
     INSERT INTO blog_tag 
-    <if test="tag!=null and user_id!=null">
-      (tag,user_id) VALUE(#{tag},#{user_id})
+    <if test="tag!=null and userId!=null">
+      (tag,user_id) VALUE(#{tag},#{userId})
     </if>
   </insert>
   

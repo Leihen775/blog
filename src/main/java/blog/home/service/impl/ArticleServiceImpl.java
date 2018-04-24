@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import blog.home.dao.ArticleMapper;
 import blog.home.dao.ArticleTagMapper;
+import blog.home.dao.CommentMapper;
 import blog.home.dao.TagMapper;
 import blog.home.dao.UserInfoMapper;
 import blog.home.model.Article;
@@ -36,6 +37,8 @@ public class ArticleServiceImpl implements IArticleService {
   TagMapper tagMapper;
   @Autowired
   UserInfoMapper userInfoMapper;
+  @Autowired
+  CommentMapper commentMapper;
 
   @Override
   public void addArticle(Article article, List<Integer> tagList) {
@@ -44,31 +47,26 @@ public class ArticleServiceImpl implements IArticleService {
     List<ArticleTag> articleTagList = new ArrayList<ArticleTag>();
     for(int i=0;i<tagList.size();i++) {
       ArticleTag articleTag = new ArticleTag();
-      articleTag.setArticle_id(aid);
-      articleTag.setTag_id(tagList.get(i));
+      articleTag.setArticleId(aid);
+      articleTag.setTagId(tagList.get(i));
       articleTagList.add(articleTag);
     }
-    int[] arr= new int[2];
-    arr[3] = 1;//抛出异常，事务回滚
     articleTagMapper.addArticleTag(articleTagList);//添加文章个人标签信息
-    userInfoMapper.addArticleCount(article.getUser_id());
-    
+    userInfoMapper.addArticleCount(article.getUserId());
   }
   
   @Override
   public void deleteArticle(int aid) {
     articleMapper.deleteArticle(aid);
-    int[] arr= new int[2];
-    arr[3] = 1;//抛出异常，事务回滚
     articleTagMapper.deleteByAid(aid);
+    commentMapper.deleteCommentByArticle(aid);
   }
 
   @Override
   public void deleteArticleBatch(List<Integer> aidList) {
     articleMapper.deleteArticleBatch(aidList);
-    int[] arr= new int[2];
-    arr[3] = 1;//抛出异常，事务回滚
     articleTagMapper.deleteByAidBatch(aidList);
+    commentMapper.deleteCommentByAidBatch(aidList);
   }
 
   @Override
@@ -78,8 +76,8 @@ public class ArticleServiceImpl implements IArticleService {
     List<ArticleTag> articleTagList = new ArrayList<ArticleTag>();
     for(int i=0;i<tagList.size();i++) {
       ArticleTag articleTag = new ArticleTag();
-      articleTag.setArticle_id(article.getId());
-      articleTag.setTag_id(tagList.get(i));
+      articleTag.setArticleId(article.getId());
+      articleTag.setTagId(tagList.get(i));
       articleTagList.add(articleTag);
     }
     articleTagMapper.addArticleTag(articleTagList);

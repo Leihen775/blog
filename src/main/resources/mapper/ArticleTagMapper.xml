@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <insert id="addArticleTag" parameterType="java.util.List">
     INSERT INTO blog_article_tag (article_id,tag_id) VALUE
     <foreach collection="list" item="articleTag" separator=",">
-       (#{articleTag.article_id},#{articleTag.tag_id})
+       (#{articleTag.articleId},#{articleTag.tagId})
     </foreach>
   </insert>
   

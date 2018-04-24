@@ -8,8 +8,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <insert id="addUserInfo" parameterType="blog.home.model.UserInfo">
     INSERT INTO user_info (accountnum,username,password,realname,job,sex,birth,trade_id,address,email,
     summary,image_path,birth_private,realname_private,address_private) 
-    VALUE(#{accountNum},#{username},#{password},#{realname},#{job},#{sex},#{birth},#{trade_id},#{address},
-    #{email},#{summary},#{image_path},#{birth_private},#{realname_private},#{address_private})
+    VALUE(#{accountNum},#{username},#{password},#{realname},#{job},#{sex},#{birth},#{tradeId},#{address},
+    #{email},#{summary},#{imagePath},#{birth_private},#{realname_private},#{address_private})
   </insert>
   
   <!-- 关注数+1 -->
@@ -132,11 +132,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <if test="job!=null and job!=''">job=#{job},</if>
     <if test="sex!=null and sex!=''">sex=#{sex},</if>
     <if test="birth!=null">birth=#{birth},</if>
-    <if test="trade_id!=null and trade_id!=''">trade_id=#{trade_id},</if>
+    <if test="tradeId and tradeId''">trade_id=#{tradeId},</if>
     <if test="address!=null and address!=''">address=#{address},</if>
     <if test="email!=null and email!=''">email=#{email},</if>
     <if test="summary!=null and summary!=''">summary=#{summary},</if>
-    <if test="image_path!=null and image_path!=''">image_path=#{image_path},</if>
+    <if test="imagePath and imagePath''">image_path=#{imagePath},</if>
     <if test="birth_private!=null and birth_private!=''">birth_private=#{birth_private},</if>
     <if test="realname_private!=null and realname_private!=''">realname_private=#{realname_private},</if>
     <if test="address_private!=null and address_private!=''">address_private=#{address_private},</if>
@@ -159,7 +159,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <result column="address" property="address"/>
       <result column="email" property="email"/>
       <result column="summary" property="summary"/>
-      <result column="image_path" property="image_path"/>
+      <result column="image_path" property="imagePath"/>
       <result column="birth_private" property="birth_private"/>
       <result column="realname_private" property="realname_private"/>
       <result column="address_private" property="address_private"/>
