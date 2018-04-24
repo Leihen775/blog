@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import blog.home.dao.AttentionMapper;
+import blog.home.dao.UserInfoMapper;
 import blog.home.model.Attention;
 
 @Service
@@ -15,15 +16,21 @@ public class AttentionService implements blog.home.service.IAttentionService {
   
   @Autowired
   AttentionMapper attentionMapper;
+  @Autowired
+  UserInfoMapper userInfoMapper;
 
   @Override
   public void addAttention(Attention attention) {
-    attentionMapper.addAttention(attention);    
+    attentionMapper.addAttention(attention);
+    userInfoMapper.addAttentionCount(attention.getUser_id());
+    userInfoMapper.addFansCount(attention.getAttention_uid());
   }
 
   @Override
   public void deleteAttention(Attention attention) {
-    attentionMapper.deleteAttention(attention);    
+    attentionMapper.deleteAttention(attention.getId());
+    userInfoMapper.minusAttentionCount(attention.getUser_id());
+    userInfoMapper.minusFansCount(attention.getAttention_uid());
   }
 
   @Override
@@ -37,8 +44,8 @@ public class AttentionService implements blog.home.service.IAttentionService {
   }
 
   @Override
-  public List<Attention> findFansByAttention(int aid) {
-    return attentionMapper.findFansByAttention(aid);
+  public Attention findFans(Attention attention) {
+    return attentionMapper.findFans(attention);
   }
 
   @Override

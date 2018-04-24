@@ -3,5 +3,36 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="blog.home.dao.CommentMapper">
+
+  <!-- 添加评论 -->
+  <insert id="addComment" parameterType="blog.home.model.Comment">
+    INSERT INTO blog_comment (content,publish_time,article_id,user_id,recipient_uid,pid)
+    VALUE(#{content},#{publish_time},#{article_id},#{user_id},#{recipient_uid},#{pid})
+  </insert>
+  
+  <!-- 根据评论ID删除评论 -->
+  <delete id="deleteComment" parameterType="int">
+    DELETE FROM blog_comment WHERE id=#{id}  
+  </delete>
+  
+  <!-- 根据文章ID查找评论 -->
+  <select id="findCommentByArticle" parameterType="int" resultMap="commentResult">
+    SELECT a.*,b.id user_id,b.username,b.image_path
+    FROM blog_comment a,user_info b
+    WHERE a.article_id=#{aid} AND b.id=a.user_id
+  </select>
+  
+  <resultMap type="blog.home.model.Comment" id="commentResult">
+    <result column="id" property="id"/>
+    <result column="content" property="content"/>
+    <result column="publish_time" property="publish_time"/>
+    <result column="article_id" property="article_id"/>
+    <result column="pid" property="pid"/>
+    <association property="userInfo" javaType="blog.home.model.UserInfo">
+      <result column="user_id" property="id"/>
+      <result column="username" property="username"/>
+      <result column="image_path" property="image_path"/>
+    </association>
+  </resultMap>
   
 </mapper>

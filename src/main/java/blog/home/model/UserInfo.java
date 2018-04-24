@@ -36,7 +36,7 @@ public class UserInfo {
   private int fansCount;
   private int articleCount;
   private int commentCount;
-  private int praiseCount;
+  private int enjoyCount;
   private Trade trade; //用户行业信息
   private List<Attention> attentionList; //用户关注信息
   private List<Collect> collectList; //用户收藏信息

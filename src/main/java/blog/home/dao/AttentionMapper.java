@@ -26,7 +26,7 @@ public interface AttentionMapper {
    * @return void
    * @throws
    */
-  public void deleteAttention(Attention attention);
+  public void deleteAttention(int id);
   
   /**  
    * @Title: findAttentionByUser
@@ -46,11 +46,11 @@ public interface AttentionMapper {
   
   /**  
    * @Title: findFansByAttention
-   * @Description: 根据被关注人ID 查询用户粉丝信息
-   * @return List<Attention>
+   * @Description: 根据关注人和被关注人ID 查询关注信息
+   * @return Attention
    * @throws
    */
-  public List<Attention> findFansByAttention(int aid);
+  public Attention findFans(Attention attention);
   
   /**  
    * @Title: findFansCount

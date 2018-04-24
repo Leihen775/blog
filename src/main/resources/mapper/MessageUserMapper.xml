@@ -5,13 +5,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="blog.home.dao.MessageUserMapper">
 
   <!-- 发送私信 -->
-  <insert id="addSecretMessager" parameterType="blog.home.model.MessageUser">
+  <insert id="addSecretMessage" parameterType="blog.home.model.MessageUser">
     INSERT INTO sys_message_user (recipient_uid,message_id,is_sysmessage,state)
     VALUE(#{recipient_uid},#{message_id},0,0)
   </insert>
   
   <!-- 发送私信 -->
-  <insert id="addSysMessager" parameterType="blog.home.model.MessageUser">
+  <insert id="addSysMessage" parameterType="blog.home.model.MessageUser">
     INSERT INTO sys_message_user (recipient_uid,message_id,is_sysmessage,state)
     VALUE(#{recipient_uid},#{message_id},1,0)
   </insert>
@@ -31,16 +31,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   </update>
   
   <!-- 修改信息为已读 -->
-  <update id="updateMessage" parameterType="int">
+  <update id="updateMessageRead" parameterType="int">
     UPDATE sys_message_user SET state=1 WHERE id=#{id}
   </update>
+  
+  <!-- 修改全部信息为已读 -->
+  <update id="updateAllMessageRead" parameterType="java.util.List">
+    UPDATE sys_message_user SET state=1 WHERE
+    <foreach collection="list" item="id" separator="or">
+      id=#{id}
+    </foreach>
+  </update>
+  
+  <select id="findMessage" parameterType="int" resultMap="messageUserResult">
+    SELECT a.id,a.recipient_uid,a.is_sysmessage,a.state,b.id message_id,
+           b.content,b.publish_time,c.id user_id,c.username,c.image_path
+    FROM sys_message_user a,sys_message b,user_info c
+    WHERE a.id=#{id} AND b.id=a.message_id AND c.id=b.sender_id
+  </select>
   
   <!-- 根据 收信人ID 查询未读私信 -->
   <select id="findSecretMessage" parameterType="int" resultMap="messageUserResult">
     SELECT a.id,a.recipient_uid,a.is_sysmessage,a.state,b.id message_id,
            b.content,b.publish_time,c.id user_id,c.username,c.image_path
     FROM sys_message_user a,sys_message b,user_info c
-    WHERE a.recipient_uid=#{uid} AND a.is_sysmessage=0 AND a.state=0
+    WHERE a.recipient_uid=#{uid} AND a.is_sysmessage=0 AND a.state=0 AND
           b.id=a.message_id AND c.id=b.sender_id
   </select>
   
@@ -49,7 +64,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     SELECT a.id,a.recipient_uid,a.is_sysmessage,a.state,b.id message_id,
            b.content,b.publish_time,c.id user_id,c.username,c.image_path
     FROM sys_message_user a,sys_message b,user_info c
-    WHERE a.recipient_uid=#{uid} AND a.is_sysmessage=0 AND a.state=1
+    WHERE a.recipient_uid=#{uid} AND a.is_sysmessage=0 AND a.state=1 AND
           b.id=a.message_id AND c.id=b.sender_id
   </select>
   
@@ -58,7 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     SELECT a.id,a.recipient_uid,a.is_sysmessage,a.state,b.id message_id,
            b.content,b.publish_time,c.id user_id,c.username,c.image_path
     FROM sys_message_user a,sys_message b,user_info c
-    WHERE a.recipient_uid=#{uid} AND a.is_sysmessage=1 AND a.state=0
+    WHERE a.recipient_uid=#{uid} AND a.is_sysmessage=1 AND a.state=0 AND
           b.id=a.message_id AND c.id=b.sender_id
   </select>
   
@@ -67,7 +82,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     SELECT a.id,a.recipient_uid,a.is_sysmessage,a.state,b.id message_id,
            b.content,b.publish_time,c.id user_id,c.username,c.image_path
     FROM sys_message_user a,sys_message b,user_info c
-    WHERE a.recipient_uid=#{uid} AND a.is_sysmessage=1 AND a.state=1
+    WHERE a.recipient_uid=#{uid} AND a.is_sysmessage=1 AND a.state=1 AND
           b.id=a.message_id AND c.id=b.sender_id
   </select>
   

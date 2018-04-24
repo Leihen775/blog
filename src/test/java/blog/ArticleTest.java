@@ -15,7 +15,7 @@ import blog.home.model.Article;
 import blog.home.service.IArticleService;
 
 @RunWith(SpringJUnit4ClassRunner.class) //使用junit4进行测试  
-@ContextConfiguration(locations = {"classpath:spring/spring-dao.xml","classpath:spring/spring-service.xml"})     
+@ContextConfiguration(locations = {"classpath:spring/spring-dao.xml","classpath:spring/spring-service.xml"})
 public class ArticleTest {
   
   @Autowired

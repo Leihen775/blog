@@ -14,6 +14,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     #{commentCount},#{state},#{is_private},#{user_id})
   </insert>
   
+  <!-- 点击数+1 -->
+  <update id="addClickCount" parameterType="int">
+    UPDATE blog_article SET clickcount=clickcount+1 WHERE id=#{id}
+  </update>
+  
+  <!-- 喜欢数+1 -->
+  <update id="addEnjoyCount" parameterType="int">
+    UPDATE blog_article SET enjoycount=enjoycount+1 WHERE id=#{id}
+  </update>
+  
+  <!-- 评论数+1 -->
+  <update id="addCommentCount" parameterType="int">
+    UPDATE blog_article SET commentcount=commentcount+1 WHERE id=#{id}
+  </update>
+  
   <!-- 根据 文章ID 单个删除文章信息 -->
   <delete id="deleteArticle" parameterType="int">
     DELETE FROM blog_article WHERE id=#{aid}
@@ -26,6 +41,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       id=#{id}
     </foreach>
   </delete>
+  
+  <!-- 喜欢数-1 -->
+  <update id="minusEnjoyCount" parameterType="int">
+    UPDATE blog_article SET enjoycount=enjoycount-1 WHERE id=#{id}
+  </update>
+  
+  <!-- 评论数-1 -->
+  <update id="minusCommentCount" parameterType="int">
+    UPDATE blog_article SET commentcount=commentcount-1 WHERE id=#{id}
+  </update>
   
   <!-- 根据 文章ID 修改文章信息 -->
   <update id="updateArticle" parameterType="blog.home.model.Article">
@@ -108,18 +133,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     LIMIT 0,10
   </select>
   
+  <!-- 查询点击数 -->
+  <select id="findClickCount" parameterType="int" resultType="int">
+    SELECT clickcount FROM blog_article WHERE id=#{id}
+  </select>
+  
+  <!-- 查询评论数 -->
+  <select id="findCommentCount" parameterType="int" resultType="int">
+    SELECT commentcount FROM blog_article WHERE id=#{id}
+  </select>
+  
+  <!-- 查询喜欢数 -->
+  <select id="findEnjoyCount" parameterType="int" resultType="int">
+    SELECT enjoycount FROM blog_article WHERE id=#{id}
+  </select>
+  
   <sql id="UPDATE_ARTICLE_SET">
-    <if test="publishSort!=null and publishSort!=''">publishsort=#{publishSort}</if>
-    <if test="title!=null and title!=''">title=#{title}</if>
-    <if test="content!=null and content!=''">content=#{content}</if>
-    <if test="category_id!=null and category_id!=''">category_id=#{category_id}</if>
-    <if test="publish_time!=null and publish_time!=''">publish_time=#{publish_time}</if>
-    <if test="clickCount!=null and clickCount!=''">clickcount=#{clickCount}</if>
-    <if test="enjoyCount!=null and enjoyCount!=''">enjoycount=#{enjoyCount}</if>
-    <if test="commentCount!=null and commentCount!=''">commentcount=#{commentCount}</if>
-    <if test="state!=null and state!=''">state=#{state}</if>
-    <if test="is_private!=null and is_private!=''">is_private=#{is_private}</if>
-    <if test="user_id!=null and user_id!=''">user_id=#{user_id}</if>
+    <if test="publishSort!=null and publishSort!=''">publishsort=#{publishSort},</if>
+    <if test="title!=null and title!=''">title=#{title},</if>
+    <if test="content!=null and content!=''">content=#{content},</if>
+    <if test="category_id!=null and category_id!=''">category_id=#{category_id},</if>
+    <if test="publish_time!=null and publish_time!=''">publish_time=#{publish_time},</if>
+    <if test="clickCount!=null and clickCount!=''">clickcount=#{clickCount},</if>
+    <if test="enjoyCount!=null and enjoyCount!=''">enjoycount=#{enjoyCount},</if>
+    <if test="commentCount!=null and commentCount!=''">commentcount=#{commentCount},</if>
+    <if test="state!=null and state!=''">state=#{state},</if>
+    <if test="is_private!=null and is_private!=''">is_private=#{is_private},</if>
+    <if test="user_id!=null and user_id!=''">user_id=#{user_id},</if>
   </sql>
   
   <resultMap type="blog.home.model.Article" id="articleResult">

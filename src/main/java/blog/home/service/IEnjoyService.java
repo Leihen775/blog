@@ -1,7 +1,5 @@
 package blog.home.service;
 
-import java.util.List;
-
 import blog.home.model.Enjoy;
 
 public interface IEnjoyService {
@@ -24,11 +22,11 @@ public interface IEnjoyService {
   
   /**  
    * @Title: findEnjoyByArticle
-   * @Description: 根据文章ID查找所有喜欢人Id
-   * @return List<Enjoy>
+   * @Description: 根据文章ID和用户ID查找 喜欢详情
+   * @return Enjoy
    * @throws
    */
-  public List<Enjoy> findEnjoyByArticle(int aid);
+  public Enjoy findEnjoy(Enjoy enjoy);
   
   /**  
    * @Title: findCountByArticle

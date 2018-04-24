@@ -46,6 +46,14 @@ public interface CategoryMapper {
   public void updateCategory(Category category);
   
   /**  
+   * @Title: findAllCategoryId
+   * @Description: 查找所有文章类型(根据ID升序排序)
+   * @return List<Category>
+   * @throws
+   */
+  public List<Category> findAllCategoryId();
+  
+  /**  
    * @Title: findAllCategoryCode
    * @Description: 查找所有文章类型(根据code升序排列)
    * @return List<Category>
@@ -54,28 +62,12 @@ public interface CategoryMapper {
   public List<Category> findAllCategoryCode();
   
   /**  
-   * @Title: findAllCategoryCodeDesc
-   * @Description: 查找所有文章类型(根据code降序排列)
-   * @return List<Category>
-   * @throws
-   */
-  public List<Category> findAllCategoryCodeDesc();
-  
-  /**  
    * @Title: findAllCategoryName
    * @Description: 查找所有文章类型(根据名称升序排列)
    * @return List<Category>
    * @throws
    */
   public List<Category> findAllCategoryName();
-  
-  /**  
-   * @Title: findAllCategoryNameDesc
-   * @Description: 查找所有文章类型(根据名称将序排列)
-   * @return List<Category>
-   * @throws
-   */
-  public List<Category> findAllCategoryNameDesc();
   
   /**  
    * @Title: findCategoryById

@@ -21,6 +21,30 @@ public interface ArticleMapper {
   public void addArticle(Article article);
   
   /**  
+   * @Title: addClickCount
+   * @Description: 点击数+1
+   * @return void
+   * @throws
+   */
+  public void addClickCount(int id);
+  
+  /**  
+   * @Title: addEnjoyCount
+   * @Description: 喜欢数+1
+   * @return void
+   * @throws
+   */
+  public void addEnjoyCount(int id);
+  
+  /**  
+   * @Title: addCommentCount
+   * @Description: 评论数+1
+   * @return void
+   * @throws
+   */
+  public void addCommentCount(int id);
+  
+  /**  
    * @Title: deleteArticle
    * @Description: 根据文章ID单个删除
    * @return void
@@ -30,12 +54,27 @@ public interface ArticleMapper {
   
   /**  
    * @Title: deleteArticleBatch
-   * @Description: 根据 文章ID 删除文章信息
+   * @Description: 根据 文章ID 批量删除文章信息
    * @return void
    * @throws
    */
   public void deleteArticleBatch(List<Integer> aidList);
   
+  /**  
+   * @Title: minusEnjoyCount
+   * @Description: 喜欢数-1
+   * @return void
+   * @throws
+   */
+  public void minusEnjoyCount(int id);
+  
+  /**  
+   * @Title: minusCommentCount
+   * @Description: 评论数-1
+   * @return void
+   * @throws
+   */
+  public void minusCommentCount(int id);
   
   /**  
    * @Title: updateArticle
@@ -116,5 +155,29 @@ public interface ArticleMapper {
    * @throws
    */
   public List<Article> findArticleByClick(int uid);
+  
+  /**  
+   * @Title: findClickCount
+   * @Description: 查询点击数
+   * @return int
+   * @throws
+   */
+  public int findClickCount(int id);
+  
+  /**  
+   * @Title: findCommentCount
+   * @Description: 查询评论数
+   * @return int
+   * @throws
+   */
+  public int findCommentCount(int id);
+  
+  /**  
+   * @Title: findEnjoyCount
+   * @Description: 查询喜欢数
+   * @return int
+   * @throws
+   */
+  public int findEnjoyCount(int id);
   
 }

@@ -19,5 +19,6 @@ public class Message {
   @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
   private Date publish_time;
   private int sender_id;
+  private int state;
   private UserInfo userInfo;
 }

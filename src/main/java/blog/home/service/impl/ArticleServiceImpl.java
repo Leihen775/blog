@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import blog.home.dao.ArticleMapper;
 import blog.home.dao.ArticleTagMapper;
 import blog.home.dao.TagMapper;
+import blog.home.dao.UserInfoMapper;
 import blog.home.model.Article;
 import blog.home.model.ArticleTag;
 import blog.home.model.Tag;
@@ -33,6 +34,8 @@ public class ArticleServiceImpl implements IArticleService {
   ArticleTagMapper articleTagMapper;
   @Autowired
   TagMapper tagMapper;
+  @Autowired
+  UserInfoMapper userInfoMapper;
 
   @Override
   public void addArticle(Article article, List<Integer> tagList) {
@@ -48,6 +51,8 @@ public class ArticleServiceImpl implements IArticleService {
     int[] arr= new int[2];
     arr[3] = 1;//抛出异常，事务回滚
     articleTagMapper.addArticleTag(articleTagList);//添加文章个人标签信息
+    userInfoMapper.addArticleCount(article.getUser_id());
+    
   }
   
   @Override

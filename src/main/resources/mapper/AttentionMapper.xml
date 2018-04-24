@@ -13,12 +13,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <!-- 删除用户关注信息 -->
   <delete id="deleteAttention" parameterType="blog.home.model.Attention">
     DELETE FROM user_attention
-    WHERE user_id=#{user_id} AND attention_uid=#{attention_uid}
+    WHERE id=#{id}
   </delete>
   
   <!-- 根据 关注人ID 查询用户关注信息  -->
   <select id="findAttentionByUser" parameterType="int" resultMap="attentionResult">
-    SELECT b.id attention_id,b.username,b.image_path
+    SELECT a.*,b.id uid,b.username,b.image_path
     FROM user_attention a,user_info b
     WHERE a.user_id=#{uid} AND a.attention_uid=b.id
   </select>
@@ -30,33 +30,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     WHERE a.user_id=#{uid}
   </select>
   
-  <!-- 根据被关注人ID 查询用户粉丝信息 -->
-  <select id="findFansByAttention" parameterType="int" resultMap="fansResult">
-    SELECT b.id user_id,b.username,b.image_path
+  <!-- 根据关注人和被关注人ID 查询粉丝关注信息 -->
+  <select id="findFans" parameterType="blog.home.model.Attention" resultType="blog.home.model.Attention">
+    SELECT a.*
     FROM user_attention a,user_info b
-    WHERE a.attention_uid=#{bid} AND a.user_id=b.id
+    WHERE a.attention_uid=#{attention_uid} AND a.user_id=#{user_id} AND a.user_id=b.id
   </select>
   
   <!-- 根据 被关注人ID 查询用户粉丝数量 -->
   <select id="findFansCount" parameterType="int" resultType="int">
     SELECT COUNT(*)
-    FROM user_attention a
-    WHERE a.attention=#{aid}
+    FROM user_attention
+    WHERE attention_uid=#{aid}
   </select>
   
-  <!-- 被关注人信息结果映射 -->
+  <!-- 关注信息结果映射 -->
   <resultMap type="blog.home.model.Attention" id="attentionResult">
-    <association property="userInfo" javaType="blog.home.model.UserInfo">
-      <result column="attention_id" property="id"/>
-      <result column="username" property="username"/>
-      <result column="image_path" property="image_path"/>
-    </association>
-  </resultMap>
-  <!-- 粉丝信息结果映射 -->
-  <resultMap type="blog.home.model.Attention" id="fansResult">
     <result column="id" property="id"/>
+    <result column="user_id" property="user_id"/>
+    <result column="attention_uid" property="attention_uid"/>
     <association property="userInfo" javaType="blog.home.model.UserInfo">
-      <result column="user_id" property="id"/>
+      <result column="uid" property="id"/>
       <result column="username" property="username"/>
       <result column="image_path" property="image_path"/>
     </association>

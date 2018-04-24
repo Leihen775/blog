@@ -21,14 +21,23 @@ public class MessageServiceImpl implements IMessageService {
   MessageMapper messageMapper;
   @Autowired
   MessageUserMapper messageUserMapper;
+  
+  @Override
+  public void keepMessage(Message message) {
+    messageMapper.addMessage(message);
+    messageMapper.keepMessage(message.getId());
+  }
+  
   @Override
   public void sendSecretMessage(Message message, int uid) {
     messageMapper.addMessage(message);
     MessageUser messageUser = new MessageUser();
     messageUser.setMessage_id(message.getId());
     messageUser.setRecipient_uid(uid);
-    messageUserMapper.addSecretMessager(messageUser);
+    messageUserMapper.addSecretMessage(messageUser);
+    messageMapper.sendMessage(message.getId());
   }
+  
   @Override
   public void sendSysMessage(Message message, int uid) {
     messageMapper.addMessage(message);
@@ -36,7 +45,9 @@ public class MessageServiceImpl implements IMessageService {
     messageUser.setMessage_id(message.getId());
     messageUser.setRecipient_uid(uid);
     messageUserMapper.addSysMessage(messageUser);
+    messageMapper.sendMessage(message.getId());
   }
+  
   @Override
   public void sendSysMessageBatch(Message message, List<Integer> uidList) {
     messageMapper.addMessage(message);
@@ -48,51 +59,74 @@ public class MessageServiceImpl implements IMessageService {
       messageUserList.add(messageUser);
     }
     messageUserMapper.addSysMessageBatch(messageUserList);
+    messageMapper.sendMessage(message.getId());
   }
+  
   @Override
   public void deleteSenderMessage(int id) {
     messageMapper.deleteMessage(id);
   }
+  
   @Override
   public void deleteRecipientMessage(int id) {
     messageUserMapper.deleteMessage(id);
   }
+  
   @Override
-  public void updateRecipientMessage(int id) {
-    messageUserMapper.updateMessage(id);    
+  public void AllMessageRead(List<Integer> idList) {
+    messageUserMapper.updateAllMessageRead(idList);    
   }
+  
   @Override
-  public Message findMessage(int id) {
-    return messageMapper.findMessage(id);
+  public MessageUser findMessage(int id) {
+    MessageUser messageUser = messageUserMapper.findMessage(id);
+    messageUserMapper.updateMessageRead(id);
+    return messageUser;
   }
+  
   @Override
   public List<MessageUser> findSecretMessage(int uid) {
     return messageUserMapper.findSecretMessage(uid);
   }
+  
   @Override
   public List<MessageUser> findSecretMessageRead(int uid) {
     return messageUserMapper.findSecretMessageRead(uid);
   }
+  
   @Override
   public List<MessageUser> findSysMessage(int uid) {
     return messageUserMapper.findSysMessage(uid);
   }
+  
   @Override
   public List<MessageUser> findSysMessageRead(int uid) {
     return messageUserMapper.findSysMessageRead(uid);
   }
+  
   @Override
   public int findCount(int uid) {
     return messageUserMapper.findCount(uid);
   }
+  
   @Override
   public int findSecretCount(int uid) {
     return messageUserMapper.findSecretCount(uid);
   }
+  
   @Override
   public int findSysCount(int uid) {
     return messageUserMapper.findSysCount(uid);
   }
-  
+
+  @Override
+  public List<Message> findDraft(int sender) {
+    return messageMapper.findDraft(sender);
+  }
+
+  @Override
+  public Message findDraftDetail(int id) {
+    return messageMapper.findDraftDetail(id);
+  }
 
 }

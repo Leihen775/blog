@@ -13,12 +13,12 @@ import blog.home.model.MessageUser;
 public interface MessageUserMapper {
   
   /**  
-   * @Title: addSecretMessager
+   * @Title: addSecretMessage
    * @Description: 发送私信
    * @return void
    * @throws
    */
-  public void addSecretMessager(MessageUser messageUser);
+  public void addSecretMessage(MessageUser messageUser);
 
   /**  
    * @Title: addSysMessage
@@ -50,7 +50,23 @@ public interface MessageUserMapper {
    * @return void
    * @throws
    */
-  public void updateMessage(int id);
+  public void updateMessageRead(int id);
+  
+  /**  
+   * @Title: updateAllMessageRead
+   * @Description: 修改全部信息为已读
+   * @return void
+   * @throws
+   */
+  public void updateAllMessageRead(List<Integer> idList);
+  
+  /**  
+   * @Title: findMessage
+   * @Description: 查看信息
+   * @return MessageUser
+   * @throws
+   */
+  public MessageUser findMessage(int id);
   
   /**  
    * @Title: findMessage

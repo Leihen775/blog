@@ -40,11 +40,11 @@ public interface IAttentionService {
   
   /**  
    * @Title: findFansByAttention
-   * @Description: 根据被关注人ID 查询用户粉丝信息
+   * @Description: 根据关注人和被关注人ID 查询用户粉丝信息
    * @return List<Attention>
    * @throws
    */
-  public List<Attention> findFansByAttention(int aid);
+  public Attention findFans(Attention attention);
   
   /**  
    * @Title: findFansCount

@@ -6,21 +6,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
   <!-- 添加喜欢信息 -->
   <insert id="addEnjoy" parameterType="blog.home.model.Enjoy">
-    INSERT INTO blog_enjoy (user_id,article_id)
-    VLAUE(#{user_id},#{article_id})
+    INSERT INTO blog_enjoy (user_id,article_id) 
+    VALUE(#{user_id},#{article_id})
   </insert>
   
   <!-- 删除喜欢信息 -->
-  <delete id="deleteEnjoy" parameterType="blog.home.model.Enjoy">
+  <delete id="deleteEnjoy" parameterType="int">
     DELETE FROM blog_enjoy
-    WHERE user_id=#{user_id} AND article_id=#{article_id}
+    WHERE id=#{id}
   </delete>
   
-  <!-- 根据文章ID查找所有喜欢人Id -->
-  <select id="findEnjoyByArticle" parameterType="int" resultType="blog.home.model.Enjoy">
+  <!-- 根据文章ID和用户ID查找喜欢详情 -->
+  <select id="findEnjoy" parameterType="blog.home.model.Enjoy" resultType="blog.home.model.Enjoy">
     SELECT * 
     FROM blog_enjoy
-    WHERE article_id=#{aid}
+    WHERE article_id=#{article_id} AND user_id=#{user_id}
   </select>
   
   <!-- 根据文章ID查找喜欢的人的数量 -->

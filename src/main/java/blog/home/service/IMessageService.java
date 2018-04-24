@@ -8,6 +8,14 @@ import blog.home.model.MessageUser;
 public interface IMessageService {
   
   /**  
+   * @Title: keepSecretMessage
+   * @Description: 保存信息为存稿
+   * @return void
+   * @throws
+   */
+  public void keepMessage(Message message);
+  
+  /**  
    * @Title: sendSecretMessage
    * @Description: 发送私信
    * @return void
@@ -48,20 +56,20 @@ public interface IMessageService {
   public void deleteRecipientMessage(int id);
   
   /**  
-   * @Title: updateRecipientMessage
-   * @Description: 根据信息详情ID修改信息状态为已读
+   * @Title: AllMessageRead
+   * @Description: 根据信息详情ID 把信息全部标记为已读
    * @return void
    * @throws
    */
-  public void updateRecipientMessage(int id);
+  public void AllMessageRead(List<Integer> idList);
   
   /**  
    * @Title: findMessage
-   * @Description: 根据 信息内容ID 查询信息内容 
+   * @Description: 查询信息内容 
    * @return Message
    * @throws
    */
-  public Message findMessage(int id);
+  public MessageUser findMessage(int id);
   
   /**  
    * @Title: findSecretMessage
@@ -118,5 +126,21 @@ public interface IMessageService {
    * @throws
    */
   public int findSysCount(int uid);
+  
+  /**  
+   * @Title: findDraft
+   * @Description: 根据用户查找草稿
+   * @return List<Message>
+   * @throws
+   */
+  public List<Message> findDraft(int sender);
+  
+  /**  
+   * @Title: findDraftDetail
+   * @Description: 根据草稿ID查找草稿详情
+   * @return Message
+   * @throws
+   */
+  public Message findDraftDetail(int id);
 
 }

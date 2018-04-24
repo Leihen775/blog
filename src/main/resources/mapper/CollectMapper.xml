@@ -34,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   </update>
   
   <!-- 根据 用户ID 查询用户的文章收藏简略信息 -->
-  <select id="findCollectByUser" parameterType="int" resultMap="blog.home.model.Collect">
+  <select id="findCollectByUser" parameterType="int" resultType="blog.home.model.Collect">
     SELECT id,title
     FROM blog_collect
     WHERE user_id=#{uid}
@@ -48,8 +48,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   </select>
   
   <!-- 根据 文章收藏ID 查找用户的文章收藏信息 -->
-  <select id="findCollectById" parameterType="int" resultMap="blog.home.model.Collect">
-    SELECT id,title,url
+  <select id="findCollectById" parameterType="int" resultType="blog.home.model.Collect">
+    SELECT *
     FROM blog_collect
     WHERE id=#{cid}
   </select>

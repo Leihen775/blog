@@ -38,24 +38,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     where id=#{id}
   </update>
   
-  <!-- 查找所有文章类型(根据code升序排列) -->
-  <select id="findAllCategoryCode" resultType="blog.home.model.Category">
-    select * from blog_category order by Code ASC
+  <!-- 查找所有文章类型(根据id升序排列) -->
+  <select id="findAllCategoryId" resultType="blog.home.model.Category">
+    select * from blog_category order by id ASC
   </select>
   
-  <!-- 查找所有文章类型(根据code降序排列) -->
-  <select id="findAllCategoryCodeDesc" resultType="blog.home.model.Category">
-    select * from blog_category order by Code DESC
+  <!-- 查找所有文章类型(根据code升序排列) -->
+  <select id="findAllCategoryCode" resultType="blog.home.model.Category">
+    select * from blog_category order by code ASC
   </select>
   
   <!-- 查找所有文章类型(根据名称升序排列) -->
   <select id="findAllCategoryName" resultType="blog.home.model.Category">
     select * from blog_category order by name ASC
-  </select>
-  
-  <!-- 查找所有文章类型(根据名称降序排列) -->
-  <select id="findAllCategoryNameDesc" resultType="blog.home.model.Category">
-    select * from blog_category order by name DESC
   </select>
   
   <!-- 根据ID查找文章类型 -->

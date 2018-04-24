@@ -1,7 +1,5 @@
 package blog.home.dao;
 
-import java.util.List;
-
 import blog.home.model.Enjoy;
 
 /**  
@@ -26,15 +24,15 @@ public interface EnjoyMapper {
    * @return void
    * @throws
    */
-  public void deleteEnjoy(Enjoy enjoy);
+  public void deleteEnjoy(int id);
   
   /**  
    * @Title: findEnjoyByArticle
-   * @Description: 根据文章ID查找所有喜欢人Id
-   * @return List<Enjoy>
+   * @Description: 根据文章ID和用户ID查找喜欢详情
+   * @return Enjoy
    * @throws
    */
-  public List<Enjoy> findEnjoyByArticle(int aid);
+  public Enjoy findEnjoy(Enjoy enjoy);
   
   /**  
    * @Title: findCountByArticle

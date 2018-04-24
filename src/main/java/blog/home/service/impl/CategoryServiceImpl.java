@@ -46,13 +46,11 @@ public class CategoryServiceImpl implements ICategoryService {
   @Override
   public List<Category> findAllCategory(String sortCode) {
     if(sortCode=="0") {
-      return categoryMapper.findAllCategoryCode();
+      return categoryMapper.findAllCategoryId();
     }else if(sortCode=="1") {
-      return categoryMapper.findAllCategoryCodeDesc();
+      return categoryMapper.findAllCategoryCode();
     }else if(sortCode=="2") {
       return categoryMapper.findAllCategoryName();
-    }else if(sortCode=="3") {
-      return categoryMapper.findAllCategoryNameDesc();
     }
     return null;
   }
