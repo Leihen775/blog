@@ -4,4 +4,58 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="blog.home.dao.AnswerMapper">
   
+  <!-- 提交回答 -->
+  <insert id="addAnswer" parameterType="blog.home.model.Answer">
+    INSERT INTO sys_answer (content,publish_time,question_id,questioner_uid,responder_id,pid)
+    VALUE(#{content},#{publishTime},#{questionId},#{questionerUid},#{responderId},#{pid})
+  </insert>
+  
+  <!-- 删除回答 -->
+  <delete id="deleteAnswer" parameterType="int">
+    DELETE FROM sys_answer WHERE id=#{id}
+  </delete>
+  
+  <!-- 根据问题ID删除回答 -->
+  <delete id="deleteByQuestion" parameterType="int">
+    DELETE FROM sys_answer WHERE question_id=#{qid}
+  </delete>
+  
+  <!-- 根据问题ID批量删除回答 -->
+  <delete id="deleteByQuestionBatch" parameterType="java.util.List">
+    DELETE FROM sys_answer WHERE
+    <foreach collection="list" item="qid" separator="OR">
+      question_id=#{qid}
+    </foreach>
+  </delete>
+  
+  <!-- 查询回答 -->
+  <select id="findAnswerByQid" parameterType="int" resultMap="answerResult">
+    SELECT a.*,b.username,b.image_path
+    FROM sys_answer a,user_info b
+    WHERE a.question_id=#{qid} AND b.id=a.responder_id AND pid=0
+    ORDER BY publish_time DESC
+  </select>
+  
+  <!-- 查询回答的回复 -->
+  <select id="findReplyAnswerByQid" parameterType="int" resultMap="answerResult">
+    SELECT a.*,b.username,b.image_path
+    FROM sys_answer a,user_info b
+    WHERE a.question_id=#{qid} AND b.id=a.responder_id AND pid!=0
+    ORDER BY publish_time ASC
+  </select>
+  
+  <resultMap type="blog.home.model.Answer" id="answerResult">
+    <result column="id" property="id"/>
+    <result column="content" property="content"/>
+    <result column="publish_time" property="publishTime"/>
+    <result column="question_id" property="questionId"/>
+    <result column="questionwer_uid" property="questionerUid"/>
+    <result column="pid" property="pid"/>
+    <association property="userInfo" javaType="blog.home.model.UserInfo">
+      <result column="responder_id" property="id"/>
+      <result column="username" property="username"/>
+      <result column="image_path" property="image_path"/>
+    </association>
+  </resultMap>
+  
 </mapper>

@@ -20,11 +20,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     UPDATE sys_question SET answercount=answercount+1 WHERE id=#{id}
   </update>
   
-  <!-- 同问数+1 -->
-  <update id="addSameCount" parameterType="int">
-    UPDATE sys_question SET samecount=samecount+1 WHERE id=#{id}
-  </update>
-  
   <!-- 删除问题 -->
   <update id="deleteQuestion" parameterType="int">
     UPDATE sys_question SET state=2 WHERE id=#{id}
@@ -43,53 +38,62 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     UPDATE sys_question SET answercount=answercount-1 WHERE id=#{id}
   </update>
   
-  <!-- 同问数-1 -->
-  <update id="minusSameCount" parameterType="int">
-    UPDATE sys_question SET samecount=samecount-1 WHERE id=#{id}
-  </update>
-  
   <!-- 修改问题 -->
   <update id="updateQuestion" parameterType="blog.home.model.Question">
-  
+    UPDATE sys_question 
+    <set>
+      <include refid="UPDATE_QUESTION_SET"></include>
+    </set>
+    WHERE id=#{id}
   </update>
   
   <!-- 查询问题详细信息 -->
   <select id="findQuestion" parameterType="int" resultMap="questionResult">
-    
+    SELECT a.*,b.username,b.image_path
+    FROM sys_question a,user_info b
+    WHERE a.id=#{id} AND b.id=a.user_id
   </select>
   
   <!-- 查询问题简略信息 -->
-  <select id="findAllQuestion" resultMap="briefQuestionResult">
-  
+  <select id="findAllQuestion" resultMap="questionResult">
+    SELECT a.*,b.username,b.image_path
+    FROM sys_question a,user_info b
+    WHERE b.id=a.user_id
+    ORDER BY publish_time DESC
   </select>
   
   <!-- 根据 问题标题 模糊查询问题简略信息 -->
   <select id="findQuestionByTitle" parameterType="String" resultMap="questionResult">
-  
+    SELECT a.*,b.username,b.image_path
+    FROM sys_question a,user_info b
+    WHERE a.title LIKE "%"#{title}"%" AND b.id=a.user_id
   </select>
   
   <!-- 根据用户Id查询问题 -->
   <select id="findQuestionByUser" parameterType="int" resultMap="questionResult">
-  
+    SELECT a.*,b.username,b.image_path
+    FROM sys_question a,user_info b
+    WHERE a.user_id=#{uid} AND b.id=a.user_id
+    ORDER BY publish_time DESC
   </select>
   
   <!-- 查询浏览数 -->
   <select id="findClickCount" parameterType="int">
-  
+    SELECT clickcount FROM sys_question WHERE id=#{id}
   </select>
   
   <!-- 查询回答数 -->
   <select id="findAnswerCount" parameterType="int">
-  
-  </select>
-  
-  <!-- 查询同问数 -->
-  <select id="findSameCount" parameterType="int">
-  
+    SELECT answercount FROM sys_question WHERE id=#{id}
   </select>
   
   <sql id="UPDATE_QUESTION_SET">
-  
+    <if test="title!=null and title!=''">title=#{title},</if>
+    <if test="content!=null and content!=''">content=#{content},</if>
+    <if test="publishTime!=null">publish_time=#{publishTime},</if>
+    <if test="clickCount!=null and clickCount!=''">clickcount=#{clickCount},</if>
+    <if test="answerCount!=null and answerCountt!=''">answercount=#{answerCount},</if>
+    <if test="state!=null and state!=''">state=#{state},</if>
   </sql>
   
   <resultMap type="blog.home.model.Question" id="questionResult">

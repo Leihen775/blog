@@ -15,7 +15,6 @@ public class Question {
   private Date publishTime;
   private int clickCount;
   private int answerCount;
-  private int sameCount;
   private int state;
   private int userId;
   private UserInfo userInfo;

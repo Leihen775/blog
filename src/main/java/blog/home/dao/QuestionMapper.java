@@ -37,14 +37,6 @@ public interface QuestionMapper {
   public void addAnswerCount(int id);
   
   /**  
-   * @Title: addSameCount
-   * @Description: 同问数+1
-   * @return void
-   * @throws
-   */
-  public void addSameCount(int id);
-  
-  /**  
    * @Title: deleteQuestion
    * @Description: 删除问题
    * @return void
@@ -67,14 +59,6 @@ public interface QuestionMapper {
    * @throws
    */
   public void minusAnswerCount(int id);
-  
-  /**  
-   * @Title: minusSameCount
-   * @Description: 同问数-1
-   * @return void
-   * @throws
-   */
-  public void minusSameCount(int id);
   
   /**  
    * @Title: updateQuestion
@@ -132,13 +116,5 @@ public interface QuestionMapper {
    * @throws
    */
   public int findAnswerCount(int id);
-  
-  /**  
-   * @Title: findSameCount
-   * @Description: 查询同问数
-   * @return int
-   * @throws
-   */
-  public int findSameCount(int id);
 
 }
