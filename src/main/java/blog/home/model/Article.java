@@ -17,7 +17,7 @@ import lombok.Data;
 @Data
 public class Article {
   private int id;
-  private int publishSort;
+  private int type;
   private String title;
   private String content;
   private int categoryId;

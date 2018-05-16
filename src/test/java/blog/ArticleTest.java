@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.util.ByteSource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,4 +102,16 @@ public class ArticleTest {
       System.out.println(a);
     }
   }
+  
+  //用来测试的算出密码password盐值加密后的结果，下面方法用于新增用户添加到数据库操作的，我这里就直接用main获得，直接数据库添加了，省时间
+  @Test
+  public void ddt() {
+       String hashAlgorithmName = "MD5";
+       ByteSource salt=ByteSource.Util.bytes("3309");
+       System.out.println(salt);
+       String credentials = "01";
+       int hashIterations = 1024;            
+       Object result = new SimpleHash(hashAlgorithmName, credentials, salt, hashIterations);
+       System.out.println(result);
+   }
 }

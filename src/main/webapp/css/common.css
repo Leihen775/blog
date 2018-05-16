@@ -1,0 +1,20 @@
+body{
+  margin: 0;
+  padding: 0;
+}
+
+.meau-gotop-box{
+	position: fixed; 
+	bottom:70px; right: 35px;
+	width: 45px;height: 45px;
+}
+.meau-gotop-box a{
+	display: block;
+	width: 100%;height: 100%;
+	padding: 15px;
+	color: #FFFFFF;
+	background-color: #CCCCCC;
+}
+.meau-gotop-box a:hover{
+	background-color: #C92027;
+}

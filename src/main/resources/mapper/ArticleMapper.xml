@@ -8,9 +8,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <insert id="addArticle" parameterType="blog.home.model.Article" 
           useGeneratedKeys="true" keyProperty="id" keyColumn="id">
     INSERT INTO blog_article 
-    (publishsort,title,content,category_id,publish_time,clickcount,enjoycount,commentcount,state,
+    (type,title,content,category_id,publish_time,clickcount,enjoycount,commentcount,state,
     is_private,user_id)
-    VALUE(#{publishSort},#{title},#{content},#{categoryId},#{publishTime},#{clickCount},#{enjoyCount},
+    VALUE(#{type},#{title},#{content},#{categoryId},#{publishTime},#{clickCount},#{enjoyCount},
     #{commentCount},#{state},#{is_private},#{userId})
   </insert>
   
@@ -149,7 +149,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   </select>
   
   <sql id="UPDATE_ARTICLE_SET">
-    <if test="publishSort!=null and publishSort!=''">publishsort=#{publishSort},</if>
+    <if test="type!=null and type!=''">type=#{type},</if>
     <if test="title!=null and title!=''">title=#{title},</if>
     <if test="content!=null and content!=''">content=#{content},</if>
     <if test="categoryId!=null and categoryId!=''">category_id=#{categoryId},</if>
@@ -164,7 +164,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   
   <resultMap type="blog.home.model.Article" id="articleResult">
       <result column="id" property="id"/>
-      <result column="publishsort" property="publishSort"/>
+      <result column="type" property="type"/>
       <result column="title" property="title"/>
       <result column="content" property="content"/>
       <result column="publish_time" property="publishTime"/>

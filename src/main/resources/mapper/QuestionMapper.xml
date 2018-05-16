@@ -6,28 +6,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
   <!-- 提出问题 -->
   <insert id="addQuestion" parameterType="blog.home.model.Question">
-    INSERT INTO sys_question (title,content,publish_time,state,user_id)
+    INSERT INTO blog_question (title,content,publish_time,state,user_id)
     VALUE(#{title},#{content},#{publishTime},#{state},#{userId})
   </insert>
   
   <!-- 浏览一次问题 -->
   <update id="addClickCount" parameterType="int">
-    UPDATE sys_question SET clickcount=clickcount+1 WHERE id=#{id}
+    UPDATE blog_question SET clickcount=clickcount+1 WHERE id=#{id}
   </update>
   
   <!-- 回答一次问题 -->
   <update id="addAnswerCount" parameterType="int">
-    UPDATE sys_question SET answercount=answercount+1 WHERE id=#{id}
+    UPDATE blog_question SET answercount=answercount+1 WHERE id=#{id}
   </update>
   
   <!-- 删除问题 -->
   <update id="deleteQuestion" parameterType="int">
-    UPDATE sys_question SET state=2 WHERE id=#{id}
+    UPDATE blog_question SET state=2 WHERE id=#{id}
   </update>
   
   <!-- 批量删除问题 -->
   <update id="deleteQuestionBatch" parameterType="java.util.List">
-    UPDATE sys_question SET state=2 WHERE
+    UPDATE blog_question SET state=2 WHERE
     <foreach collection="list" item="id" separator="OR">
       id=#{id}
     </foreach>
@@ -35,12 +35,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   
   <!-- 回答数-1 -->
   <update id="minusAnswerCount" parameterType="int">
-    UPDATE sys_question SET answercount=answercount-1 WHERE id=#{id}
+    UPDATE blog_question SET answercount=answercount-1 WHERE id=#{id}
   </update>
   
   <!-- 修改问题 -->
   <update id="updateQuestion" parameterType="blog.home.model.Question">
-    UPDATE sys_question 
+    UPDATE blog_question 
     <set>
       <include refid="UPDATE_QUESTION_SET"></include>
     </set>
@@ -50,14 +50,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <!-- 查询问题详细信息 -->
   <select id="findQuestion" parameterType="int" resultMap="questionResult">
     SELECT a.*,b.username,b.image_path
-    FROM sys_question a,user_info b
+    FROM blog_question a,user_info b
     WHERE a.id=#{id} AND b.id=a.user_id
   </select>
   
   <!-- 查询问题简略信息 -->
   <select id="findAllQuestion" resultMap="questionResult">
     SELECT a.*,b.username,b.image_path
-    FROM sys_question a,user_info b
+    FROM blog_question a,user_info b
     WHERE b.id=a.user_id
     ORDER BY publish_time DESC
   </select>
@@ -65,26 +65,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <!-- 根据 问题标题 模糊查询问题简略信息 -->
   <select id="findQuestionByTitle" parameterType="String" resultMap="questionResult">
     SELECT a.*,b.username,b.image_path
-    FROM sys_question a,user_info b
+    FROM blog_question a,user_info b
     WHERE a.title LIKE "%"#{title}"%" AND b.id=a.user_id
   </select>
   
   <!-- 根据用户Id查询问题 -->
   <select id="findQuestionByUser" parameterType="int" resultMap="questionResult">
     SELECT a.*,b.username,b.image_path
-    FROM sys_question a,user_info b
+    FROM blog_question a,user_info b
     WHERE a.user_id=#{uid} AND b.id=a.user_id
     ORDER BY publish_time DESC
   </select>
   
   <!-- 查询浏览数 -->
   <select id="findClickCount" parameterType="int">
-    SELECT clickcount FROM sys_question WHERE id=#{id}
+    SELECT clickcount FROM blog_question WHERE id=#{id}
   </select>
   
   <!-- 查询回答数 -->
   <select id="findAnswerCount" parameterType="int">
-    SELECT answercount FROM sys_question WHERE id=#{id}
+    SELECT answercount FROM blog_question WHERE id=#{id}
   </select>
   
   <sql id="UPDATE_QUESTION_SET">

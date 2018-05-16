@@ -18,6 +18,7 @@ public class UserInfo {
   private int id;
   private String accountNum;
   private String username;
+  private String nickname;
   private String password;
   private String realname;
   private String job;
@@ -40,4 +41,5 @@ public class UserInfo {
   private Trade trade; //用户行业信息
   private List<Attention> attentionList; //用户关注信息
   private List<Collect> collectList; //用户收藏信息
+  private List<Permission> permissionList;//用户权限 
 }

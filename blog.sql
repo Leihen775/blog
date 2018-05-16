@@ -10,10 +10,29 @@ Target Server Type    : MYSQL
 Target Server Version : 50716
 File Encoding         : 65001
 
-Date: 2018-04-24 23:02:25
+Date: 2018-05-16 08:43:28
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for blog_answer
+-- ----------------------------
+DROP TABLE IF EXISTS `blog_answer`;
+CREATE TABLE `blog_answer` (
+  `id` int(11) NOT NULL COMMENT '回答表ID',
+  `content` text COMMENT '内容',
+  `publish_time` datetime DEFAULT NULL COMMENT '发布时间',
+  `question_id` int(11) DEFAULT NULL COMMENT '问题ID',
+  `questioner_uid` int(11) DEFAULT NULL COMMENT '提问者ID',
+  `responder_id` int(11) DEFAULT NULL COMMENT '回答者ID',
+  `pid` int(11) DEFAULT NULL COMMENT '父级回答',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of blog_answer
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for blog_article
@@ -21,7 +40,7 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `blog_article`;
 CREATE TABLE `blog_article` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '博客ID',
-  `publishsort` int(1) DEFAULT NULL COMMENT '发布类别(0:原创,1:转载,2:翻译)',
+  `type` int(1) DEFAULT NULL COMMENT '发布类别(0:原创,1:转载,2:翻译)',
   `title` varchar(32) DEFAULT NULL COMMENT '博客标题',
   `content` text COMMENT '博客内容',
   `category_id` int(11) DEFAULT NULL COMMENT '博客分类ID',
@@ -35,22 +54,23 @@ CREATE TABLE `blog_article` (
   PRIMARY KEY (`id`),
   KEY `ba_categoryID` (`category_id`),
   KEY `ba_userID` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blog_article
 -- ----------------------------
 INSERT INTO `blog_article` VALUES ('15', '0', '第一条数据', '这是添加的第一条测试数据', '2', '2018-04-21 14:35:31', '89', '0', '0', '0', '0', '3');
-INSERT INTO `blog_article` VALUES ('16', '0', '第二条数据', '这是添加的第二条测试数据', '5', '2018-04-21 14:36:45', '115', '2', '0', '0', '0', '5');
-INSERT INTO `blog_article` VALUES ('17', '0', '第三条数据', '这是添加的第三条测试数据', '3', '2018-04-21 14:37:34', '22', '0', '5', '0', '0', '5');
+INSERT INTO `blog_article` VALUES ('16', '0', '第二条数据', '这是添加的第二条测试数据', '5', '2018-04-21 14:36:45', '115', '3', '0', '0', '0', '5');
+INSERT INTO `blog_article` VALUES ('17', '0', '第三条数据', '这是添加的第三条测试数据', '3', '2018-04-21 14:37:34', '22', '0', '6', '0', '0', '5');
 INSERT INTO `blog_article` VALUES ('18', '0', '第四条数据', '这是添加的第四条数据', '2', '2018-04-22 14:05:33', '234', '0', '0', '0', '0', '7');
 INSERT INTO `blog_article` VALUES ('19', '1', '第五条数据', '这是添加的第五条测试数据', '1', '2018-04-22 08:32:08', '324', '1', '0', '0', '0', '9');
 INSERT INTO `blog_article` VALUES ('20', '0', '第六条数据', '这是添加的第六条数据', '4', '2018-04-22 18:33:43', '556', '1', '0', '0', '0', '6');
 INSERT INTO `blog_article` VALUES ('21', '0', '第七条数据', '这是添加的第七条数据', '9', '2018-04-23 08:34:42', '225', '0', '0', '0', '0', '2');
 INSERT INTO `blog_article` VALUES ('22', '0', '第八条数据', '这是添加的第八条数据', '7', '2018-04-23 09:35:35', '174', '0', '0', '0', '0', '7');
-INSERT INTO `blog_article` VALUES ('23', '0', '第九条数据', '这是添加的第九条数据', '6', '2018-04-23 10:37:16', '113', '0', '0', '0', '0', '1');
+INSERT INTO `blog_article` VALUES ('23', '0', '第九条数据', '这是添加的第九条数据', '6', '2018-04-23 10:37:16', '114', '0', '0', '0', '0', '1');
 INSERT INTO `blog_article` VALUES ('24', '0', '第十条数据', '这是添加的第十条数据', '8', '2018-04-23 11:37:22', '119', '0', '0', '0', '0', '11');
 INSERT INTO `blog_article` VALUES ('25', '0', '第十一条数据', '这是添加的第十一条数据', '5', '2018-04-23 12:37:27', '52', '0', '0', '0', '0', '4');
+INSERT INTO `blog_article` VALUES ('26', '0', '绗笁鏉℃暟鎹�', '杩欐槸娣诲姞鐨勭涓夋潯娴嬭瘯鏁版嵁', '0', '2018-05-13 14:39:39', '0', '0', '0', '0', '0', '0');
 
 -- ----------------------------
 -- Table structure for blog_article_tag
@@ -63,7 +83,7 @@ CREATE TABLE `blog_article_tag` (
   PRIMARY KEY (`id`),
   KEY `bat_articleID` (`article_id`),
   KEY `bat_tagID` (`tag_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blog_article_tag
@@ -82,8 +102,10 @@ INSERT INTO `blog_article_tag` VALUES ('16', '22', '4');
 INSERT INTO `blog_article_tag` VALUES ('19', '24', '1');
 INSERT INTO `blog_article_tag` VALUES ('20', '25', '1');
 INSERT INTO `blog_article_tag` VALUES ('21', '25', '4');
-INSERT INTO `blog_article_tag` VALUES ('24', '23', '2');
-INSERT INTO `blog_article_tag` VALUES ('25', '23', '3');
+INSERT INTO `blog_article_tag` VALUES ('26', '26', '3');
+INSERT INTO `blog_article_tag` VALUES ('27', '26', '4');
+INSERT INTO `blog_article_tag` VALUES ('28', '23', '2');
+INSERT INTO `blog_article_tag` VALUES ('29', '23', '3');
 
 -- ----------------------------
 -- Table structure for blog_category
@@ -102,13 +124,10 @@ CREATE TABLE `blog_category` (
 INSERT INTO `blog_category` VALUES ('1', '人工智能', '1201');
 INSERT INTO `blog_category` VALUES ('2', '云计算/大数据', '1202');
 INSERT INTO `blog_category` VALUES ('3', '区块链', '1203');
-INSERT INTO `blog_category` VALUES ('4', '数据库', '1204');
 INSERT INTO `blog_category` VALUES ('5', '程序人生', '1205');
-INSERT INTO `blog_category` VALUES ('6', '游戏开发', '1206');
-INSERT INTO `blog_category` VALUES ('7', '研发管理', '1207');
 INSERT INTO `blog_category` VALUES ('8', '前端', '1208');
 INSERT INTO `blog_category` VALUES ('9', '移动开发', '1209');
-INSERT INTO `blog_category` VALUES ('10', '物联网', '1210');
+INSERT INTO `blog_category` VALUES ('10', '鐗╄仈缃�', '1210');
 
 -- ----------------------------
 -- Table structure for blog_collect
@@ -123,12 +142,12 @@ CREATE TABLE `blog_collect` (
   PRIMARY KEY (`id`),
   KEY `bco_userID` (`user_id`),
   KEY `bco_articleID` (`article_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blog_collect
 -- ----------------------------
-INSERT INTO `blog_collect` VALUES ('4', '张晓菲收藏的第一条文章', 'http://www.', '3', '18');
+INSERT INTO `blog_collect` VALUES ('5', '寮犳檽鑿叉敹钘忕殑绗簩鏉℃枃绔�', 'http://www.', '3', '18');
 
 -- ----------------------------
 -- Table structure for blog_comment
@@ -147,7 +166,7 @@ CREATE TABLE `blog_comment` (
   KEY `bc_getuserid` (`recipient_uid`),
   KEY `bc_pid` (`pid`),
   KEY `bc_userid` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blog_comment
@@ -157,6 +176,7 @@ INSERT INTO `blog_comment` VALUES ('2', '马斐的一次评论', '2018-04-24 19:
 INSERT INTO `blog_comment` VALUES ('3', '二级评论', '2018-04-24 19:19:38', '17', '9', '2', '1');
 INSERT INTO `blog_comment` VALUES ('4', '三级级评论', '2018-04-24 19:20:20', '17', '3', '9', '1');
 INSERT INTO `blog_comment` VALUES ('5', '回复马斐', '2018-04-24 19:57:27', '17', '7', '6', '2');
+INSERT INTO `blog_comment` VALUES ('6', '鍥炲椹枑', '2018-05-13 14:39:41', '17', '7', '6', '2');
 
 -- ----------------------------
 -- Table structure for blog_enjoy
@@ -167,7 +187,7 @@ CREATE TABLE `blog_enjoy` (
   `user_id` int(11) DEFAULT NULL COMMENT '文章喜欢人ID',
   `article_id` int(11) DEFAULT NULL COMMENT '文章ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blog_enjoy
@@ -176,6 +196,27 @@ INSERT INTO `blog_enjoy` VALUES ('2', '3', '16');
 INSERT INTO `blog_enjoy` VALUES ('3', '3', '19');
 INSERT INTO `blog_enjoy` VALUES ('4', '3', '20');
 INSERT INTO `blog_enjoy` VALUES ('5', '4', '16');
+INSERT INTO `blog_enjoy` VALUES ('6', '4', '16');
+
+-- ----------------------------
+-- Table structure for blog_question
+-- ----------------------------
+DROP TABLE IF EXISTS `blog_question`;
+CREATE TABLE `blog_question` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '问题表ID',
+  `title` varchar(64) DEFAULT NULL COMMENT '问题标题',
+  `content` text COMMENT '问题内容',
+  `publish_time` datetime DEFAULT NULL COMMENT '发布时间',
+  `clickcount` int(11) DEFAULT '0' COMMENT '浏览次数',
+  `answercount` int(11) DEFAULT '0' COMMENT '回答次数',
+  `state` int(1) DEFAULT NULL COMMENT '状态(0:未解决,1:已解决,2:已删除,)',
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of blog_question
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for blog_tag
@@ -187,7 +228,7 @@ CREATE TABLE `blog_tag` (
   `user_id` int(11) DEFAULT NULL COMMENT '用户ID',
   PRIMARY KEY (`id`),
   KEY `bt_userid` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blog_tag
@@ -196,25 +237,6 @@ INSERT INTO `blog_tag` VALUES ('1', 'java', '1');
 INSERT INTO `blog_tag` VALUES ('2', 'spring', '1');
 INSERT INTO `blog_tag` VALUES ('3', 'mybatis', '1');
 INSERT INTO `blog_tag` VALUES ('4', 'springMVC', '1');
-
--- ----------------------------
--- Table structure for sys_answer
--- ----------------------------
-DROP TABLE IF EXISTS `sys_answer`;
-CREATE TABLE `sys_answer` (
-  `id` int(11) NOT NULL COMMENT '回答表ID',
-  `content` text COMMENT '内容',
-  `publish_time` datetime DEFAULT NULL COMMENT '发布时间',
-  `question_id` int(11) DEFAULT NULL COMMENT '问题ID',
-  `questioner_id` int(11) DEFAULT NULL COMMENT '提问者ID',
-  `responder_id` int(11) DEFAULT NULL COMMENT '回答者ID',
-  `pid` int(11) DEFAULT NULL COMMENT '父级回答',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of sys_answer
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_message
@@ -227,17 +249,21 @@ CREATE TABLE `sys_message` (
   `sender_id` int(11) DEFAULT NULL COMMENT '发信者ID',
   `state` int(1) DEFAULT NULL COMMENT '发送者信息存在状态(0:草稿 ,1:已发送,2:已删除)',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_message
 -- ----------------------------
-INSERT INTO `sys_message` VALUES ('1', '李华发给赵飞燕的一条私信', '2018-04-24 16:05:18', '2', '1');
+INSERT INTO `sys_message` VALUES ('1', '李华发给赵飞燕的一条私信', '2018-04-24 16:05:18', '2', '2');
 INSERT INTO `sys_message` VALUES ('2', '赵宇发给赵飞燕的一条私信', '2018-04-24 16:06:18', '7', '1');
 INSERT INTO `sys_message` VALUES ('5', '系统发给赵飞燕的一条私信', '2018-04-24 16:13:26', '13', '1');
 INSERT INTO `sys_message` VALUES ('6', '系统发给所有人的一条私信', '2018-04-24 16:14:21', '13', '1');
 INSERT INTO `sys_message` VALUES ('7', '吴刚发给张晓菲的一条私信', '2018-04-24 17:38:57', '10', '1');
 INSERT INTO `sys_message` VALUES ('8', '系统发给赵飞燕的一条私信', '2018-04-24 17:58:25', '0', '0');
+INSERT INTO `sys_message` VALUES ('9', '绯荤粺鍙戠粰璧甸鐕曠殑涓�鏉＄淇�', '2018-05-13 14:39:41', '0', '0');
+INSERT INTO `sys_message` VALUES ('10', '鍚村垰鍙戠粰寮犳檽鑿茬殑涓�鏉＄淇�', '2018-05-13 14:39:41', '10', '1');
+INSERT INTO `sys_message` VALUES ('11', '绯荤粺鍙戠粰璧甸鐕曠殑涓�鏉＄淇�', '2018-05-13 14:39:41', '0', '1');
+INSERT INTO `sys_message` VALUES ('12', '绯荤粺鍙戠粰鎵�鏈変汉鐨勪竴鏉＄淇�', '2018-05-13 14:39:41', '0', '1');
 
 -- ----------------------------
 -- Table structure for sys_message_user
@@ -252,7 +278,7 @@ CREATE TABLE `sys_message_user` (
   PRIMARY KEY (`id`),
   KEY `smu_userID` (`recipient_uid`),
   KEY `smu_messageID` (`message_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_message_user
@@ -273,6 +299,20 @@ INSERT INTO `sys_message_user` VALUES ('14', '10', '6', '1', '0');
 INSERT INTO `sys_message_user` VALUES ('15', '11', '6', '1', '0');
 INSERT INTO `sys_message_user` VALUES ('16', '12', '6', '1', '0');
 INSERT INTO `sys_message_user` VALUES ('17', '3', '7', '0', '0');
+INSERT INTO `sys_message_user` VALUES ('18', '3', '10', '0', '0');
+INSERT INTO `sys_message_user` VALUES ('19', '5', '11', '1', '0');
+INSERT INTO `sys_message_user` VALUES ('20', '1', '12', '1', '0');
+INSERT INTO `sys_message_user` VALUES ('21', '2', '12', '1', '0');
+INSERT INTO `sys_message_user` VALUES ('22', '3', '12', '1', '0');
+INSERT INTO `sys_message_user` VALUES ('23', '4', '12', '1', '0');
+INSERT INTO `sys_message_user` VALUES ('24', '5', '12', '1', '0');
+INSERT INTO `sys_message_user` VALUES ('25', '6', '12', '1', '0');
+INSERT INTO `sys_message_user` VALUES ('26', '7', '12', '1', '0');
+INSERT INTO `sys_message_user` VALUES ('27', '8', '12', '1', '0');
+INSERT INTO `sys_message_user` VALUES ('28', '9', '12', '1', '0');
+INSERT INTO `sys_message_user` VALUES ('29', '10', '12', '1', '0');
+INSERT INTO `sys_message_user` VALUES ('30', '11', '12', '1', '0');
+INSERT INTO `sys_message_user` VALUES ('31', '12', '12', '1', '0');
 
 -- ----------------------------
 -- Table structure for sys_permission
@@ -280,34 +320,17 @@ INSERT INTO `sys_message_user` VALUES ('17', '3', '7', '0', '0');
 DROP TABLE IF EXISTS `sys_permission`;
 CREATE TABLE `sys_permission` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '权限ID',
-  `name` varchar(255) DEFAULT NULL COMMENT '权限名称',
+  `permission` varchar(255) DEFAULT NULL COMMENT '权限名称',
+  `url` varchar(255) DEFAULT NULL COMMENT '地址链接',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_permission
 -- ----------------------------
-
--- ----------------------------
--- Table structure for sys_question
--- ----------------------------
-DROP TABLE IF EXISTS `sys_question`;
-CREATE TABLE `sys_question` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '问题表ID',
-  `title` varchar(64) DEFAULT NULL COMMENT '问题标题',
-  `content` text COMMENT '问题内容',
-  `publish_time` datetime DEFAULT NULL COMMENT '发布时间',
-  `clickcount` int(11) DEFAULT '0' COMMENT '浏览次数',
-  `answercount` int(11) DEFAULT '0' COMMENT '回答次数',
-  `samecount` int(11) DEFAULT '0' COMMENT '同问次数',
-  `state` int(1) DEFAULT NULL COMMENT '状态(0:未解决,1:已解决,2:已删除,)',
-  `user_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of sys_question
--- ----------------------------
+INSERT INTO `sys_permission` VALUES ('1', 'anon', '/visitor/**');
+INSERT INTO `sys_permission` VALUES ('2', 'roleOrFilter[\"user\"]', '/user/**');
+INSERT INTO `sys_permission` VALUES ('3', 'roleOrFilter[\"admin\"]', '/admin/**');
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -315,17 +338,29 @@ CREATE TABLE `sys_question` (
 DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '角色ID',
-  `name` varchar(255) DEFAULT NULL COMMENT '角色名称',
-  `rank` varchar(255) DEFAULT NULL COMMENT '角色权限',
+  `role` varchar(255) DEFAULT NULL COMMENT '角色名称',
+  `description` varchar(255) DEFAULT NULL COMMENT '角色编码',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES ('1', '系统管理员', '一级权限');
-INSERT INTO `sys_role` VALUES ('2', '注册用户', '二级权限');
-INSERT INTO `sys_role` VALUES ('3', '普通用户', '三级权限');
+
+-- ----------------------------
+-- Table structure for sys_role_permission
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_role_permission`;
+CREATE TABLE `sys_role_permission` (
+  `id` int(11) NOT NULL,
+  `role_id` int(11) DEFAULT NULL COMMENT '角色ID',
+  `permission_id` int(11) DEFAULT NULL COMMENT '权限ID',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sys_role_permission
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -353,7 +388,7 @@ CREATE TABLE `user_attention` (
   PRIMARY KEY (`id`),
   KEY `ua_attentionid` (`attention_uid`),
   KEY `ua_userid` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_attention
@@ -361,6 +396,7 @@ CREATE TABLE `user_attention` (
 INSERT INTO `user_attention` VALUES ('1', '1', '5');
 INSERT INTO `user_attention` VALUES ('3', '2', '6');
 INSERT INTO `user_attention` VALUES ('4', '2', '8');
+INSERT INTO `user_attention` VALUES ('5', '2', '8');
 
 -- ----------------------------
 -- Table structure for user_info
@@ -370,6 +406,7 @@ CREATE TABLE `user_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户信息表ID',
   `accountnum` varchar(32) DEFAULT NULL COMMENT '账号',
   `username` varchar(32) DEFAULT NULL COMMENT '用户昵称',
+  `nickname` varchar(32) DEFAULT NULL COMMENT '用户昵称',
   `password` varchar(32) DEFAULT NULL COMMENT '用户密码',
   `realname` varchar(16) DEFAULT NULL COMMENT '真实姓名',
   `job` varchar(32) DEFAULT NULL COMMENT '工作',
@@ -390,24 +427,24 @@ CREATE TABLE `user_info` (
   `enjoycount` int(11) DEFAULT '0' COMMENT '喜欢数量',
   PRIMARY KEY (`id`),
   KEY `ui_tradeid` (`trade_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_info
 -- ----------------------------
-INSERT INTO `user_info` VALUES ('1', '541413201', '王小明', '01', null, null, '0', null, '1', null, null, null, null, '0', '0', '0', '1', '0', '0', '0', '0');
-INSERT INTO `user_info` VALUES ('2', '541413202', '李华', '02', null, null, '0', null, '23', null, null, null, null, '0', '0', '0', '2', '0', '0', '1', '0');
-INSERT INTO `user_info` VALUES ('3', '541413203', '张晓菲', '03', null, null, '1', null, '15', null, null, null, null, '0', '0', '0', '0', '0', '0', '1', '3');
-INSERT INTO `user_info` VALUES ('4', '541413204', '孙严', '04', null, null, '0', null, '22', null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '1');
-INSERT INTO `user_info` VALUES ('5', '541413205', '赵飞燕', '05', null, null, '1', null, '39', null, null, null, null, '0', '0', '0', '0', '1', '0', '0', '0');
-INSERT INTO `user_info` VALUES ('6', '541413206', '马斐', '06', null, null, '0', null, '12', null, null, null, null, '0', '0', '0', '0', '1', '0', '1', '0');
-INSERT INTO `user_info` VALUES ('7', '541413207', '赵宇', '07', null, null, '0', null, '7', null, null, null, null, '0', '0', '0', '0', '0', '0', '1', '0');
-INSERT INTO `user_info` VALUES ('8', '541413208', '周德', '08', null, null, '0', null, '28', null, null, null, null, '0', '0', '0', '0', '1', '0', '0', '0');
-INSERT INTO `user_info` VALUES ('9', '541413209', '钱进', '09', null, null, '0', null, '25', null, null, null, null, '0', '0', '0', '0', '0', '0', '1', '0');
-INSERT INTO `user_info` VALUES ('10', '541413210', '吴刚', '10', null, null, '0', null, '33', null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `user_info` VALUES ('11', '541413211', '郑娇', '11', '郑娇', '学生', '1', '2018-04-24', '5', '郑州', '541413211@qq.com', null, null, '0', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `user_info` VALUES ('12', '541413212', '晓君', '12', null, null, '1', null, '9', null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `user_info` VALUES ('13', '111111', '管理员', '11', '管理员', null, '0', null, null, null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `user_info` VALUES ('1', '541413201', '王小明', '小明', '47aab2444ae2a4454c4ee9c901963aae', null, null, '0', null, '1', null, null, null, null, '0', '0', '0', '1', '0', '0', '0', '0');
+INSERT INTO `user_info` VALUES ('2', '541413202', '李华', '小华', '02', null, null, '0', null, '23', null, null, null, null, '0', '0', '0', '3', '0', '0', '1', '0');
+INSERT INTO `user_info` VALUES ('3', '541413203', '张晓菲', '晓菲', '03', null, null, '1', null, '15', null, null, null, null, '0', '0', '0', '0', '0', '0', '1', '3');
+INSERT INTO `user_info` VALUES ('4', '541413204', '孙严', '小严', '04', null, null, '0', null, '22', null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '2');
+INSERT INTO `user_info` VALUES ('5', '541413205', '赵飞燕', '飞燕', '05', null, null, '1', null, '39', null, null, null, null, '0', '0', '0', '0', '1', '0', '0', '0');
+INSERT INTO `user_info` VALUES ('6', '541413206', '马斐', '斐斐', '06', null, null, '0', null, '12', null, null, null, null, '0', '0', '0', '0', '1', '0', '1', '0');
+INSERT INTO `user_info` VALUES ('7', '541413207', '赵宇', '小宇', '07', null, null, '0', null, '7', null, null, null, null, '0', '0', '0', '0', '0', '0', '2', '0');
+INSERT INTO `user_info` VALUES ('8', '541413208', '周德', '周德', '08', null, null, '0', null, '28', null, null, null, null, '0', '0', '0', '0', '2', '0', '0', '0');
+INSERT INTO `user_info` VALUES ('9', '541413209', '钱进', '前进', '09', null, null, '0', null, '25', null, null, null, null, '0', '0', '0', '0', '0', '0', '1', '0');
+INSERT INTO `user_info` VALUES ('10', '541413210', '吴刚', '小刚', '10', null, null, '0', null, '33', null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `user_info` VALUES ('11', '541413211', '郑娇', '阿娇', '11', '郑娇', '学生', '1', '2018-04-24', '5', '郑州', '541413211@qq.com', null, null, '0', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `user_info` VALUES ('12', '541413212', '晓君', '君君', '12', null, null, '1', null, '9', null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `user_info` VALUES ('13', '111111', 'admin', 'admin', '11', '管理员', null, '0', null, null, null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '0');
 
 -- ----------------------------
 -- Table structure for user_trade
@@ -417,7 +454,7 @@ CREATE TABLE `user_trade` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) DEFAULT NULL COMMENT '行业名称',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_trade

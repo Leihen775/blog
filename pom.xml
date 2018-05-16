@@ -112,12 +112,18 @@
 	  </dependency>
 	  
 	  <dependency>
+      <groupId>com.github.pagehelper</groupId>
+      <artifactId>pagehelper</artifactId>
+      <version>4.1.6</version>
+    </dependency>
+	  
+	  <dependency>
 		  <groupId>javax.servlet</groupId>
 		  <artifactId>javax.servlet-api</artifactId>
 		  <version>4.0.0</version>
 		  <scope>provided</scope>
 		</dependency>
-	  
+
 	  <!-- shiro -->
 	  <dependency>
 	    <groupId>org.apache.shiro</groupId>
@@ -125,15 +131,25 @@
 	    <version>1.3.2</version>
 		</dependency>
 		<dependency>
-	    <groupId>org.apache.shiro</groupId>
-	    <artifactId>shiro-web</artifactId>
-	    <version>1.3.2</version>
-		</dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-ehcache</artifactId>
+      <version>1.3.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-quartz</artifactId>
+      <version>1.3.2</version>
+    </dependency>
 		<dependency>
 	    <groupId>org.apache.shiro</groupId>
 	    <artifactId>shiro-spring</artifactId>
 	    <version>1.3.2</version>
 		</dependency>
+		<dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-web</artifactId>
+      <version>1.3.2</version>
+    </dependency>
 		
 	  <!-- mysql数据库连接包 -->
 	  <dependency>
@@ -183,21 +199,16 @@
 	  
 	  <!-- jackson -->  
     <dependency>
-		  <groupId>com.fasterxml.jackson.core</groupId>
-		  <artifactId>jackson-core</artifactId>
-		  <version>2.8.9</version>
+	    <groupId>org.codehaus.jackson</groupId>
+	    <artifactId>jackson-core-asl</artifactId>
+	    <version>1.9.13</version>
 		</dependency>
 		<dependency>
-		  <groupId>com.fasterxml.jackson.core</groupId>
-		  <artifactId>jackson-databind</artifactId>
-		  <version>2.8.9</version>
+	    <groupId>org.codehaus.jackson</groupId>
+	    <artifactId>jackson-mapper-asl</artifactId>
+	    <version>1.9.13</version>
 		</dependency>
-		<dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-annotations</artifactId>
-      <version>2.8.9</version>
-    </dependency>
-	  
+  	  
     <!-- lombok -->
     <dependency>
       <groupId>org.projectlombok</groupId>

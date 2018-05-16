@@ -6,23 +6,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   
   <!-- 提交回答 -->
   <insert id="addAnswer" parameterType="blog.home.model.Answer">
-    INSERT INTO sys_answer (content,publish_time,question_id,questioner_uid,responder_id,pid)
+    INSERT INTO blog_answer (content,publish_time,question_id,questioner_uid,responder_id,pid)
     VALUE(#{content},#{publishTime},#{questionId},#{questionerUid},#{responderId},#{pid})
   </insert>
   
   <!-- 删除回答 -->
   <delete id="deleteAnswer" parameterType="int">
-    DELETE FROM sys_answer WHERE id=#{id}
+    DELETE FROM blog_answer WHERE id=#{id}
   </delete>
   
   <!-- 根据问题ID删除回答 -->
   <delete id="deleteByQuestion" parameterType="int">
-    DELETE FROM sys_answer WHERE question_id=#{qid}
+    DELETE FROM blog_answer WHERE question_id=#{qid}
   </delete>
   
   <!-- 根据问题ID批量删除回答 -->
   <delete id="deleteByQuestionBatch" parameterType="java.util.List">
-    DELETE FROM sys_answer WHERE
+    DELETE FROM blog_answer WHERE
     <foreach collection="list" item="qid" separator="OR">
       question_id=#{qid}
     </foreach>
@@ -31,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <!-- 查询回答 -->
   <select id="findAnswerByQid" parameterType="int" resultMap="answerResult">
     SELECT a.*,b.username,b.image_path
-    FROM sys_answer a,user_info b
+    FROM blog_answer a,user_info b
     WHERE a.question_id=#{qid} AND b.id=a.responder_id AND pid=0
     ORDER BY publish_time DESC
   </select>
@@ -39,7 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <!-- 查询回答的回复 -->
   <select id="findReplyAnswerByQid" parameterType="int" resultMap="answerResult">
     SELECT a.*,b.username,b.image_path
-    FROM sys_answer a,user_info b
+    FROM blog_answer a,user_info b
     WHERE a.question_id=#{qid} AND b.id=a.responder_id AND pid!=0
     ORDER BY publish_time ASC
   </select>

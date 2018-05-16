@@ -6,9 +6,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
   <!-- 添加用户信息 -->
   <insert id="addUserInfo" parameterType="blog.home.model.UserInfo">
-    INSERT INTO user_info (accountnum,username,password,realname,job,sex,birth,trade_id,address,email,
+    INSERT INTO user_info (accountnum,username,nickname,password,realname,job,sex,birth,trade_id,address,email,
     summary,image_path,birth_private,realname_private,address_private) 
-    VALUE(#{accountNum},#{username},#{password},#{realname},#{job},#{sex},#{birth},#{tradeId},#{address},
+    VALUE(#{accountNum},#{username},#{username},#{password},#{realname},#{job},#{sex},#{birth},#{tradeId},#{address},
     #{email},#{summary},#{imagePath},#{birth_private},#{realname_private},#{address_private})
   </insert>
   
@@ -94,9 +94,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   
   <!-- 根据账号或用户名查找用户简单信息 -->
   <select id="findUserByInputInfo" parameterType="String" resultType="blog.home.model.UserInfo">
-    SELECT a.id,a.accountnum,a.username,a.password
+    SELECT a.id,a.accountnum,a.username,a.nickname,a.password
     FROM user_info a 
-    WHERE accountnum=#{accountNum} OR username=#{info}
+    WHERE accountnum=#{inputInfo} OR username=#{inputInfo}
   </select>
   
   <!-- 查找关注数 -->
@@ -123,10 +123,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <select id="findEnjoyCount" parameterType="int" resultType="int">
     SELECT enjoycount FROM user_info WHERE id={id}
   </select>
+  <insert id="addUserRole" parameterType="blog.home.model.UserRole">
+    insert into sys_user_role (user_id,role_id) value(#{userId},#{roleId})
+  </insert>
+  
+  <delete id="deleteUserRole" parameterType="int">
+    delete from sys_user_role where id = #{urid}
+  </delete>
+  
+  <update id="updateUserRole" parameterType="blog.home.model.UserRole">
+    update sys_user_role set user_id=#{userId},role_id=#{roleId} where id =#{id}
+  </update>
+  
+  <select id="findRoles" parameterType="int" resultType="String">
+    select r.role from user_info u, sys_role r,sys_user_role ur where u.username=#{info} and u.id=ur.user_id and r.id=ur.role_id
+  </select>
+  
+  <select id="findPermissions" parameterType="int" resultType="String">
+    select p.permission from user_info u, sys_role r, sys_permission p, sys_user_role ur, sys_role_permission rp where u.username=#{info} 
+    and u.id=ur.user_id and r.id=ur.role_id and r.id=rp.role_id and p.id=rp.permission_id
+  </select>
   
   <sql id="UPDATE_USER_SET">
     <if test="accountNum!=null and accountNum!=''">accountnum=#{accountNum},</if>
     <if test="username!=null and username!=''">username=#{username},</if>
+    <if test="nickname!=null and nickname!=''">nickname=#{nickname},</if>
     <if test="password!=null and password!=''">password=#{password},</if>
     <if test="realname!=null and realname!=''">realname=#{realname},</if>
     <if test="job!=null and job!=''">job=#{job},</if>
@@ -151,6 +172,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <result column="id" property="id"/>
       <result column="accountnum" property="accountNum"/>
       <result column="username" property="username"/>
+      <result column="nickname" property="nickname"/>
       <result column="password" property="password"/>
       <result column="realname" property="realname"/>
       <result column="job" property="job"/>

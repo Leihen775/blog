@@ -1,6 +1,9 @@
 package blog.home.service;
 
+import java.util.Set;
+
 import blog.home.model.UserInfo;
+import blog.home.model.UserRole;
 
 public interface IUserInfoService {
   
@@ -35,5 +38,15 @@ public interface IUserInfoService {
    * @throws
    */
   public UserInfo findUserByInputInfo(String inputInfo);
+  
+  public void addUserRole(UserRole userRole);
+  
+  public void deleteUserRole(int urid);
+  
+  public void updateUserRole(UserRole UserRole);
+  
+  public Set<String> findRoles(String info);
+  
+  public Set<String> findPermissions(String info);
 
 }
