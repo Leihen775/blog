@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
 import blog.home.dao.ArticleMapper;
 import blog.home.dao.ArticleTagMapper;
 import blog.home.dao.CommentMapper;
@@ -52,7 +55,9 @@ public class ArticleServiceImpl implements IArticleService {
       articleTagList.add(articleTag);
     }
     articleTagMapper.addArticleTag(articleTagList);//添加文章个人标签信息
-    userInfoMapper.addArticleCount(article.getUserId());
+    if(article.getState()==1) {
+      userInfoMapper.addArticleCount(article.getUserId());
+    }
   }
   
   @Override
@@ -89,25 +94,42 @@ public class ArticleServiceImpl implements IArticleService {
   }
 
   @Override
-  public List<Article> findAllArticle() {
-    return articleMapper.findAllArticle();
+  public PageInfo<Article> findAllArticle() {
+    PageHelper.startPage(1, 3);
+    PageInfo<Article> pageInfo = new PageInfo<Article>(articleMapper.findAllArticle(),3);
+    return pageInfo;
   }
   
   @Override
-  public List<Article> findArticleByCategory(int cid) {
-    return articleMapper.findArticleByCategory(cid);
+  public PageInfo<Article> findArticleByCategory(int cid) {
+    PageHelper.startPage(1, 3);
+    PageInfo<Article> pageInfo = new PageInfo<Article>(articleMapper.findArticleByCategory(cid),3);
+    return pageInfo;
   }
   
   @Override
-  public List<Article> findArticleByTitle(String title) {
-    return articleMapper.findArticleByTitle(title);
+  public PageInfo<Article> findArticleByTitle(String title) {
+    PageHelper.startPage(1, 3);
+    PageInfo<Article> pageInfo = new PageInfo<Article>(articleMapper.findArticleByTitle(title),3);
+    return pageInfo;
   }
 
   @Override
-  public List<Article> findArticleByUser(int uid) {
-    return articleMapper.findArticleByUser(uid);
+  public PageInfo<Article> findArticleByUser(int uid,int pageNum,int state) {
+    PageHelper.startPage(pageNum,3);
+    PageInfo<Article> pageInfo =new PageInfo<Article>();
+    if(state==0) {
+      pageInfo = new PageInfo<Article>(articleMapper.findArticleByUser(uid),3);
+    }else if(state==1) {
+      pageInfo = new PageInfo<Article>(articleMapper.findArticlePublish(uid),3);
+    }else if(state==2) {
+      pageInfo = new PageInfo<Article>(articleMapper.findArticleDraft(uid),3);
+    }else {
+      pageInfo = new PageInfo<Article>(articleMapper.findArticleGarbage(uid),3);
+    }
+    return pageInfo;
   }
-
+  
   @Override
   public Map<String, Integer> findArticleCountByTag(int uid) {
     List<Tag> tagList = tagMapper.findAllTag(uid);
@@ -120,18 +142,24 @@ public class ArticleServiceImpl implements IArticleService {
   }
   
   @Override
-  public List<Article> findArticleByTag(int tid) {
-    return articleMapper.findArticleByTag(tid);
+  public PageInfo<Article> findArticleByTag(int tid) {
+    PageHelper.startPage(1, 3);
+    PageInfo<Article> pageInfo = new PageInfo<Article>(articleMapper.findArticleByTag(tid),3);
+    return pageInfo;
   }
   
   @Override
-  public List<Article> findArticleByUserTitle(Article Article) {
-    return articleMapper.findArticleByUserTitle(Article);
+  public PageInfo<Article> findArticleByUserTitle(Article Article) {
+    PageHelper.startPage(1, 3);
+    PageInfo<Article> pageInfo = new PageInfo<Article>(articleMapper.findArticleByUserTitle(Article),3);
+    return pageInfo;
   }
 
   @Override
-  public List<Article> findArticleByClick(int uid) {
-    return articleMapper.findArticleByClick(uid);
+  public PageInfo<Article> findArticleByClick(int uid) {
+    PageHelper.startPage(1, 3);
+    PageInfo<Article> pageInfo = new PageInfo<Article>(articleMapper.findArticleByClick(uid),3);
+    return pageInfo;
   }
 
 }

@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
 import blog.home.dao.MessageMapper;
 import blog.home.dao.MessageUserMapper;
 import blog.home.model.Message;
@@ -73,8 +76,18 @@ public class MessageServiceImpl implements IMessageService {
   }
   
   @Override
-  public void AllMessageRead(List<Integer> idList) {
-    messageUserMapper.updateAllMessageRead(idList);    
+  public void deleteAllMessage(int uid) {
+    messageUserMapper.deleteAllMessage(uid);
+  }
+  
+  @Override
+  public void AllMessageRead(int uid) {
+    messageUserMapper.updateAllMessageRead(uid);    
+  }
+  
+  @Override
+  public void MessageRead(int id) {
+    messageUserMapper.updateMessageRead(id);
   }
   
   @Override
@@ -95,13 +108,17 @@ public class MessageServiceImpl implements IMessageService {
   }
   
   @Override
-  public List<MessageUser> findSysMessage(int uid) {
-    return messageUserMapper.findSysMessage(uid);
+  public PageInfo<MessageUser> findSysMessage(int uid,int pageNum) {
+    PageHelper.startPage(pageNum,3);
+    PageInfo<MessageUser> pageInfo = new PageInfo<MessageUser>(messageUserMapper.findSysMessage(uid),3);
+    return pageInfo;
   }
   
   @Override
-  public List<MessageUser> findSysMessageRead(int uid) {
-    return messageUserMapper.findSysMessageRead(uid);
+  public PageInfo<MessageUser> findSysMessageRead(int uid) {
+    PageHelper.startPage(1, 3);
+    PageInfo<MessageUser> pageInfo = new PageInfo<MessageUser>(messageUserMapper.findSysMessageRead(uid),3);
+    return pageInfo;
   }
   
   @Override
@@ -120,8 +137,10 @@ public class MessageServiceImpl implements IMessageService {
   }
 
   @Override
-  public List<Message> findDraft(int sender) {
-    return messageMapper.findDraft(sender);
+  public PageInfo<Message> findDraft(int sender) {
+    PageHelper.startPage(1, 3);
+    PageInfo<Message> pageInfo = new PageInfo<Message>(messageMapper.findDraft(sender),3);
+    return pageInfo;
   }
 
   @Override

@@ -82,21 +82,22 @@
 		  }
 		  $(".has-success i").remove();
 		  $(".has-success small").remove();//不显示校验成功样式
-		  var isEmpty = $("#form-login").data('bootstrapValidator').isValid();
-		  if(isEmpty){
+		  var flag = $("#form-login").data('bootstrapValidator').isValid();
+		  if(flag){
 			  $(".form-group").removeClass("has-success");
-
-			  var username=$("#username").val();
-	      var password=$("#password").val();
-	      var code=$("#code").val();
 	      var isRemember=$("input[name='remember']").is(':checked');
 	      $.ajax({
 	         type: "POST",
-	         url: "action/login",
-	         data: "username="+username+"&password="+password+"&code="+code+"&isRemember="+isRemember,
+	         url: "login",
+	         data: {
+             "username":$("#username").val(),
+             "password":$("#password").val(),
+             "code":$("#code").val(),
+             "isRemember":isRemember,
+           },
 	         success: function(data){
 	        	 if(data=="SUCCESS"){
-	        		 window.location.href = "personinfopage";
+	        		 window.location.href = "person/personinfopage";
 	        	 }else if(data=="ERROR"){
 	        		 $(".alert").erroralert();
 	        		 $("#code-img").trigger("click");//模拟点击事件刷新验证码

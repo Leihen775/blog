@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
 import blog.home.dao.ArticleTagMapper;
 import blog.home.dao.TagMapper;
 import blog.home.model.Tag;
@@ -43,8 +46,15 @@ public class TagServiceImpl implements ITagService {
   }
 
   @Override
-  public List<Tag> findTagByUser(int uid) {
+  public List<Tag> findAllTagByUser(int uid) {
     return tagMapper.findAllTag(uid);
+  }
+  
+  @Override
+  public PageInfo<Tag> findTagByUser(int uid,int pageNum) {
+    PageHelper.startPage(pageNum,3);
+    PageInfo<Tag> pageInfo = new PageInfo<Tag>(tagMapper.findTagList(uid),3);
+    return pageInfo;
   }
 
   @Override

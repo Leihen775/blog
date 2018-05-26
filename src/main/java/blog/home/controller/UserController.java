@@ -1,6 +1,8 @@
 package blog.home.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSON;
 
 import blog.home.model.UserInfo;
 import blog.home.service.IUserInfoService;
@@ -42,7 +46,7 @@ public class UserController {
     VerifyCodeUtils.outputImage(w, h, response.getOutputStream(), verifyCode);
   }
 
-  @RequestMapping(value= "/action/login",method= {RequestMethod.POST,RequestMethod.GET})
+  @RequestMapping(value= "/login",method= {RequestMethod.POST,RequestMethod.GET})
   @ResponseBody
   public String login(UserInfo user,String code,Boolean isRemember,
       HttpServletRequest request){
@@ -101,19 +105,20 @@ public class UserController {
   @RequestMapping(value= "/action/isExist",method= {RequestMethod.POST,RequestMethod.GET})
   @ResponseBody
   public String isExist(String inputinfo){
-    String msg = null;
+    Map<String,Boolean> map = new HashMap<String,Boolean>();
+    Boolean msg ;
     try {
       UserInfo userInfo = userService.findUserByInputInfo(inputinfo);
       if(!userInfo.equals(null)) {
-        msg = "ERROR";
+        msg = false;
       }else {
-        msg = "SUCCESS";
+        msg = true;
       }
     }catch(Exception e) {
-      e.printStackTrace();
-      msg = "SUCCESS";
+      msg = true;
     }
-    return msg;
+    map.put("valid", msg);
+    return JSON.toJSONString(map);
   }
   
   @RequestMapping(value= "/action/regist",method= {RequestMethod.POST,RequestMethod.GET})
@@ -122,20 +127,42 @@ public class UserController {
     String hashAlgorithmName = "MD5";
     ByteSource salt=ByteSource.Util.bytes("3309");
     int hashIterations = 1024; 
-    String vercode = (String)request.getSession().getAttribute("verCode");
     String msg = null;
     try {
-      if(!vercode.equals(code)) {
-        msg = "CODEERROR";
-      }else {
-        Object result = new SimpleHash(hashAlgorithmName, user.getPassword(), salt, hashIterations);
-        user.setPassword(result.toString());
-        userService.addUserInfo(user);
-        msg = "SUCCESS";
-      }
+      Object result = new SimpleHash(hashAlgorithmName, user.getPassword(), salt, hashIterations);
+      user.setPassword(result.toString());
+      userService.addUserInfo(user);
+      msg = "SUCCESS";
     }catch(Exception e) {
-      e.printStackTrace();
       msg = "ERROR";
+    }
+    return msg;
+  }
+  
+  @RequestMapping(value= "/findUserInfo",method= {RequestMethod.POST,RequestMethod.GET})
+  @ResponseBody
+  public UserInfo findUserInfo(HttpServletRequest request){
+    UserInfo user =(UserInfo)request.getSession().getAttribute("user");
+    UserInfo userinfo = new UserInfo();
+    try {
+      userinfo = userService.findUser(user.getId());
+    }catch(Exception e) {
+    }
+    return userinfo;
+  }
+  
+  @RequestMapping(value= "/action/updateUserImg",method= {RequestMethod.POST,RequestMethod.GET})
+  @ResponseBody
+  public String updateUserImg(UserInfo user,HttpServletRequest request) {
+    UserInfo _user =(UserInfo)request.getSession().getAttribute("user");
+    user.setId(_user.getId());
+    String msg = null;
+    try {
+      userService.updateUserInfo(user);
+      msg="SUCCESS";
+    }catch(Exception e) {
+      msg="ERROR";
+      e.printStackTrace();
     }
     return msg;
   }

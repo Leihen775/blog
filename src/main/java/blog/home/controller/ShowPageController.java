@@ -14,7 +14,7 @@ public class ShowPageController {
   public String registpage() {
     return "home/regist";
   }
-  @RequestMapping(value="/personinfopage",method= {RequestMethod.POST,RequestMethod.GET})
+  @RequestMapping(value="/person/personinfopage",method= {RequestMethod.POST,RequestMethod.GET})
   public String showInfo() {
     return "home/personInfo";
   }

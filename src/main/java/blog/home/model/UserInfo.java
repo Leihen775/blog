@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 /**  
@@ -24,6 +26,7 @@ public class UserInfo {
   private String job;
   private int sex;
   @DateTimeFormat(pattern="yyyy-MM-dd")
+  @JsonFormat(pattern="yyyy-MM-dd")
   private Date birth;
   private int tradeId;
   private String address;

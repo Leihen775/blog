@@ -45,6 +45,14 @@ public interface MessageUserMapper {
   public void deleteMessage(int id);
   
   /**  
+   * @Title: deleteAllMessage
+   * @Description: 用户删除所有信息
+   * @return void
+   * @throws
+   */
+  public void deleteAllMessage(int uid);
+  
+  /**  
    * @Title: updateMessage
    * @Description: 修改信息为已读
    * @return void
@@ -58,7 +66,7 @@ public interface MessageUserMapper {
    * @return void
    * @throws
    */
-  public void updateAllMessageRead(List<Integer> idList);
+  public void updateAllMessageRead(int uid);
   
   /**  
    * @Title: findMessage

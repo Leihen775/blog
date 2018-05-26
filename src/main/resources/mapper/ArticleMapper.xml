@@ -75,7 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <select id="findAllArticle" resultMap="briefArticleResult">
     SELECT a.id,a.title,a.publish_time,a.clickcount,a.commentcount,b.id user_id,b.username,b.image_path
     FROM blog_article a,user_info b
-    WHERE a.user_id=b.id
+    WHERE a.user_id=b.id AND a.state=1
     ORDER BY a.publish_time DESC
   </select>
   
@@ -95,11 +95,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     ORDER BY a.publish_time DESC
   </select>
   
-  <!-- 根据用户ID查询所有文章简略信息(按时间排序) -->
+  <!-- 根据用户ID查询所有发布或草稿文章简略信息(按时间排序) -->
   <select id="findArticleByUser" parameterType="int" resultType="blog.home.model.Article">
-    SELECT id,title,publish_time,clickcount,commentcount
+    SELECT id,title,publish_time publishTime,clickcount,commentcount
     FROM blog_article 
-    WHERE user_id=#{uid}
+    WHERE user_id=#{uid} AND state!=2
+    ORDER BY publish_time DESC
+  </select>
+  
+  <!-- 根据用户ID查询所有发布文章简略信息(按时间排序) -->
+  <select id="findArticlePublish" parameterType="int" resultType="blog.home.model.Article">
+    SELECT id,title,publish_time publishTime,clickcount,commentcount
+    FROM blog_article 
+    WHERE user_id=#{uid} AND state=1
+    ORDER BY publish_time DESC
+  </select>
+  
+  <!-- 根据用户ID查询所有已发布文章简略信息(按时间排序) -->
+  <select id="findArticleDraft" parameterType="int" resultType="blog.home.model.Article">
+    SELECT id,title,publish_time publishTime,clickcount,commentcount
+    FROM blog_article 
+    WHERE user_id=#{uid} AND state=0
+    ORDER BY publish_time DESC
+  </select>
+  
+  <!-- 根据用户ID查询所有已删除文章简略信息(按时间排序) -->
+  <select id="findArticleGarbage" parameterType="int" resultType="blog.home.model.Article">
+    SELECT id,title,publish_time publishTime,clickcount,commentcount
+    FROM blog_article 
+    WHERE user_id=#{uid} AND state=2
     ORDER BY publish_time DESC
   </select>
   
@@ -190,13 +214,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <resultMap type="blog.home.model.Article" id="briefArticleResult">
       <result column="id" property="id"/>
       <result column="title" property="title"/>
-      <result column="publish_time" property="publish_time"/>
+      <result column="publish_time" property="publishTime"/>
       <result column="clickcount" property="clickCount"/>
       <result column="commentcount" property="commentCount"/>
       <association property="userInfo" javaType="blog.home.model.UserInfo">
         <result column="user_id" property="id"/>
         <result column="username" property="username"/>
-        <result column="image_path" property="image_path"/>
+        <result column="image_path" property="imagePath"/>
       </association>
   </resultMap>
   

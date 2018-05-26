@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     VALUE(#{recipientUid},#{messageId},0,0)
   </insert>
   
-  <!-- 发送私信 -->
+  <!-- 发送系统通知信 -->
   <insert id="addSysMessage" parameterType="blog.home.model.MessageUser">
     INSERT INTO sys_message_user (recipient_uid,message_id,is_sysmessage,state)
     VALUE(#{recipientUid},#{messageId},1,0)
@@ -30,17 +30,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     UPDATE sys_message_user SET state=2 WHERE id=#{id}
   </update>
   
+  <!-- 用户删除信息 -->
+  <update id="deleteAllMessage" parameterType="int">
+    UPDATE sys_message_user SET state=2 WHERE recipient_uid=#{uid}
+  </update>
+  
   <!-- 修改信息为已读 -->
   <update id="updateMessageRead" parameterType="int">
     UPDATE sys_message_user SET state=1 WHERE id=#{id}
   </update>
   
   <!-- 修改全部信息为已读 -->
-  <update id="updateAllMessageRead" parameterType="java.util.List">
-    UPDATE sys_message_user SET state=1 WHERE
-    <foreach collection="list" item="id" separator="or">
-      id=#{id}
-    </foreach>
+  <update id="updateAllMessageRead" parameterType="int">
+    UPDATE sys_message_user SET state=1 WHERE recipient_uid=#{uid}
   </update>
   
   <select id="findMessage" parameterType="int" resultMap="messageUserResult">
@@ -68,13 +70,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
           b.id=a.message_id AND c.id=b.sender_id
   </select>
   
-  <!-- 根据 收信人ID 查询未读系统通知 -->
+  <!-- 根据 收信人ID 查询所有系统通知 -->
   <select id="findSysMessage" parameterType="int" resultMap="messageUserResult">
     SELECT a.id,a.recipient_uid,a.is_sysmessage,a.state,b.id message_id,
-           b.content,b.publish_time,c.id user_id,c.username,c.image_path
-    FROM sys_message_user a,sys_message b,user_info c
-    WHERE a.recipient_uid=#{uid} AND a.is_sysmessage=1 AND a.state=0 AND
-          b.id=a.message_id AND c.id=b.sender_id
+           b.content,b.publish_time
+    FROM sys_message_user a,sys_message b
+    WHERE a.recipient_uid=#{uid} AND a.is_sysmessage=1 AND
+          b.id=a.message_id AND a.state!=2
+    ORDER BY b.publish_time DESC
   </select>
   
   <!-- 根据 收信人ID 查询已读系统通知 -->

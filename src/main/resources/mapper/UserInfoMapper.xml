@@ -153,11 +153,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <if test="job!=null and job!=''">job=#{job},</if>
     <if test="sex!=null and sex!=''">sex=#{sex},</if>
     <if test="birth!=null">birth=#{birth},</if>
-    <if test="tradeId and tradeId''">trade_id=#{tradeId},</if>
+    <if test="tradeId!=null and tradeId!=''">trade_id=#{tradeId},</if>
     <if test="address!=null and address!=''">address=#{address},</if>
     <if test="email!=null and email!=''">email=#{email},</if>
     <if test="summary!=null and summary!=''">summary=#{summary},</if>
-    <if test="imagePath and imagePath''">image_path=#{imagePath},</if>
+    <if test="imagePath!=null and imagePath!=''">image_path=#{imagePath},</if>
     <if test="birth_private!=null and birth_private!=''">birth_private=#{birth_private},</if>
     <if test="realname_private!=null and realname_private!=''">realname_private=#{realname_private},</if>
     <if test="address_private!=null and address_private!=''">address_private=#{address_private},</if>

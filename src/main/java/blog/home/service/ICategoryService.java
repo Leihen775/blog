@@ -50,7 +50,7 @@ public interface ICategoryService {
    * @return List<Category>
    * @throws
    */
-  public List<Category> findAllCategory(String sortCode);
+  public List<Category> findAllCategory();
   
   /**  
    * @Title: findCategoryById

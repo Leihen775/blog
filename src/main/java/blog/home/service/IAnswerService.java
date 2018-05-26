@@ -1,6 +1,6 @@
 package blog.home.service;
 
-import java.util.List;
+import com.github.pagehelper.PageInfo;
 
 import blog.home.model.Answer;
 
@@ -28,6 +28,6 @@ public interface IAnswerService {
    * @return List<Answer>
    * @throws
    */
-  public List<Answer> findAnswerByQid(int qid);
+  public PageInfo<Answer> findAnswerByQid(int qid);
 
 }

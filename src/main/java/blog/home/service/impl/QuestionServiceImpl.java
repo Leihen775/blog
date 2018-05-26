@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
 import blog.home.dao.AnswerMapper;
 import blog.home.dao.QuestionMapper;
 import blog.home.model.Question;
@@ -45,18 +48,24 @@ public class QuestionServiceImpl implements IQuestionService{
   }
   
   @Override
-  public List<Question> findAllQuestion() {
-    return questionMapper.findAllQuestion();
+  public PageInfo<Question> findAllQuestion() {
+    PageHelper.startPage(1, 3);
+    PageInfo<Question> pageInfo = new PageInfo<Question>(questionMapper.findAllQuestion(),3);
+    return pageInfo;
   }
   
   @Override
-  public List<Question> findQuestionByTitle(String title) {
-    return questionMapper.findQuestionByTitle(title);
+  public PageInfo<Question> findQuestionByTitle(String title) {
+    PageHelper.startPage(1, 3);
+    PageInfo<Question> pageInfo = new PageInfo<Question>(questionMapper.findQuestionByTitle(title),3);
+    return pageInfo;
   }
   
   @Override
-  public List<Question> findQuestionByUser(int uid) {
-    return questionMapper.findQuestionByUser(uid);
+  public PageInfo<Question> findQuestionByUser(int uid) {
+    PageHelper.startPage(1, 3);
+    PageInfo<Question> pageInfo = new PageInfo<Question>(questionMapper.findQuestionByUser(uid),3);
+    return pageInfo;
   }
 
 }

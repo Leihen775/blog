@@ -13,5 +13,5 @@ public class Tag {
   private int id;
   private String tag;
   private int userId;
-  
+  private int articleCount;
 }

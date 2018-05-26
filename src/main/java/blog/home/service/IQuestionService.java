@@ -2,6 +2,8 @@ package blog.home.service;
 
 import java.util.List;
 
+import com.github.pagehelper.PageInfo;
+
 import blog.home.model.Question;
 
 public interface IQuestionService {
@@ -44,7 +46,7 @@ public interface IQuestionService {
    * @return List<Question>
    * @throws
    */
-  public List<Question> findAllQuestion();
+  public PageInfo<Question> findAllQuestion();
   
   /**  
    * @Title: findQuestionByTitle
@@ -52,7 +54,7 @@ public interface IQuestionService {
    * @return List<Question>
    * @throws
    */
-  public List<Question> findQuestionByTitle(String title);
+  public PageInfo<Question> findQuestionByTitle(String title);
   
   /**  
    * @Title: findQuestionByUser
@@ -60,6 +62,6 @@ public interface IQuestionService {
    * @return List<Question>
    * @throws
    */
-  public List<Question> findQuestionByUser(int uid);
+  public PageInfo<Question> findQuestionByUser(int uid);
 
 }

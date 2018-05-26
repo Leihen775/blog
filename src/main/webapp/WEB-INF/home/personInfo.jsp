@@ -9,13 +9,20 @@
 		<link rel="stylesheet" href="${CTP}/static/bootstrap/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="${CTP}/static/metisMenu/metisMenu.min.css" />
     <link rel="stylesheet" href="${CTP}/static/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="${CTP}/static/datetimepicker/datetimepicker.min.css" />
+    <link rel="stylesheet" href="${CTP}/static/fileinput/css/fileinput.min.css" />
+    <link rel="stylesheet" href="${CTP}/static/jquery-confirm/css/jquery-confirm.css" />
 		<link rel="stylesheet" href="${CTP}/css/common.css"/>
 		<link rel="stylesheet" href="${CTP}/css/blog-home.css"/>
 		<script src="${CTP}/static/jquery/jquery-3.3.1.js"></script>
+		<script src="${CTP}/static/jquery-confirm/js/jquery-confirm.js"></script>
 		<script src="${CTP}/static/bootstrap/js/bootstrap.min.js"></script>
 		<script src="${CTP}/static/bootstrap/bootstrapValidator/js/bootstrapValidator.js"></script>
+		<script src="${CTP}/static/datetimepicker/datetimepicker.min.js"></script>
 		<script src="${CTP}/static/metisMenu/metisMenu.js"></script>
 		<script src="${CTP}/static/wangEditor/release/wangEditor.min.js"></script>
+		<script src="${CTP}/static/fileinput/js/fileinput.min.js"></script>
+		<script src="${CTP}/static/fileinput/js/locales/zh.js"></script>
 		<script src="${CTP}/js/blog-home.js"></script>
     <style type="text/css">
     	.meau-person{
@@ -102,8 +109,8 @@
 	}
 	
 	$(function(){
-	  $(".header").load("header"); //加载页头
-	  $(".footer").load("footer"); //加载页脚
+	  $(".header").load("http://localhost:8080/blog/header"); //加载页头
+	  $(".footer").load("http://localhost:8080/blog/footer"); //加载页脚
 	  
 	  $("#side-menu").metisMenu(); //加载侧边菜单
 	  
@@ -114,7 +121,7 @@
 		  	var title = $("a[index$="+i+"]").text();
 		  	$("title").html(title);
 		  	url = url.split("#")[1];
-		  	$(".content").load(url);
+		  	$(".content").load("http://localhost:8080/blog/"+url);
 	  	}
 		}
 	  

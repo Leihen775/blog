@@ -73,7 +73,7 @@
 		</div>
 	</div>
 </div>
-<script src="../../common/js/validaterule.js"></script>
+<script src="${CTP }/js/validaterule.js"></script>
 <script>
 	$(function(){
 		$("#form-updatepassword").bootstrapValidator({

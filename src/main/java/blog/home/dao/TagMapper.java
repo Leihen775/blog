@@ -53,6 +53,14 @@ public interface TagMapper {
   public List<Tag> findAllTag(int uid);
   
   /**  
+   * @Title: findTagList
+   * @Description: 根据用户ID分页查找个人标签 
+   * @return List<Tag>
+   * @throws
+   */
+  public List<Tag> findTagList(int uid);
+  
+  /**  
    * @Title: findTagByid
    * @Description: 根据ID查找个人标签
    * @return Tag

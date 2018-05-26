@@ -2,6 +2,8 @@ package blog.home.service;
 
 import java.util.List;
 
+import com.github.pagehelper.PageInfo;
+
 import blog.home.model.Message;
 import blog.home.model.MessageUser;
 
@@ -56,12 +58,27 @@ public interface IMessageService {
   public void deleteRecipientMessage(int id);
   
   /**  
-   * @Title: AllMessageRead
-   * @Description: 根据信息详情ID 把信息全部标记为已读
+   * @Title: deleteAllMessage
+   * @Description: 根据收信人ID删除所有信息
    * @return void
    * @throws
    */
-  public void AllMessageRead(List<Integer> idList);
+  public void deleteAllMessage(int uid);
+  
+  /**  
+   * @Title: AllMessageRead
+   * @Description: 根据用户ID 把信息全部标记为已读
+   * @return void
+   * @throws
+   */
+  public void AllMessageRead(int uid);
+  /**  
+   * @Title: MessageRead
+   * @Description: 根据信息详情ID 把信息标记为已读
+   * @return void
+   * @throws
+   */
+  public void MessageRead(int id);
   
   /**  
    * @Title: findMessage
@@ -89,19 +106,19 @@ public interface IMessageService {
   
   /**  
    * @Title: findSysMessage
-   * @Description: 根据 收信人ID 查询未读系统通知
-   * @return List<MessageUser>
+   * @Description: 根据 收信人ID 查询所有系统通知
+   * @return PageInfo<MessageUser>
    * @throws
    */
-  public List<MessageUser> findSysMessage(int uid);
+  public PageInfo<MessageUser> findSysMessage(int uid,int pageNum);
   
   /**  
    * @Title: findSysMessageRead
    * @Description: 根据 收信人ID 查询已读系统通知
-   * @return List<MessageUser>
+   * @return PageInfo<MessageUser>
    * @throws
    */
-  public List<MessageUser> findSysMessageRead(int uid);
+  public PageInfo<MessageUser> findSysMessageRead(int uid);
   
   /**  
    * @Title: findCount
@@ -130,10 +147,10 @@ public interface IMessageService {
   /**  
    * @Title: findDraft
    * @Description: 根据用户查找草稿
-   * @return List<Message>
+   * @return PageInfo<Message>
    * @throws
    */
-  public List<Message> findDraft(int sender);
+  public PageInfo<Message> findDraft(int sender);
   
   /**  
    * @Title: findDraftDetail

@@ -17,6 +17,7 @@
     http://www.springframework.org/schema/tx 
     http://www.springframework.org/schema/tx/spring-tx-4.3.xsd ">
     
+    
     <!-- 对于注解的Handler可以单个配置，实际开发中建议使用组件扫描 -->
     <context:component-scan base-package="blog.home.controller"></context:component-scan>
     
@@ -44,7 +45,7 @@
     </bean>
     
     <!-- 支持返回json(避免IE在ajax请求时，返回json出现下载 ) -->  
-    <!-- <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">  
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">  
       <property name="messageConverters">  
         <list>  
           <ref bean="mappingJacksonHttpMessageConverter"/>  
@@ -58,6 +59,6 @@
           <value>application/json;charset=UTF-8</value>  
         </list>  
       </property>  
-    </bean>  --> 
+    </bean>  
     
 </beans>

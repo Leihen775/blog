@@ -19,10 +19,10 @@
 	<div class="col-md-4">
 		<ul class="nav edit-nav col-md-12">
 			<li class="col-md-4">
-				<a href="personinfopage?index=2" class="showpage"><span><img src="${CTP}/static/image/icon/编辑.png"/></span>&nbsp;写博客</a>
+				<a href="#personinfopage?index=2" class="showpage"><span><img src="${CTP}/static/image/icon/编辑.png"/></span>&nbsp;写博客</a>
 			</li>
 			<li class="col-md-4">
-				<a href="personinfopage?index=5" class="showpage"><span><img src="${CTP}/static/image/icon/信息.png"/></span>&nbsp;提问题</a>
+				<a href="#personinfopage?index=5" class="showpage"><span><img src="${CTP}/static/image/icon/信息.png"/></span>&nbsp;提问题</a>
 			</li>
 			<c:if test="${empty sessionScope.user }">
 			  <li class="col-md-2 not-logged">
@@ -34,15 +34,15 @@
       </c:if>
       <c:if test="${not empty sessionScope.user }">
         <li class="dropdown col-md-4 user">
-	        <a href="personinfopage?index=0" class="dropdown-toggle">
+	        <a href="#personinfopage?index=0" class="dropdown-toggle">
 	            ${sessionScope.user.nickname }&nbsp;
 	        </a>
 	        <ul class="dropdown-menu">
-	            <li><a href="personinfopage?index=3" class="showpage">我的博客</a></li>
+	            <li><a href="#personinfopage?index=3" class="showpage">我的博客</a></li>
 	            <li class="divider"></li>
-	            <li><a href="personinfopage?index=7" class="showpage">账号设置</a></li>
+	            <li><a href="#personinfopage?index=7" class="showpage">账号设置</a></li>
 	            <li class="divider"></li>
-	            <li><a href="personinfopage?index=1" class="showpage">消息</a></li>
+	            <li><a href="#personinfopage?index=1" class="showpage">消息</a></li>
 	            <li class="divider"></li>
 	            <li><a id="logout">退出</a></li>
 	        </ul>
@@ -54,19 +54,16 @@
 <script>
 	$(function(){
 		
-		var user="<%=session.getAttribute("user")%>"; 
-		if(user!=null){
-			$.ajax({
-	      type: "POST",
-	      url: "findCount",
-	      success: function(data){
-	        if(data!=0){
-	          var html = "<span class='badge'>"+data+"</span>"
-	          $(".user>a").append(html);
-	        }
-	      }
-	    });
-		}
+		$.ajax({
+      type: "POST",
+      url: "../findcount",
+      success: function(data){
+        if(data!=0){
+          var html = "<span class='badge'>"+data+"</span>"
+          $(".user>a").append(html);
+        }
+      }
+    });
 		
 		
 		$(".dropdown").mouseover(function(){
@@ -78,17 +75,18 @@
 		
 		
 		$(".showpage").click(function(){
-			var url = $(this).attr("href");
+			var ss = $(this).attr("href");
+			var url = ss.split("#")[1];
 			window.location.href = url;
 		})
 		
 		$("#logout").click(function(){
 			$.ajax({
          type: "POST",
-         url: "action/logout",
+         url: "../action/logout",
          success: function(data){
            if(data=="SUCCESS"){
-             window.location.href = "loginpage";
+             window.location.href = "../loginpage";
            }else if(data=="ERROR"){
              alert("账号或密码错误")
            }

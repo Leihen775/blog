@@ -3,6 +3,8 @@ package blog.home.service;
 import java.util.List;
 import java.util.Map;
 
+import com.github.pagehelper.PageInfo;
+
 import blog.home.model.Article;
 
 public interface IArticleService {
@@ -53,7 +55,7 @@ public interface IArticleService {
    * @return List<Article>
    * @throws
    */
-  public List<Article> findAllArticle();
+  public PageInfo<Article> findAllArticle();
   
   /**  
    * @Title: findArticleByCategory
@@ -61,7 +63,7 @@ public interface IArticleService {
    * @return List<Article>
    * @throws
    */
-  public List<Article> findArticleByCategory(int cid);
+  public PageInfo<Article> findArticleByCategory(int cid);
   
   /**  
    * @Title: findArticleByTitle
@@ -69,7 +71,7 @@ public interface IArticleService {
    * @return List<Article>
    * @throws
    */
-  public List<Article> findArticleByTitle(String title);
+  public PageInfo<Article> findArticleByTitle(String title);
   
   /**  
    * @Title: findArticleByUser
@@ -77,7 +79,31 @@ public interface IArticleService {
    * @return List<Article>
    * @throws
    */
-  public List<Article> findArticleByUser(int uid);
+  public PageInfo<Article> findArticleByUser(int uid,int pageNum,int state);
+  
+  /**  
+   * @Title: findArticlePublish
+   * @Description: 根据用户ID查询所有已发布文章简略信息(按时间排序)
+   * @return PageInfo<Article>
+   * @throws
+   */
+//  public PageInfo<Article> findArticlePublish(int uid,int pageNum);
+  
+  /**  
+   * @Title: findArticleDraft
+   * @Description: 根据用户ID查询所有草稿文章简略信息(按时间排序)
+   * @return PageInfo<Article>
+   * @throws
+   */
+//  public PageInfo<Article> findArticleDraft(int uid,int pageNum);
+  
+  /**  
+   * @Title: findArticleGarbage
+   * @Description: 根据用户ID查询所有已删除文章简略信息(按时间排序)
+   * @return PageInfo<Article>
+   * @throws
+   */
+//  public PageInfo<Article> findArticleGarbage(int uid,int pageNum);
   
   /**  
    * @Title: findArticleCount
@@ -93,7 +119,7 @@ public interface IArticleService {
    * @return List<Article>
    * @throws
    */
-  public List<Article> findArticleByTag(int tid);
+  public PageInfo<Article> findArticleByTag(int tid);
   
   /**  
    * @Title: findArticleByUserTitle
@@ -101,7 +127,7 @@ public interface IArticleService {
    * @return List<Article>
    * @throws
    */
-  public List<Article> findArticleByUserTitle(Article Article);
+  public PageInfo<Article> findArticleByUserTitle(Article Article);
   
   /**  
    * @Title: findArticleByClick
@@ -109,6 +135,6 @@ public interface IArticleService {
    * @return List<Article>
    * @throws
    */
-  public List<Article> findArticleByClick(int uid);
+  public PageInfo<Article> findArticleByClick(int uid);
   
 }

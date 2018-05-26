@@ -32,12 +32,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   
   <!-- 根据用户ID查找所有个人标签 -->
   <select id="findAllTag" parameterType="int" resultType="blog.home.model.Tag">
-    SELECT * FROM blog_tag WHERE user_id=#{id}
+    SELECT * FROM blog_tag WHERE user_id=#{uid}
+  </select>
+  
+  <!-- 根据用户ID分页查找个人标签 -->
+  <select id="findTagList" parameterType="int" resultMap="tagResult">
+    SELECT a.id,a.tag,IFNULL(b.num,0) articlecount
+		FROM (blog_tag a)
+		LEFT JOIN 
+		(SELECT tag_id,COUNT(*) AS num FROM blog_article_tag GROUP BY tag_id) AS b ON a.id=b.tag_id
+    ORDER BY a.id
   </select>
   
   <!-- 根据ID查找个人标签 -->
   <select id="findTagById" parameterType="int" resultType="blog.home.model.Tag">
     SELECT * FROM blog_tag WHERE id=#{id}
   </select>
+  
+  <resultMap type="blog.home.model.Tag" id="tagResult">
+      <result column="id" property="id"/>
+      <result column="tag" property="tag"/>
+      <result column="user_id" property="userId"/>
+      <result column="articlecount" property="articleCount"/>
+  </resultMap>
   
 </mapper>

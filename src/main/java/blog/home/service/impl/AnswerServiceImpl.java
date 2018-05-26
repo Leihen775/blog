@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
 import blog.home.dao.AnswerMapper;
 import blog.home.dao.QuestionMapper;
 import blog.home.model.Answer;
@@ -32,11 +35,13 @@ public class AnswerServiceImpl implements IAnswerService{
   }
   
   @Override
-  public List<Answer> findAnswerByQid(int qid) {
-    List<Answer> answerList = answerMapper.findAnswerByQid(qid);
+  public PageInfo<Answer> findAnswerByQid(int qid) {
+    PageHelper.startPage(1, 3);
+    PageInfo<Answer> pageInfo = new PageInfo<Answer>(answerMapper.findAnswerByQid(qid),3);
+//    List<Answer> answerList = answerMapper.findAnswerByQid(qid);
     List<Answer> replyList = answerMapper.findReplyAnswerByQid(qid);
-    answerList.addAll(replyList);
-    return answerList;
+    pageInfo.getList().addAll(replyList);
+    return pageInfo;
   }
   
 }

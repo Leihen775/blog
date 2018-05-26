@@ -7,6 +7,7 @@
 		<title>用户注册</title>
 		<c:set var="CTP" value="${pageContext.request.contextPath}"></c:set>
 		<link rel="stylesheet" href="${CTP}/static/bootstrap/css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="${CTP}/static/font-awesome/css/font-awesome.css" />
 		<link rel="stylesheet" href="${CTP}/css/common.css"/>
 		<link rel="stylesheet" href="${CTP}/css/blog-home.css"/>
 	  <script src="${CTP}/static/jquery/jquery-3.3.1.js"></script>
@@ -76,6 +77,10 @@
 			<div class="row">
 				<div class="col-md-12 footer"></div>
 			</div>
+			<div class="alert alert-warning">
+	      <i></i>
+	      <label></label>
+	    </div>
 		</div>
 	</body>
 </html>
@@ -91,62 +96,33 @@
       $(this).attr("src",$(this).attr('src') + '?' +timestamp );
     });
 		
-		$(".regist-check").blur(function(){
-			var account = $(this).val();
-			const _self = $(this).parent();
-			if(!_self.hasClass("has-error")){
-			  $.ajax({
-	        type: "POST",
-	        url: "action/isExist",
-	        data: "inputinfo="+account,
-	        success: function(data){
-	        	_self.children("i").remove();
-	          _self.children("small").remove();
-	          if(data=="SUCCESS"){
-	            var message = "<i class='form-control-feedback bv-no-label glyphicon glyphicon-ok'></i><small class='help-block' data-bv-result='INVALID'>用户名可用</small>"
-	            _self.append(message);
-	          }else if(data=="ERROR"){
-	            var message = "<i class='form-control-feedback bv-no-label glyphicon glyphicon-remove'></i><small class='help-block' data-bv-result='INVALID'>用户名不可用</small>"
-	            _self.removeClass("has-success");
-	            _self.addClass("has-error");
-	            _self.append(message);
-	          }
-	        }
-        });
-	    }
-		});
+		$("#code").blur(function(){
+			var flag = $("#form-regist").data('bootstrapValidator').isValid();
+			if(!flag){
+				$("#code-regist-img").trigger("click");//模拟点击事件刷新验证码
+			}
+    });
+		
 		
 		//点击注册事件
     $(".btn-regist").click(function(){
-      $("#form-regist").bootstrapValidator('validate');
-      
-      var isEmpty = $("#form-regist").data('bootstrapValidator').isValid();
-      if(isEmpty){
-        $(".form-group").removeClass("has-success");
-
-        var username=$("#username").val();
-        var password=$("#password").val();
-        var code=$("#code").val();
+      var flag = $("#form-regist").data('bootstrapValidator').isValid();
+      if(flag){
         var isRemember=$("input[name='remember']").is(':checked');
         if(isRemember){
         	$.ajax({
              type: "POST",
-             url: "action/login",
-             data: "account="+account+"&username="+username+"&password="+password+"&code="+code,
+             url: "action/regist",
+             data: {
+            	 "accountNum":$("#account").val(),
+               "username":$("#username").val(),
+               "password":$("#password").val(),
+             },
              success: function(data){
                if(data=="SUCCESS"){
-                 window.location.href = "personinfopage";
+            	   $(".alert").msgalert(true);
                }else if(data=="ERROR"){
-                 $(".alert").erroralert();
-                 $("#code-img").trigger("click");//模拟点击事件刷新验证码
-               }else if(data=="CODEERROR"){
-                 var message = "<i style='' class='form-control-feedback bv-no-label glyphicon glyphicon-remove'></i><small style='' class='help-block' data-bv-result='INVALID'>验证码不正确</small>"
-                 $("#code-login").addClass("has-error");
-                 if($("#code-login").hasClass("has-error")){
-                    $("#code-img").css("margin-bottom","60px")
-                 }
-                 $("#code-login").append(message);
-                 $("#code-img").trigger("click");//模拟点击事件刷新验证码
+                 $(".alert").msgalert(false);
                }
              }
           });
@@ -154,4 +130,31 @@
       }
     });
 	});
+	
+	jQuery.fn.extend({
+    msgalert: function(flag) {
+    	const _self = $(this);
+    	if(flag){
+    		_self.children("i").addClass("fa fa-check-circle-o fa-3x ok");
+    		_self.children("label").text("注册成功,3秒后跳转登录页面");
+    	}else{
+    		_self.children("i").addClass("fa fa-times-circle-o fa-3x fail");
+        _self.children("label").text("注册失败,请重试！");
+    	}
+      var width =$(window).width();
+      width = (width-300)/2-13+"px";
+      _self.css({"left":width,"top":"80px"});
+      _self.fadeIn("fast",function(){
+        setTimeout(function(){
+        	if(flag){
+        		window.location.href = "loginpage";
+        	}else{
+        		_self.hide("slow");
+        		_self.children("i").removeClass("times-circle-o");
+            _self.children("i").removeClass("fail");
+        	}
+        },3000)
+      });
+    }
+  });
 </script>

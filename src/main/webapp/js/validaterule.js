@@ -19,11 +19,6 @@ $(function(){
           notEmpty: {
             message: "密码不能为空"
           },
-          /*stringLength: {
-            min: 6,
-            max: 12,
-            message: "长度必须在6到12位之间"
-          },*/
           regexp: {
             regexp: /^[a-zA-Z0-9_]+$/,
             message: "只能包含英文、数字和下划线"
@@ -34,7 +29,13 @@ $(function(){
       	validators: {
           notEmpty: {
             message: "验证码不能为空"
-          }
+          },
+          /*remote: {
+            url: "/action/codeValidator",
+          	message: '验证码不正确',
+          	//delay :  2000,
+          	type: 'POST'
+          }*/
         }
       }
     }
@@ -54,16 +55,21 @@ $(function(){
       validating: "glyphicon glyphicon-refresh"
     },
     fields: {
-    	account: {
-    		validators:{
-    			notEmpty: {
+      account: {
+        validators:{
+    	  notEmpty: {
             message: "账号不能为空"
           },
-    			emailAddress: {
-		        message: '邮箱格式不正确'
+    	  emailAddress: {
+		    message: '邮箱格式不正确'
+          },
+          remote: {
+            url: "action/isExist",
+        	message: '账号已存在',
+        	type: 'POST'
           }
-    		}
-    	},
+    	}
+      },
       username: {
         validators: {
           notEmpty: {
@@ -73,6 +79,11 @@ $(function(){
             min: 2,
             max: 8,
             message: '用户名长度不能小于2位或超过8位'
+          },
+          remote: {
+            url: "action/isExist",
+          	message: '用户名不可用',
+          	type: 'POST'
           }
         }
       },
@@ -107,6 +118,11 @@ $(function(){
       	validators: {
           notEmpty: {
             message: "验证码不能为空"
+          },
+          remote: {
+            url: "action/codeValidator",
+        	message: '验证码不正确',
+        	type: 'POST'
           }
         }
       }
@@ -119,7 +135,7 @@ $(function(){
   
   
   $("#form-updatepassword").bootstrapValidator({
-		live: 'enabled',//验证时机，enabled是内容有变化就验证（默认），disabled和submitted是提交再验证 
+	live: 'enabled',//验证时机，enabled是内容有变化就验证（默认），disabled和submitted是提交再验证 
     feedbackIcons: {//根据验证结果显示的各种图标
       valid: "glyphicon glyphicon-ok",
       invalid: "glyphicon glyphicon-remove",
@@ -127,11 +143,11 @@ $(function(){
     },
     fields: {
     	oldpassword: {
-    		validators:{
-    			notEmpty: {
-            message: "密码不能为空"
+    	  validators:{
+    		notEmpty: {
+              message: "密码不能为空"
          	}
-    		}
+    	  }
     	},
       password: {
         validators: {
@@ -151,14 +167,14 @@ $(function(){
       },
       confirm: {
       	validators:{
-      		notEmpty: {
+      	  notEmpty: {
             message: '密码重复不能为空'
-         	},
+          },
           identical: {
-              field: 'password',
-              message: '两次密码不同请重新输入'
+            field: 'password',
+            message: '两次密码不同请重新输入'
           }
-    		}
+        }
       }
     }
   });

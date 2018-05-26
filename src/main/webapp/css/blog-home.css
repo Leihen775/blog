@@ -185,7 +185,21 @@ display: inline-block;
 .regist .footer{
 	margin-top: 20px;
 }
-
+.regist .alert{
+	display:none;
+	position:absolute;
+	top:0;left:0; 
+	width:300px;
+}
+.regist .alert .ok{
+	color:#1E9F75;
+}
+.regist .alert .fail{
+  color:#C92027;
+}
+.regist .alert label{
+	height: 42px; float:right;line-height: 42px; margin-right:40px;
+}
 /*---------------------主页面样式--------------------------*/
 .home{
 	background-color: #EEEFED;
@@ -339,25 +353,45 @@ display: inline-block;
 	padding: 10px;
 }
 .personal .info img{
-	max-width: 140px; max-height: 140px;
+  max-width: 140px; max-height: 140px;
 }
-.personal .person-photo>div{
-	margin-top: 10px;
-	padding-left: 23px;
+.personal .person-photo dt{
+  max-width: 140px
+}
+.personal .person-photo .edit-img{
+  position: absolute;
+  display: none;
+  min-width: 40px;max-height: 30px;
+  text-align: center;line-height: 30px;
+  font-size: 20px;
+  color: #FFFFFF;
+  background-color: #000000;
+  opacity: 0.6;
+  border-radius: 10px;
+  left:55px;top: 110px;
+  cursor: pointer;
+  z-index: 100;
+}
+.personal .person-photo dt:hover .edit-img{
+  display:block
 }
 .personal .person-photo label,.person-photo p{
-	margin: 0;
-	width: 100%;
-	text-align: center;
+  margin: 0;
+  width: 100%;
+  text-align: center;
 }
-.personal .attention-count{
-	display: inline-block;
-	width: 40px;
-	border-right: 1px solid #DDDDDD;
+.personal .focus-num{
+  display: inline-block;
+  margin-top: 10px;
+  padding-left: 20px;
+  width: 70px;
+  border-right: 1px solid #DDDDDD;
 }
-.personal .fans-count{
-	display: inline-block;
-	width: 40px;
+.personal .fans-num{
+  display: inline-block;
+  margin-top: 10px;
+  padding-right: 20px;
+  width: 70px;
 }
 .personal .person-edit a{
 	font-size: 16px;
@@ -385,6 +419,58 @@ display: inline-block;
 	margin-top: 10px;padding-top: 6px;
 	border-top:1px solid #DDDDDD;
 }
+#personalinfoModal form{
+  min-height: 360px;
+}
+#personalinfoModal .edit-input{
+  margin-left: 0;margin-right: 0;
+}
+#personalinfoModal .edit-input-address{
+  min-width: 378px; max-width:100%;border: 1px solid #CCCCCC;
+}
+#personalinfoModal .form_datetime input{
+  background-color: #FFFFFF; 
+}
+#personalinfoModal textarea{
+  min-width: 378px; max-width:100%;
+  min-height: 128px;max-height: 128px;
+  border: 1px solid #CCCCCC;
+}
+/*----------------- 文件上传样式 ----------------------*/
+.kv-avatar .krajee-default.file-preview-frame,.kv-avatar .krajee-default.file-preview-frame:hover {
+  margin: 0;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  text-align: center;
+  max-width:100%;
+}
+.krajee-default.file-preview-frame .kv-file-content{
+	max-width:100%;
+}
+.kv-avatar {
+  display: inline-block;
+  margin-left:150px;
+  min-height: 280px;max-heigth:280px;
+}
+.kv-avatar .file-input {
+  display: table-cell;
+  min-width: 250px;max-width:250px; 
+  min-height: 280px;max-heigth:280px;
+}
+.file-drop-zone .file-preview-thumbnails{
+  cursor: pointer;
+}
+.file-drop-zone.clickable:hover {
+  border: 1px dashed #999;
+}
+.kv-reqd {
+  color: red;
+  font-family: monospace;
+  font-weight: normal;
+}
+/*----------------- 文件上传样式 ----------------------*/
+
 .personal .nav-tabs li{
 	width: 25%;
 	text-align: center;
@@ -431,7 +517,12 @@ display: inline-block;
 .personal .modal .form-group>div{
 	margin-left: 7px;
 }
-
+.page{
+  padding-left: 350px;
+}
+.page ul{
+  margin-top: 0;
+}
 
 /*---------------------系统通知页面样式--------------------------*/
 
@@ -445,27 +536,28 @@ display: inline-block;
 }
 .sysmessage-show a{
 	color: #4F4F4F;
+	text-decoration: none;
 }
 .sysmessage-show a:hover{
 	cursor: pointer;
-	text-decoration: none;
+	color: #C92027;
 }
 
-.sysmessage .list-article{
+.sysmessage .list-message{
 	padding:20px 15px;
 	margin-bottom: 0;
 }
-.sysmessage .list-article li{
+.sysmessage .list-message li{
 	padding: 20px 0px;
 	border-left: none;border-right: none;
 	border-radius: 0;
 }
-.sysmessage .list-article  p{
+.sysmessage .list-message  p{
 	display: inline-block;
 	float: right;
 	color: #999999;
 }
-.sysmessage .list-article  p i:hover{
+.sysmessage .list-message  p i:hover{
 	cursor: pointer;
 }
 
@@ -557,6 +649,7 @@ display: inline-block;
 	width: 82px;height: 38px;
 }
 .managearticle .nav-tabs a{
+	cursor:pointer;
 	padding-bottom: 15px;
 	text-decoration: none;
 	color: #999999;
@@ -580,6 +673,7 @@ display: inline-block;
 	border-left: none;border-right: none;
 	border-radius: 0;
 }
+
 .managearticle .list-article-title a{
 	font-size: 17px;
 	color: #4F4F4F;
@@ -786,4 +880,19 @@ display: inline-block;
 .article .comment-content{
 	padding: 20px 18px;
 	background-color: #FFFFFF;
+}
+
+
+.jconfirm-box .content{
+  padding-left:90px;
+  font-size: 16px;
+}
+.jconfirm-box .content label{
+  height: 42px; float:right;line-height: 42px;margin-right:120px;
+}
+.jconfirm-box .content .fa-check-circle-o{
+  color:#1E9F75; margin-top:4px;
+}
+.jconfirm-box .content .fa-times-circle-o{
+  color:#C92027; margin-top:4px;
 }

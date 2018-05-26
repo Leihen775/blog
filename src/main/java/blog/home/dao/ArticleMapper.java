@@ -118,11 +118,35 @@ public interface ArticleMapper {
   
   /**  
    * @Title: findArticleByUser
-   * @Description: 根据用户ID查询所有文章简略信息(按时间排序)
+   * @Description: 根据用户ID查询所有已发布或草稿文章简略信息(按时间排序)
    * @return List<Article>
    * @throws
    */
   public List<Article> findArticleByUser(int uid);
+  
+  /**  
+   * @Title: findArticlePublish
+   * @Description: 根据用户ID查询所有已发布文章简略信息(按时间排序)
+   * @return List<Article>
+   * @throws
+   */
+  public List<Article> findArticlePublish(int uid);
+  
+  /**  
+   * @Title: findArticleDraft
+   * @Description: 根据用户ID查询所有草稿文章简略信息(按时间排序)
+   * @return List<Article>
+   * @throws
+   */
+  public List<Article> findArticleDraft(int uid);
+  
+  /**  
+   * @Title: findArticleGarbage
+   * @Description: 根据用户ID查询所有已删除文章简略信息(按时间排序)
+   * @return List<Article>
+   * @throws
+   */
+  public List<Article> findArticleGarbage(int uid);
   
   /**  
    * @Title: findArticleCountByTag
