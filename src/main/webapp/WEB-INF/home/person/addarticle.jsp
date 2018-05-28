@@ -106,18 +106,33 @@
 		
 		$(".btn-add").click(function(){
 			var state = 1;
-			var code = addArticle(state);
+			addArticle(state);
 		});
 		
 		$(".btn-save").click(function(){
       var state = 0;
-      var code = addArticle(state);
+      addArticle(state);
+    });
+		
+		$(".btn-back").click(function(){
+			$.confirm({
+        title: '警告!',
+        content: '是否返回!',
+        confirm: function(){
+        	$("a[index='2']").trigger("click");
+        },
+        cancel: function(){
+        },
+        confirmButton: '确认',
+        cancelButton: '取消',
+        confirmButtonClass: 'btn-info',
+        cancelButtonClass: 'btn-danger',
+      });
     });
 		
 	})
 	
 	function addArticle(state){
-		let result = '';
 		var tagList = new Array();
     var i = 0;
     $(".check").each(function(){
@@ -140,43 +155,30 @@
         "tag":tagList,
       },
       success:function(data){
-    	  var message = null;
     		if(data=="SUCCESS"){
     			if(state==1){
-    				$.alert({
-              theme: 'black',
-              title: '&nbsp;',
-              content: '<i class="fa fa-check-circle-o fa-2x"></i><label>文章保存成功!</label>',
-              confirmButton: '确认'
-            });
+    				message("check","文章发布成功!");
     			}else{
-    				$.alert({
-              theme: 'black',
-              title: '&nbsp;',
-              content: '<i class="fa fa-check-circle-o fa-2x"></i><label>文章保存成功!</label>',
-              confirmButton: '确认'
-            });
+    				message("check","文章保存成功!");
     			}
  		    }else if(data=="ERROR"){
  		    	if(state==1){
- 		    		$.alert({
-    	        theme: 'black',
-    	        title: '&nbsp;',
-    	        content: '<i class="fa fa-times-circle-o fa-2x"></i><label>文章发布失败!</label>',
-    	        confirmButton: '确认'
-    	      });
+ 		    		message("times","文章发布失败!");
           }else{
-        	  $.alert({
-     	        theme: 'black',
-     	        title: '&nbsp;',
-     	        content: '<i class="fa fa-times-circle-o fa-2x"></i><label>文章保存失败!</label>',
-     	        confirmButton: '确认'
-     	      });
+        	  message("times","文章保存失败!");
           }
  		    }
       }
     });
 	}
+	
+	function message(c,m){
+    $.alert({
+      title: "&nbsp;",
+      content: "<i class='fa fa-"+c+"-circle-o fa-2x'></i><label>"+m+"</label>",
+      confirmButton: "确认"
+    });
+  }
 	
 </script>
 

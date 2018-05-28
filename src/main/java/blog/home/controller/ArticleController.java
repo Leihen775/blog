@@ -64,6 +64,25 @@ public class ArticleController {
     return msg;
   }
   
+  @RequestMapping(value= "/trashArticle",method= {RequestMethod.POST,RequestMethod.GET})
+  @ResponseBody
+  public String trashArticle(int id,HttpServletRequest req){
+    String msg = null;
+    Article article = new Article();
+    UserInfo user = (UserInfo)req.getSession().getAttribute("user");
+    article.setId(id);
+    article.setState(2);
+    article.setUserId(user.getId());
+    try {
+      articleService.trashArticle(article);
+      msg="SUCCESS";
+    } catch (Exception e) {
+      e.printStackTrace();
+      msg="ERROR";
+    }
+    return msg;
+  }
+  
   @RequestMapping(value= "/findArticleList",method= {RequestMethod.POST,RequestMethod.GET})
   @ResponseBody
   public PageInfo<Article> findArticleList(int state,int pageNum,HttpServletRequest request){

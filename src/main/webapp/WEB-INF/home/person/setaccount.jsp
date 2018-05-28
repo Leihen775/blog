@@ -12,11 +12,11 @@
 		</div>
 		<div class="col-md-12 ">
 			<ul class="nav nav-tabs">
-				<li class="active"><a href="#password" role="tab" data-toggle="tab">修改密码</a></li>
-				<li><a href="#email" role="tab" data-toggle="tab">修改邮箱</a></li>
+				<li class="active"><a href="password-tab" role="tab" data-toggle="tab">修改密码</a></li>
+				<li><a href="#email-tab" role="tab" data-toggle="tab">修改邮箱</a></li>
 			</ul>
 			<div id="myTabContent" class="tab-content">  
-		    <div class="tab-pane active" id="password">  
+		    <div class="tab-pane active" id="password-tab">  
 	        <form id="form-updatepassword" class="update">
 						<div class="col-md-12">
 							<label class="">旧密码:</label>
@@ -41,12 +41,12 @@
             </div>
             <div class="col-md-12">
 	        		<div class="form-group">
-		            <button type="button" class="btn btn-success" name="submit">提交</button>
+		            <button type="button" class="btn btn-success btn-updpassword" name="submit">提交</button>
 	            </div>
             </div>
           </form>
 		    </div>
-		    <div class="tab-pane" id="email">  
+		    <div class="tab-pane" id="email-tab">  
 	        <form id="form-updateemail" class="update">
 						<div class="col-md-12">
 							<label class="">邮箱:</label>
@@ -64,7 +64,7 @@
             </div>
             <div class="col-md-12">
 	        		<div class="form-group">
-		            <button type="button" class="btn btn-success" name="submit">提交</button>
+		            <button type="button" class="btn btn-success btn-updemail" name="submit">提交</button>
 	            </div>
             </div>
           </form>
@@ -73,9 +73,78 @@
 		</div>
 	</div>
 </div>
-<script src="${CTP }/js/validaterule.js"></script>
+
 <script>
 	$(function(){
+		
+		$(".btn-updpassword").click(function(){
+			var flag = $("#form-updatepassword").data('bootstrapValidator').isValid();
+			if(flag){
+				$.confirm({
+	        title: '警告!',
+	        content: '是否修改密码!',
+	        confirm: function(){
+	          $.ajax({
+	            type:"POST",
+	            url:"../action/updatePassword",
+	            data:{"password":$("#password-tab #password").val(),
+	            	"oldpassword":$("#password-tab #oldpassword").val()
+	            	},
+	            success:function(data){
+	            	if(data=="PERROR"){
+	            		message("times","密码错误!");
+	            	}else if(data=="SUCCESS"){
+	                message("check","密码修改成功!");
+	              }else if(data=="ERROR"){
+	                message("times","密码修改失败!");
+	              }
+	            }
+	          });
+	        },
+	        cancel: function(){
+	        },
+	        confirmButton: '确认',
+	        cancelButton: '取消',
+	        confirmButtonClass: 'btn-info',
+	        cancelButtonClass: 'btn-danger',
+	      })
+			}
+		});
+		
+		$(".btn-updemail").click(function(){
+      var flag = $("#form-updateemail").data('bootstrapValidator').isValid();
+      if(flag){
+        $.confirm({
+          title: '警告!',
+          content: '是否修改邮箱!',
+          confirm: function(){
+            $.ajax({
+              type:"POST",
+              url:"../action/updateEmail",
+              data:{"password":$("#email-tab #password").val(),
+            	      "email":$("#email-tab #email").val()},
+              success:function(data){
+            	  if(data=="PERROR"){
+                  message("times","密码错误!");
+                }else if(data=="SUCCESS"){
+                  message("check","邮箱修改成功!");
+                }else if(data=="ERROR"){
+                  message("times","邮箱修改失败!");
+                }
+              }
+            });
+          },
+          cancel: function(){
+          },
+          confirmButton: '确认',
+          cancelButton: '取消',
+          confirmButtonClass: 'btn-info',
+          cancelButtonClass: 'btn-danger',
+        })
+      }
+    });
+		
+		
 		$("#form-updatepassword").bootstrapValidator({
 			live: 'enabled',//验证时机，enabled是内容有变化就验证（默认），disabled和submitted是提交再验证 
 	    feedbackIcons: {//根据验证结果显示的各种图标
@@ -87,20 +156,20 @@
 	    	oldpassword: {
 	    		validators:{
 	    			notEmpty: {
-	            message: "内容不能为空"
+	            message: "新密码不能为空"
 	         }
 	    		}
 	    	},
 	      password: {
 	        validators: {
 	          notEmpty: {
-	            message: "内容不能为空"
+	            message: "旧密码不能为空"
 	          },
-	          stringLength: {
+	          /* stringLength: {
 	            min: 6,
 	            max: 12,
 	            message: "长度必须在6到12位之间"
-	          },
+	          }, */
 	          regexp: {
 	            regexp: /^[a-zA-Z0-9_]+$/,
 	            message: "只能包含英文、数字和下划线"
@@ -150,4 +219,12 @@
 	  });
 	  
 	});
+	
+	function message(c,m){
+    $.alert({
+      title: "&nbsp;",
+      content: "<i class='fa fa-"+c+"-circle-o fa-2x'></i><label>"+m+"</label>",
+      confirmButton: "确认"
+    });
+  }
 </script>

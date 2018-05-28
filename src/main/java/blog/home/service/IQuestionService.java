@@ -25,12 +25,28 @@ public interface IQuestionService {
   public void deleteQuestion(int id);
   
   /**  
+   * @Title: trashQuestion
+   * @Description: 删除问题进回收站
+   * @return void
+   * @throws
+   */
+  public void trashQuestion(Question question);
+  
+  /**  
    * @Title: deleteQuestionBatch
    * @Description: 批量删除问题
    * @return void
    * @throws
    */
   public void deleteQuestionBatch(List<Integer> idList);
+  
+  /**  
+   * @Title: updateQuestion
+   * @Description: 修改问题
+   * @return void
+   * @throws
+   */
+  public void updateQuestion(Question question);
   
   /**  
    * @Title: findQuestion
@@ -46,7 +62,7 @@ public interface IQuestionService {
    * @return List<Question>
    * @throws
    */
-  public PageInfo<Question> findAllQuestion();
+  public PageInfo<Question> findAllQuestion(int pageNum);
   
   /**  
    * @Title: findQuestionByTitle
@@ -62,6 +78,6 @@ public interface IQuestionService {
    * @return List<Question>
    * @throws
    */
-  public PageInfo<Question> findQuestionByUser(int uid);
+  public PageInfo<Question> findQuestionByUser(int uid,int pageNum,int state);
 
 }

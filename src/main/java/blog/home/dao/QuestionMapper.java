@@ -100,6 +100,30 @@ public interface QuestionMapper {
    */
   public List<Question> findQuestionByUser(int uid);
   
+  /**  
+   * @Title: findArticleSolve
+   * @Description: 查找已解决问题
+   * @return List<Question>
+   * @throws
+   */
+  public List<Question> findArticleSolve(int uid);
+  
+  /**  
+   * @Title: findArticleUnsolved
+   * @Description: 查找未解决问题
+   * @return List<Question>
+   * @throws
+   */
+  public List<Question> findArticleUnsolved(int uid);
+  
+  /**  
+   * @Title: findQuestionGarbage
+   * @Description: 查找进入回收站问题
+   * @return List<Question>
+   * @throws
+   */
+  public List<Question> findQuestionGarbage(int uid);
+  
   
   /**  
    * @Title: findClickCount

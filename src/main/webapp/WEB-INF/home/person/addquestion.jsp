@@ -23,9 +23,6 @@
 	    		<button type="button" class="btn btn-add" name="submit">发布问题</button>
 	    	</div>
 	    	<div class="form-group">
-	    		<button type="button" class="btn btn-save" name="submit">保存为草稿</button>
-	    	</div>
-	    	<div class="form-group">
 	    		<button type="button" class="btn btn-back" name="submit">返回</button>
 	    	</div>
     	</div>
@@ -36,10 +33,67 @@
 
 <script>
 	var E = window.wangEditor;
-  var editor = new E('#editor');
-  editor.customConfig.uploadImgServer = '/upload';
+	var editor = new E('#editor');
+  editor.customConfig.uploadFileName = 'img'
+  editor.customConfig.uploadImgServer = "../uploads/uploadarticlepic";
+  editor.customConfig.uploadImgHooks = {
+    customInsert: function (insertImg, result, editor) {
+      // 图片上传并返回结果，自定义插入图片的事件（而不是编辑器自动插入图片！！！）
+      // insertImg 是插入图片的函数，editor 是编辑器对象，result 是服务器端返回的结果
+      //var url =result.data;
+      insertImg(result);
+      // result 必须是一个 JSON 格式字符串！！！否则报错
+    }
+  }
   editor.create();
+  
 	$(function(){
+		$(".btn-add").click(function(){
+			addQuestion();
+		});
 		
+		$(".btn-back").click(function(){
+			$.confirm({
+	      title: '警告!',
+	      content: '是否返回!',
+	      confirm: function(){
+	    	  $("a[index='5']").trigger("click");
+	      },
+	      cancel: function(){},
+	      confirmButton: '确认',
+	      cancelButton: '取消',
+	      confirmButtonClass: 'btn-info',
+	      cancelButtonClass: 'btn-danger',
+	    });
+		});
 	})
+	
+	function addQuestion(){
+    $.ajax({//上传问题
+      traditional: true,
+      type: "POST",
+      url: "../addQuestion",
+      data:{
+        "title":$("#title").val(),
+        "content":editor.txt.html(),
+        "state":0
+      },
+      success:function(data){
+        if(data=="SUCCESS"){
+          message("check","问题发布成功!");
+        }else if(data=="ERROR"){
+          message("times","问题发布失败!");
+        }
+      }
+    });
+  }
+	
+	function message(c,m){
+    $.alert({
+      title: "&nbsp;",
+      content: "<i class='fa fa-"+c+"-circle-o fa-2x'></i><label>"+m+"</label>",
+      confirmButton: "确认"
+    });
+  }
+	
 </script>

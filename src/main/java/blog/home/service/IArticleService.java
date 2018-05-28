@@ -42,6 +42,14 @@ public interface IArticleService {
   public void updateArticle(Article article,List<Integer> tagList);
   
   /**  
+   * @Title: trashArticle
+   * @Description: 使文章进回收站
+   * @return void
+   * @throws
+   */
+  public void trashArticle(Article article);
+  
+  /**  
    * @Title: findArticle
    * @Description: 根据ID查询文章信息
    * @return void

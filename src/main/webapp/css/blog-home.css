@@ -723,7 +723,7 @@ display: inline-block;
 	display: inline-block;
 	float: left;
 }
-.managetag form{
+.managetag .add-tag{
 	display: inline-block;
 	width: 275px;
 }
@@ -770,6 +770,7 @@ display: inline-block;
 	width: 82px;height: 38px;
 }
 .managequestion .nav-tabs a{
+	cursor:pointer;
 	padding-bottom: 15px;
 	text-decoration: none;
 	color: #999999;

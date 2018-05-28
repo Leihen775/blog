@@ -76,7 +76,7 @@ public class TagController {
   
   @RequestMapping(value= "/findAllTagByUser",method= {RequestMethod.POST,RequestMethod.GET})
   @ResponseBody
-  public List<Tag> findAllTagByUser(int pageNum,HttpServletRequest request){
+  public List<Tag> findAllTagByUser(HttpServletRequest request){
     UserInfo user = (UserInfo)request.getSession().getAttribute("user");
     List<Tag> list = new ArrayList<Tag>();
     try {

@@ -78,13 +78,14 @@ public class UserController {
         msg = "CODEERROR";
       }else {
         UserInfo userInfo = userService.findUserByInputInfo(user.getUsername());
-        Object result = new SimpleHash(hashAlgorithmName, user.getPassword(), salt, hashIterations);
+        String result = (new SimpleHash(hashAlgorithmName, user.getPassword(), salt, hashIterations)).toString();
         if(!result.equals(userInfo.getPassword())) {
           msg = "ERROR";
+        }else {
+          request.getSession().setAttribute("user", userInfo);
+          request.getSession().removeAttribute("verCode");
+          msg = "SUCCESS";
         }
-        request.getSession().setAttribute("user", userInfo);
-        request.getSession().removeAttribute("verCode");
-        msg = "SUCCESS";
       }
     }catch(Exception e) {
       e.printStackTrace();
@@ -131,6 +132,7 @@ public class UserController {
     try {
       Object result = new SimpleHash(hashAlgorithmName, user.getPassword(), salt, hashIterations);
       user.setPassword(result.toString());
+      user.setImagePath("../static/image/头像.png");
       userService.addUserInfo(user);
       msg = "SUCCESS";
     }catch(Exception e) {
@@ -151,6 +153,25 @@ public class UserController {
     return userinfo;
   }
   
+  @RequestMapping(value= "/updateUserInfo",method= {RequestMethod.POST,RequestMethod.GET})
+  @ResponseBody
+  public String updateUserInfo(UserInfo user,HttpServletRequest req){
+    UserInfo userinfo = (UserInfo)req.getSession().getAttribute("user");
+    String msg = null;
+    try {
+      System.out.println(user);
+      /*int[] str = {1,2};
+      System.out.println(str[2]);*/
+      user.setId(userinfo.getId());
+      userService.updateUserInfo(user);
+      msg="SUCCESS";
+    }catch(Exception e) {
+      e.printStackTrace();
+      msg="ERROR";
+    }
+    return msg;
+  }
+  
   @RequestMapping(value= "/action/updateUserImg",method= {RequestMethod.POST,RequestMethod.GET})
   @ResponseBody
   public String updateUserImg(UserInfo user,HttpServletRequest request) {
@@ -163,6 +184,60 @@ public class UserController {
     }catch(Exception e) {
       msg="ERROR";
       e.printStackTrace();
+    }
+    return msg;
+  }
+  
+  @RequestMapping(value= "/action/updatePassword",method= {RequestMethod.POST,RequestMethod.GET})
+  @ResponseBody
+  public String updatePassword(String password,String oldpassword,HttpServletRequest req) {
+    String msg=null;
+    String hashAlgorithmName = "MD5";
+    ByteSource salt=ByteSource.Util.bytes("3309");
+    int hashIterations = 1024;
+    UserInfo user = (UserInfo)req.getSession().getAttribute("user");
+    String result = (new SimpleHash(hashAlgorithmName,oldpassword, salt, hashIterations)).toString();
+    try {
+      if(!result.equals(user.getPassword())) {
+        msg = "PERROR";
+      }else {
+        Object newpassword =new SimpleHash(hashAlgorithmName,password, salt, hashIterations);
+        user.setPassword(newpassword.toString());
+        userService.updateUserInfo(user);
+        req.getSession().removeAttribute("user");
+        req.getSession().setAttribute("user", user);
+        msg="SUCCESS";
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      msg="ERROR";
+    }
+    return msg;
+  }
+  
+  @RequestMapping(value= "/action/updateEmail",method= {RequestMethod.POST,RequestMethod.GET})
+  @ResponseBody
+  public String updateEmail(String password,String email,HttpServletRequest req) {
+    String msg=null;
+    String hashAlgorithmName = "MD5";
+    ByteSource salt=ByteSource.Util.bytes("3309");
+    int hashIterations = 1024; 
+    UserInfo user = (UserInfo)req.getSession().getAttribute("user");
+    String result = (new SimpleHash(hashAlgorithmName, password, salt, hashIterations)).toString();
+    try {
+      if(!result.equals(user.getPassword())) {
+        msg = "PERROR";
+      }else {
+        user.setAccountNum(email);
+        user.setEmail(email);
+        userService.updateUserInfo(user);
+        req.getSession().removeAttribute("user");
+        req.getSession().setAttribute("user", user);
+        msg="SUCCESS";
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      msg="ERROR";
     }
     return msg;
   }

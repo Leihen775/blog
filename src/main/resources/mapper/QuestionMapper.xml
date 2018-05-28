@@ -2,9 +2,8 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="blog.home.dao.QusetionMapper">
+<mapper namespace="blog.home.dao.QuestionMapper">
 
-  <!-- 提出问题 -->
   <insert id="addQuestion" parameterType="blog.home.model.Question">
     INSERT INTO blog_question (title,content,publish_time,state,user_id)
     VALUE(#{title},#{content},#{publishTime},#{state},#{userId})
@@ -69,11 +68,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     WHERE a.title LIKE "%"#{title}"%" AND b.id=a.user_id
   </select>
   
-  <!-- 根据用户Id查询问题 -->
+  <!-- 根据用户Id查询所有问题 -->
   <select id="findQuestionByUser" parameterType="int" resultMap="questionResult">
-    SELECT a.*,b.username,b.image_path
-    FROM blog_question a,user_info b
-    WHERE a.user_id=#{uid} AND b.id=a.user_id
+    SELECT *
+    FROM blog_question
+    WHERE user_id=#{uid} AND state!=2
+    ORDER BY publish_time DESC
+  </select>
+  
+  <!-- 根据用户Id查询已解决的问题 -->
+  <select id="findArticleSolve" parameterType="int" resultMap="questionResult">
+    SELECT *
+    FROM blog_question
+    WHERE user_id=#{uid} AND state=1
+    ORDER BY publish_time DESC
+  </select>
+  
+  <!-- 根据用户Id查询未解决的问题 -->
+  <select id="findArticleUnsolved" parameterType="int" resultMap="questionResult">
+    SELECT *
+    FROM blog_question
+    WHERE user_id=#{uid} AND state=0
+    ORDER BY publish_time DESC
+  </select>
+  
+  <!-- 根据用户Id查询进入回收站的问题 -->
+  <select id="findQuestionGarbage" parameterType="int" resultMap="questionResult">
+    SELECT *
+    FROM blog_question
+    WHERE user_id=#{uid} AND state=2
     ORDER BY publish_time DESC
   </select>
   
@@ -91,9 +114,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <if test="title!=null and title!=''">title=#{title},</if>
     <if test="content!=null and content!=''">content=#{content},</if>
     <if test="publishTime!=null">publish_time=#{publishTime},</if>
-    <if test="clickCount!=null and clickCount!=''">clickcount=#{clickCount},</if>
-    <if test="answerCount!=null and answerCountt!=''">answercount=#{answerCount},</if>
-    <if test="state!=null and state!=''">state=#{state},</if>
+    <if test="clickCount!=null">clickcount=#{clickCount},</if>
+    <if test="answerCount!=null">answercount=#{answerCount},</if>
+    <if test="state!=null">state=#{state},</if>
   </sql>
   
   <resultMap type="blog.home.model.Question" id="questionResult">

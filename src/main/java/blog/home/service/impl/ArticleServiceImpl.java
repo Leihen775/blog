@@ -66,6 +66,12 @@ public class ArticleServiceImpl implements IArticleService {
     articleTagMapper.deleteByAid(aid);
     commentMapper.deleteCommentByArticle(aid);
   }
+  
+  @Override
+  public void trashArticle(Article article) {
+    articleMapper.updateArticle(article);
+    userInfoMapper.minusArticleCount(article.getUserId());
+  }
 
   @Override
   public void deleteArticleBatch(List<Integer> aidList) {

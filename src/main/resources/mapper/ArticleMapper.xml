@@ -97,7 +97,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   
   <!-- 根据用户ID查询所有发布或草稿文章简略信息(按时间排序) -->
   <select id="findArticleByUser" parameterType="int" resultType="blog.home.model.Article">
-    SELECT id,title,publish_time publishTime,clickcount,commentcount
+    SELECT id,title,publish_time publishTime,clickcount,commentcount,state
     FROM blog_article 
     WHERE user_id=#{uid} AND state!=2
     ORDER BY publish_time DESC
@@ -105,15 +105,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   
   <!-- 根据用户ID查询所有发布文章简略信息(按时间排序) -->
   <select id="findArticlePublish" parameterType="int" resultType="blog.home.model.Article">
-    SELECT id,title,publish_time publishTime,clickcount,commentcount
+    SELECT id,title,publish_time publishTime,clickcount,commentcount,state
     FROM blog_article 
     WHERE user_id=#{uid} AND state=1
     ORDER BY publish_time DESC
   </select>
   
-  <!-- 根据用户ID查询所有已发布文章简略信息(按时间排序) -->
+  <!-- 根据用户ID查询所有草稿文章简略信息(按时间排序) -->
   <select id="findArticleDraft" parameterType="int" resultType="blog.home.model.Article">
-    SELECT id,title,publish_time publishTime,clickcount,commentcount
+    SELECT id,title,publish_time publishTime,clickcount,commentcount,state
     FROM blog_article 
     WHERE user_id=#{uid} AND state=0
     ORDER BY publish_time DESC
@@ -121,7 +121,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   
   <!-- 根据用户ID查询所有已删除文章简略信息(按时间排序) -->
   <select id="findArticleGarbage" parameterType="int" resultType="blog.home.model.Article">
-    SELECT id,title,publish_time publishTime,clickcount,commentcount
+    SELECT id,title,publish_time publishTime,clickcount,commentcount,state
     FROM blog_article 
     WHERE user_id=#{uid} AND state=2
     ORDER BY publish_time DESC
@@ -176,14 +176,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <if test="type!=null and type!=''">type=#{type},</if>
     <if test="title!=null and title!=''">title=#{title},</if>
     <if test="content!=null and content!=''">content=#{content},</if>
-    <if test="categoryId!=null and categoryId!=''">category_id=#{categoryId},</if>
+    <if test="categoryId!=null">category_id=#{categoryId},</if>
     <if test="publishTime!=null">publish_time=#{publishTime},</if>
-    <if test="clickCount!=null and clickCount!=''">clickcount=#{clickCount},</if>
-    <if test="enjoyCount!=null and enjoyCount!=''">enjoycount=#{enjoyCount},</if>
-    <if test="commentCount!=null and commentCount!=''">commentcount=#{commentCount},</if>
-    <if test="state!=null and state!=''">state=#{state},</if>
-    <if test="is_private!=null and is_private!=''">is_private=#{is_private},</if>
-    <if test="userId!=null and userId!=''">user_id=#{userId},</if>
+    <if test="clickCount!=null">clickcount=#{clickCount},</if>
+    <if test="enjoyCount!=null">enjoycount=#{enjoyCount},</if>
+    <if test="commentCount!=null">commentcount=#{commentCount},</if>
+    <if test="state!=null">state=#{state},</if>
+    <if test="is_private!=null">is_private=#{is_private},</if>
+    <if test="userId!=null">user_id=#{userId},</if>
   </sql>
   
   <resultMap type="blog.home.model.Article" id="articleResult">

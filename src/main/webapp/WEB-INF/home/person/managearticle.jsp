@@ -134,42 +134,64 @@
     
     $(".all").trigger("click");
     
-    $(".list-article").delegate('.delete','click',function(){
+    $(".list-article").delegate('.delete','click',function(){//删除文章进回收站
+    	var state = $(this).attr("data");
     	const _self = $(this).parent().siblings(".list-article-title");
     	var id = _self.children("a").attr("href").split("#")[1];
-    	$.confirm({
-		   	title: '警告!',
-		    content: '是否删除该篇文章!',
-		    confirm: function(){
-		    	$.ajax({
-		    		type:"POST",
-		    		url:"../deleteArticle",
-		    		data:{"id":id},
-		    		success:function(data){
-		    			if(data=="SUCCESS"){
-		    				_self.parent().remove();
-		    				$.alert({
- 		              title: '&nbsp;',
- 		              content: '<i class="fa fa-check-circle-o fa-2x"></i><label>文章删除成功!</label>',
- 		              confirmButton: '确认'
- 		            });
-		    			}else if(data=="ERROR"){
-		    				$.alert({
- 		              title: '&nbsp;',
- 		              content: '<i class="fa fa-times-circle-o fa-2x"></i><label>文章删除失败!</label>',
- 		              confirmButton: '确认'
- 		            });
-		    			}
-		    		}
-		    	});
-		    },
-		    cancel: function(){
-		    },
-		    confirmButton: '确认',
-        cancelButton: '取消',
-        confirmButtonClass: 'btn-info',
-        cancelButtonClass: 'btn-danger',
-    	})
+    	if(state==2){
+    		$.confirm({
+          title: '警告!',
+          content: '是否彻底删除该篇文章!',
+          confirm: function(){
+            $.ajax({
+              type:"POST",
+              url:"../deleteArticle",
+              data:{"id":id},
+              success:function(data){
+                if(data=="SUCCESS"){
+                  _self.parent().remove();
+                  message("check","文章删除成功!");
+                }else if(data=="ERROR"){
+                  message("times","文章删除失败!");
+                }
+              }
+            });
+          },
+          cancel: function(){
+          },
+          confirmButton: '确认',
+          cancelButton: '取消',
+          confirmButtonClass: 'btn-info',
+          cancelButtonClass: 'btn-danger',
+        })
+    	}else{
+    		$.confirm({
+ 	        title: '警告!',
+ 	        content: '是否删除该篇文章!',
+ 	        confirm: function(){
+ 	          $.ajax({
+ 	            type:"POST",
+ 	            url:"../trashArticle",
+ 	            data:{"id":id},
+ 	            success:function(data){
+ 	              if(data=="SUCCESS"){
+ 	                _self.parent().remove();
+ 	                message("check","文章删除成功!");
+ 	              }else if(data=="ERROR"){
+ 	                message("times","文章删除失败!");
+ 	              }
+ 	            }
+ 	          });
+ 	        },
+ 	        cancel: function(){
+ 	        },
+ 	        confirmButton: '确认',
+ 	        cancelButton: '取消',
+ 	        confirmButtonClass: 'btn-info',
+ 	        cancelButtonClass: 'btn-danger',
+ 	      })
+    	}
+    	
     });
 		
 	});
@@ -241,7 +263,7 @@
       html=html+"<span>"+e.publishTime+"</span>"+
       "<span data-toggle='tooltip' title='浏览数'><i class='fa fa-eye'></i>"+e.clickCount+"</span>"+
       "<span data-toggle='tooltip' title='评论数'><i class='fa fa-commenting fa-fw'></i>"+e.commentCount+"</span>"+
-      "</div><span class='delete'><a>删除</a></span><span class='show'><a>查看</a></span></div></li>"
+      "</div><span class='delete' data='"+e.state+"'><a>删除</a></span><span class='show'><a>查看</a></span></div></li>"
     });
     $(".list-article ul").append(html);
     showpage(data);
@@ -252,9 +274,17 @@
 		if(data.length<2){
 			ss=data;
 		}else{
-			ss = data.substring(0,2);
+			ss = data.substring(0,3);
 	    ss = ss+"。。。";
 		}
 		return ss;
 	}
+	
+	function message(c,m){
+    $.alert({
+      title: "&nbsp;",
+      content: "<i class='fa fa-"+c+"-circle-o fa-2x'></i><label>"+m+"</label>",
+      confirmButton: "确认"
+    });
+  }
 </script>
