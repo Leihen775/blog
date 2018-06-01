@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>我的博客</title>
+		<title>博客学院</title>
 		<c:set var="CTP" value="${pageContext.request.contextPath}"></c:set>
 		<link rel="stylesheet" href="${CTP}/static/bootstrap/css/bootstrap.min.css"/>
 		<link rel="stylesheet" href="${CTP}/css/common.css"/>
@@ -12,7 +12,7 @@
 	  <script src="${CTP}/static/jquery/jquery-3.3.1.js"></script>
 	  <script src="${CTP}/static/bootstrap/js/bootstrap.min.js"></script>
     <script src="${CTP}/static/bootstrap/bootstrapValidator/js/bootstrapValidator.js"></script>
-    <script src="${CTP/js/blog-home.js"></script>
+    <script src="${CTP}/js/blog-home.js"></script>
     <style type="text/css">
     	
     </style>
@@ -26,13 +26,7 @@
 				<div class="col-md-10 col-md-offset-1">
 					<div class="col-md-1 left-side">
 						<ul class="nav nav-pills nav-stacked nav-side">
-  						<li class="active"><a href="">推荐</a></li>
-  						<li class=""><a href="#">关注</a></li>
-  						<li class=""><a href="#">资讯</a></li>
-  						<li class=""><a href="#">人工智能</a></li>
-  						<li class=""><a href="#">云计算/大数据</a></li>
-  						<li class=""><a href="#">数据库</a></li>
-  						<li class=""><a href="#">程序人生</a></li>
+  						<li class="active"><a href="homepage" id="0">推荐</a></li>
 						</ul>
 					</div>
 					<div class="col-md-8 center">
@@ -64,18 +58,8 @@
 							</a>
 						</div>
 						<div class="list-group list-article">
-							<div class="list-group-item">
-								<div class="col-md-1">
-									<a href="#" data-toggle="tooltip" title="李磊">
-										<img src="${CTP}/static/image/头像.png" class="img-circle">
-									</a>
-								</div>
-								<div class="col-md-10">
-									<a href="#">五大常用算法之二：动态规划算法</a>
-								</div>
-								<span class="glyphicon glyphicon-eye-open pull-right" data-toggle="tooltip" title="阅读量">&nbsp;335</span>
-							</div>
-							<div class="list-group-item">
+							
+							<%-- <div class="list-group-item">
 								<div class="col-md-1">
 									<a href="#" data-toggle="tooltip" title="岁时">
 										<img src="${CTP}/static/image/头像.png" class="img-circle">
@@ -129,18 +113,8 @@
 									<a href="#">五大常用算法之二：动态规划算法</a>
 								</div>
 								<span class="glyphicon glyphicon-eye-open pull-right" data-toggle="tooltip" title="阅读量">&nbsp;335</span>
-							</div>
-						</div>
-						<div class="page">
-							<ul class="pagination">
-								<li><a href="#">Prev</a></li>
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#">Next</a></li>
-							</ul>
+							</div> --%>
+							
 						</div>
 					</div>
 					<div class="col-md-3 right-side">
@@ -161,7 +135,7 @@
 							<h2 class="title"><strong>今日推荐</strong></h2>
 							<div>
 								<ul class="list-group list-article">
-									<li class="list-group-item">
+									<!-- <li class="list-group-item">
 										<a href="#">
 											<label>五一出游，“我”的隐私被扒干净了</label>
 											<img src="../static/image/background/bg05.jpg" class="img-rounded"/>
@@ -190,17 +164,11 @@
 											<label>五一出游，“我”的隐私被扒干净了</label>
 											<img src="../static/image/background/bg05.jpg" class="img-rounded"/>
 										</a>
-									</li>
+									</li> -->
 								</ul>
 							</div>
 						</div>
 						
-						<div class="recommend">
-							<h2 class="title"><strong>今日推荐</strong></h2>
-							<div>
-								
-							</div>
-						</div>
 					</div>
 				</div>
 				<div class="meau-gotop-box">
@@ -217,8 +185,8 @@
 </html>
 <script>
 	$(function(){
-	  $(".header").load("header.html");
-	  $(".footer").load("footer.html");
+		$(".header").load("http://localhost:8080/blog/header"); //加载页头
+    $(".footer").load("http://localhost:8080/blog/footer"); //加载页脚
 	  
 	  $(".carousel").carousel();
 		var width = $(".carousel-inner").width();
@@ -226,5 +194,179 @@
 		
 		$("[data-toggle='tooltip']").tooltip();
 		
+		$.ajax({
+			type:"POST",
+			url:"../findAllCategory",
+      success:function(data){
+        var html = "";
+        $.each(data,function(i,e){
+        	var id=getUrlParam("id");
+          if(id==e.id){
+            $(".nav-side li").removeClass("active");
+            html=html+"<li class='active'><a href='homepage?id="+e.id+"'>"+e.name+"</a></li>";
+          }else{
+        	  html=html+"<li><a href='homepage?id="+e.id+"'>"+e.name+"</a></li>"
+          }
+        });
+        $(".nav-side").append(html);
+      }
+		});
+		
+		$(function(){
+			var id=getUrlParam("id");
+			if(id==null){
+				$.ajax({
+					type:"POST",
+					url:"findallArticleList",
+					data:{"pageNum":1},
+					success:function(data){
+						showInfo(data);
+					}
+				});
+			}else{
+				$.ajax({
+          type:"POST",
+          url:"findArticleByCategory",
+          data:{"pageNum":1,"cid":id},
+          success:function(data){
+            showInfo(data);
+          }
+        });
+			}
+			
+			$.ajax({
+        type:"POST",
+        url:"recommends",
+        success:function(data){
+        	showRecommends(data);
+        }
+      });
+		});
+		
+		$(".list-article").delegate('#page-allarticle a','click',function(){
+			var page = $(this).attr("href").split("#")[1];
+			var id=getUrlParam("id");
+      if(id==null){
+        $.ajax({
+          type:"POST",
+          url:"findallArticleList",
+          data:{"pageNum":page},
+          success:function(data){
+            showInfo(data);
+          }
+        });
+      }else{
+        $.ajax({
+          type:"POST",
+          url:"findArticleByCategory",
+          data:{"pageNum":page,"cid":id},
+          success:function(data){
+            showInfo(data);
+          }
+        });
+      }
+		});
+		
 	});
+	
+	function getUrlParam(name)
+  {
+    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+    var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+    if (r!=null) return unescape(r[2]); return null; //返回参数值
+  }
+	
+	function showpage(data){
+	    var pages = data.pages;
+	    var pageNum = data.pageNum;
+	    if(pages==2){
+	      if(pageNum==1){
+	        var html="<ul class='pagination'>"+
+	        "<li><a href='#1'>1</a></li>"+
+	        "<li><a href='#2'>2</a></li>"+
+	        "<li><a href='#2'>下一页</a></li><li><a href='#2'>尾页</a></li></ul>";
+	      }else if(pageNum==pages){
+	        var html="<ul class='pagination'>"+
+	      "<li><a href='#1'>首页</a></li>"+
+	      "<li><a href='#1'>上一页</a></li>"+
+	      "<li><a href='#1'>1</a></li>"+
+	      "<li><a href='#2'>2</a></li></ul>";
+	      }
+	    }else if(pages>2){
+	      if(pageNum==1){
+	        var html = "<ul class='pagination'>";
+	        for(var i=1;i<=3;i++){
+	          html=html+"<li><a href='#"+i+"'>"+i+"</a></li>";
+	          if(i==3){
+	            html = html +"<li><a href='#"+(pageNum+1)+"'>下一页</a></li><li><a href='#"+pages+"'>尾页</a></li></ul>";
+	          }
+	        }
+	      }else if(pageNum==pages){
+	        var html="<ul class='pagination'>"+
+	             "<li><a href='#1'>首页</a></li>"+
+	             "<li><a href='#"+(pageNum-1)+"'>上一页</a></li>";
+	        for(var i=pages-2;i<=pages;i++){
+	          html=html+"<li><a href='#"+i+"'>"+i+"</a></li>";
+	          if(i==pages){
+	            html = html +"</ul>";
+	          }
+	        }
+	      }else{
+	        var html="<ul class='pagination'>"+
+	        "<li><a href='#1'>首页</a></li>"+
+	        "<li><a href='#"+(pageNum-1)+"'>上一页</a></li>"+
+	        "<li><a href='#"+(pageNum-1)+"'>"+(pageNum-1)+"</a></li>"+
+	        "<li><a href='#"+pageNum+"'>"+pageNum+"</a></li>"+
+	        "<li><a href='#"+(pageNum+1)+"'>"+(pageNum+1)+"</a></li>"+
+	        "<li><a href='#"+(pageNum+1)+"'>下一页</a></li>"+
+	        "<li><a href='#"+pages+"'>尾页</a></li></ul>";
+	      }
+	    }
+	    $(".pagination").remove();
+	    $(".page").append(html);
+	  }
+	  
+	  function showInfo(data){
+	    $(".center .list-article .list-group-item").remove();
+	    var array = data.list;
+	    var html = "";
+	    $.each(array,function(i,e){
+	      var title = subtitle(e.title);
+	      html=html+"<div class='list-group-item'><div class='col-md-1'>"+
+	      "<a href='#' data-toggle='tooltip' title='"+e.userInfo.username+"'>"+
+	      "<img src='"+e.userInfo.imagePath+"' class='img-circle'></a></div>"+
+	      "<div class='col-md-10'><a href='#'>"+title+"</a></div>"+
+	      "<span class='glyphicon glyphicon-eye-open pull-right' data-toggle='tooltip' title='阅读量'>&nbsp;"+e.clickCount+"</span></div>";
+	    });
+	    html=html+"<div class='list-group-item'><div class='page' id='page-allarticle'></div></div>"
+	    $(".center .list-article").append(html);
+	    showpage(data);
+	  }
+	  
+	  function showRecommends(data){
+      $(".recommend .list-article .list-group-item").remove();
+      var array = data.list;
+      var html = "";
+      $.each(array,function(i,e){
+        var title = subtitle(e.title);
+        html=html+"<li class='list-group-item'><a href='#'>"+
+        "<label>"+title+"</label>"+
+        "<img src='../static/image/background/bg05.jpg' class='img-rounded'/>"+
+        "</a></li>";
+      });
+      html=html+"<div class='list-group-item'><div class='page' id='page-allarticle'></div></div>"
+      $(".recommend .list-article").append(html);
+      showpage(data);
+    }
+	  
+	  function subtitle(data){
+	    var ss= null;
+	    if(data.length<2){
+	      ss=data;
+	    }else{
+	      ss = data.substring(0,3);
+	      ss = ss+"。。。";
+	    }
+	    return ss;
+	  }
 </script>

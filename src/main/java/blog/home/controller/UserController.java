@@ -132,7 +132,7 @@ public class UserController {
     try {
       Object result = new SimpleHash(hashAlgorithmName, user.getPassword(), salt, hashIterations);
       user.setPassword(result.toString());
-      user.setImagePath("../static/image/头像.png");
+      user.setImagePath("http://localhost:8080/blog/static/image/头像.png");
       userService.addUserInfo(user);
       msg = "SUCCESS";
     }catch(Exception e) {

@@ -73,7 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   
   <!-- 查询所有文章简略信息(按时间排序) -->
   <select id="findAllArticle" resultMap="briefArticleResult">
-    SELECT a.id,a.title,a.publish_time,a.clickcount,a.commentcount,b.id user_id,b.username,b.image_path
+    SELECT a.id,a.title,a.content,a.publish_time,a.clickcount,a.commentcount,b.id user_id,b.username,b.image_path
     FROM blog_article a,user_info b
     WHERE a.user_id=b.id AND a.state=1
     ORDER BY a.publish_time DESC
@@ -214,6 +214,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <resultMap type="blog.home.model.Article" id="briefArticleResult">
       <result column="id" property="id"/>
       <result column="title" property="title"/>
+      <result column="content" property="content"/>
       <result column="publish_time" property="publishTime"/>
       <result column="clickcount" property="clickCount"/>
       <result column="commentcount" property="commentCount"/>

@@ -12,7 +12,7 @@
 		</div>
 		<div class="col-md-12 ">
 			<ul class="nav nav-tabs">
-				<li class="active"><a href="password-tab" role="tab" data-toggle="tab">修改密码</a></li>
+				<li class="active"><a href="#password-tab" role="tab" data-toggle="tab">修改密码</a></li>
 				<li><a href="#email-tab" role="tab" data-toggle="tab">修改邮箱</a></li>
 			</ul>
 			<div id="myTabContent" class="tab-content">  

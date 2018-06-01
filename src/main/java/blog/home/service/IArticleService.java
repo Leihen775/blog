@@ -63,7 +63,7 @@ public interface IArticleService {
    * @return List<Article>
    * @throws
    */
-  public PageInfo<Article> findAllArticle();
+  public PageInfo<Article> findAllArticle(int pageNum,int pageSize);
   
   /**  
    * @Title: findArticleByCategory
@@ -71,7 +71,7 @@ public interface IArticleService {
    * @return List<Article>
    * @throws
    */
-  public PageInfo<Article> findArticleByCategory(int cid);
+  public PageInfo<Article> findArticleByCategory(int cid,int pageNum,int pageSize);
   
   /**  
    * @Title: findArticleByTitle
@@ -79,7 +79,7 @@ public interface IArticleService {
    * @return List<Article>
    * @throws
    */
-  public PageInfo<Article> findArticleByTitle(String title);
+  public PageInfo<Article> findArticleByTitle(String title,int pageNum);
   
   /**  
    * @Title: findArticleByUser

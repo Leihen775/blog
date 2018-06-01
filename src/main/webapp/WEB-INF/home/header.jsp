@@ -9,10 +9,10 @@
 	<div class="col-md-6">
 		<ul class="nav navbar-nav content-nav">
 			<li>
-				<a href="#">博客学院</a>
+				<a href="#home/homepage">博客学院</a>
 			</li>
 			<li>
-				<a href="#">有问必答</a>
+				<a href="#home/questionlistpage">有问必答</a>
 			</li>
 		</ul>
 	</div>
@@ -48,22 +48,25 @@
 	        </ul>
 	      </li>
       </c:if>
+      <li class="user_info" value="${sessionScope.user }" hidden="true"></li>
 		</ul>
 	</div>
 </div>
 <script>
 	$(function(){
 		
-		$.ajax({
-      type: "POST",
-      url: "../findcount",
-      success: function(data){
-        if(data!=0){
-          var html = "<span class='badge'>"+data+"</span>"
-          $(".user>a").append(html);
-        }
-      }
-    });
+		if($(".user_info").attr("value")!=null&&$(".user_info").attr("value")!=""){
+			$.ajax({
+	      type: "POST",
+	      url: "../findcount",
+	      success: function(data){
+	        if(data!=0){
+	          var html = "<span class='badge'>"+data+"</span>"
+	          $(".user>a").append(html);
+	        }
+	      }
+	    });
+		}
 		
 		
 		$(".dropdown").mouseover(function(){
@@ -75,10 +78,14 @@
 		
 		
 		$(".showpage").click(function(){
-			var ss = $(this).attr("href");
-			var url = ss.split("#")[1];
+			var url = "http://localhost:8080/blog/person/"+$(this).attr("href").split("#")[1];
 			window.location.href = url;
 		})
+		
+		$(".content-nav a").click(function(){
+      var url = "http://localhost:8080/blog/"+$(this).attr("href").split("#")[1];
+      window.location.href = url;
+		});
 		
 		$("#logout").click(function(){
 			$.ajax({
@@ -86,7 +93,7 @@
          url: "../action/logout",
          success: function(data){
            if(data=="SUCCESS"){
-             window.location.href = "../loginpage";
+             window.location.href = "http://localhost:8080/blog/loginpage";
            }else if(data=="ERROR"){
              alert("账号或密码错误")
            }

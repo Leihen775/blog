@@ -317,6 +317,12 @@ display: inline-block;
 	float: right;
 	width: 64px; height: 48px;
 }
+.home .page{
+  padding-left: 200px;
+}
+.home .page ul{
+  margin: 0;
+}
 
 /*---------------------person通用样式--------------------------*/
 .person{
@@ -354,6 +360,7 @@ display: inline-block;
 }
 .personal .info img{
   max-width: 140px; max-height: 140px;
+  min-width: 140px;min-height: 140px;
 }
 .personal .person-photo dt{
   max-width: 140px
@@ -517,10 +524,10 @@ display: inline-block;
 .personal .modal .form-group>div{
 	margin-left: 7px;
 }
-.page{
+.personinfo .page{
   padding-left: 350px;
 }
-.page ul{
+.personinfo .page ul{
   margin-top: 0;
 }
 

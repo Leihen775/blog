@@ -96,4 +96,40 @@ public class ArticleController {
     return pageInfo;
   }
   
+  @RequestMapping(value= "/home/findallArticleList",method= {RequestMethod.POST,RequestMethod.GET})
+  @ResponseBody
+  public PageInfo<Article> findAllArticleList(int pageNum){
+    PageInfo<Article> pageInfo = new PageInfo<Article>();
+    try {
+      pageInfo = articleService.findAllArticle(pageNum,3);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return pageInfo;
+  }
+  
+  @RequestMapping(value= "/home/findArticleByCategory",method= {RequestMethod.POST,RequestMethod.GET})
+  @ResponseBody
+  public PageInfo<Article> findArticleByCategory(int cid,int pageNum){
+    PageInfo<Article> pageInfo = new PageInfo<Article>();
+    try {
+      pageInfo = articleService.findArticleByCategory(cid,pageNum,3);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return pageInfo;
+  }
+  
+  @RequestMapping(value= "/home/recommends",method= {RequestMethod.POST,RequestMethod.GET})
+  @ResponseBody
+  public PageInfo<Article> recommends(){
+    PageInfo<Article> pageInfo = new PageInfo<Article>();
+    try {
+      pageInfo = articleService.findAllArticle(1,5);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return pageInfo;
+  }
+  
 }

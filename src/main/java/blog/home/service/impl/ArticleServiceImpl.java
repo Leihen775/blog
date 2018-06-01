@@ -100,22 +100,22 @@ public class ArticleServiceImpl implements IArticleService {
   }
 
   @Override
-  public PageInfo<Article> findAllArticle() {
-    PageHelper.startPage(1, 3);
-    PageInfo<Article> pageInfo = new PageInfo<Article>(articleMapper.findAllArticle(),3);
+  public PageInfo<Article> findAllArticle(int pageNum,int pageSize) {
+    PageHelper.startPage(pageNum, pageSize);
+    PageInfo<Article> pageInfo = new PageInfo<Article>(articleMapper.findAllArticle(),pageSize);
     return pageInfo;
   }
   
   @Override
-  public PageInfo<Article> findArticleByCategory(int cid) {
-    PageHelper.startPage(1, 3);
-    PageInfo<Article> pageInfo = new PageInfo<Article>(articleMapper.findArticleByCategory(cid),3);
+  public PageInfo<Article> findArticleByCategory(int cid,int pageNum,int pageSize) {
+    PageHelper.startPage(pageNum, pageSize);
+    PageInfo<Article> pageInfo = new PageInfo<Article>(articleMapper.findArticleByCategory(cid),pageSize);
     return pageInfo;
   }
   
   @Override
-  public PageInfo<Article> findArticleByTitle(String title) {
-    PageHelper.startPage(1, 3);
+  public PageInfo<Article> findArticleByTitle(String title,int pageNum) {
+    PageHelper.startPage(pageNum, 3);
     PageInfo<Article> pageInfo = new PageInfo<Article>(articleMapper.findArticleByTitle(title),3);
     return pageInfo;
   }
@@ -148,14 +148,14 @@ public class ArticleServiceImpl implements IArticleService {
   }
   
   @Override
-  public PageInfo<Article> findArticleByTag(int tid) {
+  public PageInfo<Article> findArticleByTag(int tid) {// 
     PageHelper.startPage(1, 3);
     PageInfo<Article> pageInfo = new PageInfo<Article>(articleMapper.findArticleByTag(tid),3);
     return pageInfo;
   }
   
   @Override
-  public PageInfo<Article> findArticleByUserTitle(Article Article) {
+  public PageInfo<Article> findArticleByUserTitle(Article Article) {//
     PageHelper.startPage(1, 3);
     PageInfo<Article> pageInfo = new PageInfo<Article>(articleMapper.findArticleByUserTitle(Article),3);
     return pageInfo;
@@ -163,8 +163,8 @@ public class ArticleServiceImpl implements IArticleService {
 
   @Override
   public PageInfo<Article> findArticleByClick(int uid) {
-    PageHelper.startPage(1, 3);
-    PageInfo<Article> pageInfo = new PageInfo<Article>(articleMapper.findArticleByClick(uid),3);
+    PageHelper.startPage(1, 10);
+    PageInfo<Article> pageInfo = new PageInfo<Article>(articleMapper.findArticleByClick(uid),10);
     return pageInfo;
   }
 

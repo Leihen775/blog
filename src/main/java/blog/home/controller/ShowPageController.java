@@ -58,5 +58,13 @@ public class ShowPageController {
   public String setaccountpage() {
     return "home/person/setaccount";
   }
+  @RequestMapping(value="/home/homepage",method= {RequestMethod.POST,RequestMethod.GET})
+  public String homepage() {
+    return "home/home";
+  }
+  @RequestMapping(value="/home/questionlistpage",method= {RequestMethod.POST,RequestMethod.GET})
+  public String questionlistpage() {
+    return "home/questionlist";
+  }
   
 }
